@@ -1,3 +1,9 @@
+This is the Programming Engineering project of the A7 group from the Faculty of Computer Science, UAIC.
+
+In short words, the project is an application designed to help people send all sorts of packages (from letters and the softest pillows to even heavy-duty and large packages) but also to help other people earn money by enabling them to transport the objects all over the world (if they have the equipment, of course). Do you know someone who's travelling a lot? Do you have a neighbour willing to help you with the stuff while moving? Or do you want to transport your cargo as safe and easy as possible? Well, you'll know soon.
+
+The technical description of the project will be updated soon.
+
 Trello boards:
 * [All team](https://trello.com/b/7a5yUbqG/a7-project)
 * [API Gateway team](https://trello.com/b/RUCxYX2a/api-gateway)
