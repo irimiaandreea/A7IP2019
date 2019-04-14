@@ -29,6 +29,7 @@ Zipkin Distributed Tracing Server  | 9411
 	Zuul API Gateway
 
 ##### Instalare RabbitMQ: https://www.rabbitmq.com/install-windows.html (atentie ca mai intai trebuie instalat erlang)
+##### Download Zipkin jar: https://search.maven.org/remote_content?g=io.zipkin.java&a=zipkin-server&v=LATEST&c=exec
 
 ##### Ca sa pornesti zipkin mai intai trebuie pornit rabbitmq-server si dupa:
 	SET RABBIT_URI=amqp://localhost
