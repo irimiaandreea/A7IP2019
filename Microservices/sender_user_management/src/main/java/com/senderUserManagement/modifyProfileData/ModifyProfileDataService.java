@@ -4,35 +4,35 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import com.senderUserManagement.model.ChangedProfileForm;
+import com.senderUserManagement.model.ChangedProfiles;
 import com.senderUserManagement.model.JwtUser;
-import com.senderUserManagement.model.ProfileForm;
+import com.senderUserManagement.model.Profiles;
+import com.senderUserManagement.repositories.ProfilesRepository;
 
 
 @Service
-public class ProfileServiceModifyProfile {
+public class ModifyProfileDataService {
 
 	@Autowired
-	private ProfileRepositoryModifyProfile profileRepo; 
+	private ProfilesRepository profileRepo; 
 
 	
-	public List<ProfileForm> getProfiles1() {
+	public List<Profiles> getProfiles1() {
 		return profileRepo.findAll();
 	}
 
-	public Optional<ProfileForm> getProfile(String username) {
+	public Optional<Profiles> getProfile(String username) {
 		if(JwtUser.getUserName().equals(username))
 		return profileRepo.findById(username);
 		return null;
 	}
 
-	public String changeProfileDataObj(String username, ChangedProfileForm changedProfile) {
+	public String changeProfileDataObj(String username, ChangedProfiles changedProfile) {
 
 		if(profileRepo.existsById(username) && JwtUser.getUserName().equals(username) && JwtUser.getRole().equals("sender")) {
-			ProfileForm profile = new ProfileForm(username,changedProfile,profileRepo.findById(username).get());
+			Profiles profile = new Profiles(username,changedProfile,profileRepo.findById(username).get());
 			profileRepo.save(profile);
 			return "Success";
 		}

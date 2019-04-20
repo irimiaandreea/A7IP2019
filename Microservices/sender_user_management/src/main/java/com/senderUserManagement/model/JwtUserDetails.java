@@ -2,15 +2,11 @@ package com.senderUserManagement.model;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 
 public class JwtUserDetails implements UserDetails {
 
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private String userName;
     private String token;

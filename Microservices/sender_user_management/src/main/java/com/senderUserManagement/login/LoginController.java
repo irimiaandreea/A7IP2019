@@ -13,10 +13,10 @@ import com.senderUserManagement.model.Users;
 
 
 @RestController
-public class UsersController {
+public class LoginController {
 
 	@Autowired
-	UsersService usersService;
+	LoginService usersService;
 	
 	
 	@RequestMapping("/senderUserManagement/login/all")

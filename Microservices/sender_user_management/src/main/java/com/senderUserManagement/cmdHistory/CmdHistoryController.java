@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.senderUserManagement.model.CmdHistory;
+import com.senderUserManagement.model.CommandsHistory;
 
 @RestController
 public class CmdHistoryController {
@@ -18,7 +18,7 @@ public class CmdHistoryController {
   CmdHistoryService istoric;
 	
 	@RequestMapping("/senderUserManagement/commandHistory/{user}")
-	public List<CmdHistory> getIstoric(@PathVariable String user) throws IOException{
+	public List<CommandsHistory> getIstoric(@PathVariable String user) throws IOException{
 		return istoric.getIstoric(user);
 	}
 

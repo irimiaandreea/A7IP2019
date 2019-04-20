@@ -1,7 +1,5 @@
 package com.senderUserManagement.model;
 
-import java.util.Optional;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -9,7 +7,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="account_information_sender")
-public class ProfileForm {
+public class Profiles {
 	
 	@Id
 	@Column(name="username")
@@ -26,11 +24,11 @@ public class ProfileForm {
 	@Column(name="number_of_packages_sent")
 	String number_of_packages_sent;
 	
-	public ProfileForm() {
+	public Profiles() {
 		
 	}
 	
-	public ProfileForm(String username, String address1, String address2, String address3,
+	public Profiles(String username, String address1, String address2, String address3,
 			String credit_card, String number_of_packages_sent) {
 		this.username = username;
 		this.address1 = address1;
@@ -39,7 +37,7 @@ public class ProfileForm {
 		this.credit_card = credit_card;
 		this.number_of_packages_sent = number_of_packages_sent;
 	}
-	public ProfileForm(String username2, ChangedProfileForm changedProfile,ProfileForm profile) {
+	public Profiles(String username2, ChangedProfiles changedProfile,Profiles profile) {
 		this.username=username2;
 		if(changedProfile.getAddress1()!= null) this.address1 = changedProfile.getAddress1();
 		if(changedProfile.getAddress2()!= null) this.address2 = changedProfile.getAddress2();

@@ -4,16 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import com.senderUserManagement.model.JwtAuthenticationToken;
 import com.senderUserManagement.model.JwtUser;
 import com.senderUserManagement.model.JwtUserDetails;
-
-import java.util.List;
 
 @Component
 public class JwtAuthenticationProvider extends AbstractUserDetailsAuthenticationProvider {
@@ -38,9 +34,7 @@ public class JwtAuthenticationProvider extends AbstractUserDetailsAuthentication
             throw new RuntimeException("JWT Token is incorrect");
         }
 
-        List<GrantedAuthority> grantedAuthorities = AuthorityUtils
-                .commaSeparatedStringToAuthorityList(jwtUser.getRole());
-        return new JwtUserDetails(jwtUser.getUserName(),
+        return new JwtUserDetails(JwtUser.getUserName(),
                 token);
     }
 

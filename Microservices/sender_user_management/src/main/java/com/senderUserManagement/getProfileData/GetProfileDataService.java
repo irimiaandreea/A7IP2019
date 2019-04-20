@@ -8,20 +8,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.senderUserManagement.model.JwtUser;
-import com.senderUserManagement.model.ProfileForm;
+import com.senderUserManagement.model.Profiles;
+import com.senderUserManagement.repositories.ProfilesRepository;
 
 
 @Service
-public class ProfileServiceGetProfile {
+public class GetProfileDataService {
 
 	@Autowired
-	private ProfilesRepositoryGetProfile profilesRepository;
+	private ProfilesRepository profilesRepository;
 	
-	public List<ProfileForm> getProfiles() {
+	public List<Profiles> getProfiles() {
 		return profilesRepository.findAll();
 	}
 
-	public Optional<ProfileForm> getProfile(String username) throws IOException {
+	public Optional<Profiles> getProfile(String username) throws IOException {
 		if(JwtUser.getUserName().equals(username)) {
 		return profilesRepository.findById(username);
 		}

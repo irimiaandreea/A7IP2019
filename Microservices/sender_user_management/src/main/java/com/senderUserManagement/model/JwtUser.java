@@ -1,16 +1,16 @@
 package com.senderUserManagement.model;
 
-import org.springframework.stereotype.Component;
+
 
 public class JwtUser {
     private static String userName;
     private static String role;
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUserName(String username) {
+        userName = username;
     }
-    public void setRole(String role) {
-        this.role = role;
+    public void setRole(String userRole) {
+       role = userRole;
     }
 
     public static String getUserName() {

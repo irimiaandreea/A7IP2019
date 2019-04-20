@@ -9,21 +9,21 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.senderUserManagement.model.ProfileForm;
+import com.senderUserManagement.model.Profiles;
 
 
 @RestController
-public class ProfilesController {
+public class GetProfileDataController {
 	@Autowired
-	ProfileServiceGetProfile profilesService;
+	GetProfileDataService profilesService;
 	
 	@RequestMapping("/senderUserManagement/getProfileInformation/all")
-	public List<ProfileForm> getProfileService(){
+	public List<Profiles> getProfileService(){
 		return profilesService.getProfiles();
 	}
 	
 	 @RequestMapping("/senderUserManagement/getProfileInformation/{username}")
-		public Optional<ProfileForm> getProfile(@PathVariable String username ) throws IOException  {
+		public Optional<Profiles> getProfile(@PathVariable String username ) throws IOException  {
 			return profilesService.getProfile(username);
 		}
 	

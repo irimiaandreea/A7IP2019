@@ -9,10 +9,10 @@ import com.senderUserManagement.model.Users;
 
 
 @RestController
-public class UserLoginDataController 
+public class RegisterController 
 {
 	@Autowired
-	private UserLoginDataService userLoginDataService;
+	private RegisterService userLoginDataService;
 	
 	
 	@PostMapping("/register")

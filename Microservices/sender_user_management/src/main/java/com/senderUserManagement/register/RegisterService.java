@@ -4,10 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.senderUserManagement.model.Users;
+import com.senderUserManagement.repositories.UsersRepository;
 
 
 @Service
-public class UserLoginDataService {
+public class RegisterService {
 
 	private boolean isPasswordStrong(Users user)
 	{
@@ -21,14 +22,14 @@ public class UserLoginDataService {
 	}
 	
 	@Autowired
-	private UserLoginDataRepository userLoginDataRepository;
+	private UsersRepository usersRepository;
 	
 	public String addUser(Users user) 
 	{
 		if(  user.getRole().equals("sender") && isPasswordStrong(user) && 
-				!userLoginDataRepository.existsById(user.getUsername()))
+				!usersRepository.existsById(user.getUsername()))
 		{
-				userLoginDataRepository.save(user);
+				usersRepository.save(user);
 				return "Succes";
 		}
 		return "Invalid data";

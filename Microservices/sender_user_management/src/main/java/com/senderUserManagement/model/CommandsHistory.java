@@ -1,21 +1,19 @@
 package com.senderUserManagement.model;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="packages_history")
 
-public class CmdHistory {
+public class CommandsHistory {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id")
 	Integer id;
 @Column(name="username")
@@ -36,9 +34,9 @@ public class CmdHistory {
 	Integer price;
 	
 		
-		public CmdHistory() { }
+		public CommandsHistory() { }
 		
-		public CmdHistory(String username, String status, String placed, String sent, Integer distance, String from,
+		public CommandsHistory(String username, String status, String placed, String sent, Integer distance, String from,
 				String to, Integer price) {
 			super();
 			this.username = username;

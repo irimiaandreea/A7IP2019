@@ -1,4 +1,4 @@
-package com.senderUserManagement.login;
+package com.senderUserManagement.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

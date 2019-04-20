@@ -1,7 +1,7 @@
 package com.senderUserManagement.model;
 
 
-public class ChangedProfileForm {
+public class ChangedProfiles {
 
 	String address1;
 	String address2;
@@ -9,11 +9,11 @@ public class ChangedProfileForm {
 	String credit_card;
 	String number_of_packages_sent;
 	
-	public ChangedProfileForm() {
+	public ChangedProfiles() {
 		
 	}
 	
-	public ChangedProfileForm(String address1, String address2, String address3,
+	public ChangedProfiles(String address1, String address2, String address3,
 			String credit_card, String number_of_packages_sent) {
 		this.address1 = address1;
 		this.address2 = address2;
