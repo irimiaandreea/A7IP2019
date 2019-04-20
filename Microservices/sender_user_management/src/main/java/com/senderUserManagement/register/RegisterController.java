@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.senderUserManagement.model.Profiles;
+import com.senderUserManagement.model.RegisterDetails;
 import com.senderUserManagement.model.Users;
 
 
@@ -16,7 +18,7 @@ public class RegisterController
 	
 	
 	@PostMapping("/register")
-	public String registerUser(@RequestBody Users user)
+	public String registerUser(@RequestBody RegisterDetails user)
 	{
 		return userLoginDataService.addUser(user);
 	}
