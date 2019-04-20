@@ -26,8 +26,7 @@ public class LoginService {
 
 	public String setUsersObj(Users users) {
 		if(usersRepository.existsById(users.getUsername()) && 
-				usersRepository.getOne(users.getUsername()).getPassword().equals(users.getPassword()) &&
-				usersRepository.getOne(users.getUsername()).getRole().equals("sender"))
+				usersRepository.getOne(users.getUsername()).getPassword().equals(users.getPassword()))
 		   {
 		       return jwtGenerator.generate(users);
 		   }

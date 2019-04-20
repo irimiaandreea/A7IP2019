@@ -6,14 +6,12 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="user_login_data")
+@Table(name="login_data")
 public class Users {
 	
 	@Id
 	@Column(name="username")
 	private String username;
-	@Column(name="role")
-	private String role;
 	@Column(name="password")
 	private String password;
 	
@@ -21,9 +19,8 @@ public class Users {
 		
 	}
 	
-	public Users(String username, String role, String password) {
+	public Users(String username, String password) {
 		this.username=username;
-		this.role=role;
 		this.password=password;	
 	}
 	
@@ -33,12 +30,7 @@ public class Users {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	public String getRole() {
-		return role;
-	}
-	public void setRole(String role) {
-		this.role = role;
-	}
+	
 	public String getPassword() {
 		return password;
 	}

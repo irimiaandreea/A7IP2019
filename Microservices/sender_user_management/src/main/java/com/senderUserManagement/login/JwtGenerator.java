@@ -14,7 +14,7 @@ public class JwtGenerator {
 	public String generate(Users users) {
 		Claims claims = Jwts.claims();
 		claims.put("username",users.getUsername());
-		claims.put("role",users.getRole());
+		claims.put("role","sender");
 		return Jwts.builder()
 				.setClaims(claims)
 				.signWith(SignatureAlgorithm.HS512, "iUber")
