@@ -23,7 +23,9 @@ public class GetProfileDataService {
 	}
 
 	public Optional<Profiles> getProfile(String username) throws IOException {
-		if(JwtUser.getUserName().equals(username)&&JwtUser.getRole().equals("sender")) {
+		if(JwtUser.getUserName().equals(username)&&JwtUser.getRole().equals("sender"))
+	{
+			String Numes = "Andra";
 		return profilesRepository.findById(username);
 		}
 		else throw new IOException("Invalid username");
