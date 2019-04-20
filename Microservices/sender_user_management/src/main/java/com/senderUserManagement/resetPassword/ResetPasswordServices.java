@@ -21,7 +21,6 @@ public class ResetPasswordServices {
 		{
 			
 			user.setPassword(resetPasswordUser.getNewPassword());
-			user.setRole(resetPasswordUser.getRole());
 			user.setUsername(resetPasswordUser.getUsername());
 			userRepository.save(user);
 			return "Succes";

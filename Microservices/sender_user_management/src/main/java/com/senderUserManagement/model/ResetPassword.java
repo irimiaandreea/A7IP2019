@@ -4,7 +4,6 @@ public class ResetPassword {
 	
 	public String username;
 	public String oldPassword;
-	public String role;
 	public String newPassword;
 	
 	
@@ -21,12 +20,7 @@ public class ResetPassword {
 	public void setOldPassword(String oldPassword) {
 		this.oldPassword = oldPassword;
 	}
-	public String getRole() {
-		return role;
-	}
-	public void setRole(String role) {
-		this.role = role;
-	}
+	
 	public String getNewPassword() {
 		return newPassword;
 	}
