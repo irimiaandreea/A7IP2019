@@ -8,97 +8,120 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="packages_history")
+@Table(name="package_history")
 
 public class CommandsHistory {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id")
+@Column(name="id")
 	Integer id;
-@Column(name="username")
+@Column(name="sender_username")
 	String username;
-@Column(name="status")
-	String status;
-@Column(name="placed")
-	String placed;
-@Column(name="sent")
-	String sent;
-@Column(name="distance")
-	Integer distance;
-@Column(name="from")
-	String from;
-@Column(name="to")
-	String to;
-@Column(name="price")
-	Integer price;
+@Column(name="sender_name")
+	String sender_name;
+@Column(name="receiver_name")
+String receiver_name;
+@Column(name="package_name")
+	String package_name;
+@Column(name="pickup_date")
+	String pickup_date;
+@Column(name="deliver_date")
+	String deliver_date;
+@Column(name="pickup_adress")
+	String pickup_adress;
+@Column(name="deliver_adress")
+	String deliver_adress;
 	
 		
 		public CommandsHistory() { }
 		
-		public CommandsHistory(String username, String status, String placed, String sent, Integer distance, String from,
-				String to, Integer price) {
+		public CommandsHistory(String sender_username,String sender_name,String receiver_name
+				,String package_name,String pickup_date,String deliver_date,String pickup_adress,
+				String deliver_adress) {
 			super();
-			this.username = username;
-			this.status = status;
-			this.placed = placed;
-			this.sent = sent;
-			this.distance = distance;
-			this.from = from;
-			this.to = to;
-			this.price = price;
+			this.username = sender_username;
+			this.sender_name=sender_name;
+			this.receiver_name=receiver_name;
+			this.package_name=package_name;
+			this.pickup_date=pickup_date;
+			this.deliver_date=deliver_date;
+			this.pickup_adress=pickup_adress;
+			this.deliver_adress=deliver_adress;
+
+		}
+
+		public Integer getId() {
+			return id;
+		}
+
+		public void setId(Integer id) {
+			this.id = id;
+		}
+
+		public String getSender_username() {
+			return username;
+		}
+
+		public void setSender_username(String sender_username) {
+			this.username = sender_username;
+		}
+
+		public String getSender_name() {
+			return sender_name;
+		}
+
+		public void setSender_name(String sender_name) {
+			this.sender_name = sender_name;
+		}
+
+		public String getRreceiver_name() {
+			return receiver_name;
+		}
+
+		public void setReceiver_name(String sender_receivername) {
+			this.receiver_name = sender_receivername;
+		}
+
+		public String getPackage_name() {
+			return package_name;
+		}
+
+		public void setPackage_name(String package_name) {
+			this.package_name = package_name;
+		}
+
+		public String getPickup_date() {
+			return pickup_date;
+		}
+
+		public void setPickup_date(String pickup_date) {
+			this.pickup_date = pickup_date;
+		}
+
+		public String getDeliver_date() {
+			return deliver_date;
+		}
+
+		public void setDeliver_date(String deliver_date) {
+			this.deliver_date = deliver_date;
+		}
+
+		public String getPickup_adress() {
+			return pickup_adress;
+		}
+
+		public void setPickup_adress(String pickup_adress) {
+			this.pickup_adress = pickup_adress;
+		}
+
+		public String getDeliver_adress() {
+			return deliver_adress;
+		}
+
+		public void setDeliver_adress(String deliver_adress) {
+			this.deliver_adress = deliver_adress;
 		}
 	
-	public String getUsername() {
-		return username;
-	}
-	public void setUsername(String username) {
-		this.username = username;
-	}
-	public String getStatus() {
-		return status;
-	}
-	public void setStatus(String status) {
-		this.status = status;
-	}
-	public String getPlaced() {
-		return placed;
-	}
-	public void setPlaced(String placed) {
-		this.placed = placed;
-	}
-	public String getSent() {
-		return sent;
-	}
-	public void setSent(String sent) {
-		this.sent = sent;
-	}
-	public Integer getDistance() {
-		return distance;
-	}
-	public void setDistance(Integer distance) {
-		this.distance = distance;
-	}
-	public String getFrom() {
-		return from;
-	}
-	public void setFrom(String from) {
-		this.from = from;
-	}
-	public String getTo() {
-		return to;
-	}
-	public void setTo(String to) {
-		this.to = to;
-	}
-	public Integer getPrice() {
-		return price;
-	}
-	public void setPrice(Integer price) {
-		this.price = price;
-	}
-
-
-
 	
 }
