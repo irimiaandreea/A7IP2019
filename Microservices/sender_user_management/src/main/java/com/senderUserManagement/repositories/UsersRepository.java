@@ -7,4 +7,6 @@ import com.senderUserManagement.model.Users;
 public interface UsersRepository extends JpaRepository<Users,String> {
 
 
+public boolean existsByPassword(String oldPassword);
+
 }
