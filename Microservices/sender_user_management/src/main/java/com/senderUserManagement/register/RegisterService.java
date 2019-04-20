@@ -26,7 +26,7 @@ public class RegisterService {
 	
 	public String addUser(Users user) 
 	{
-		if(  user.getRole().equals("sender") && isPasswordStrong(user) && 
+		if(  isPasswordStrong(user) && 
 				!usersRepository.existsById(user.getUsername()))
 		{
 				usersRepository.save(user);
