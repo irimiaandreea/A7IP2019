@@ -32,8 +32,8 @@ public class ModifyProfileDataService {
 	public String changeProfileDataObj(String username, ChangedProfiles changedProfile) {
 
 		if(profileRepo.existsById(username) && JwtUser.getUserName().equals(username) && JwtUser.getRole().equals("sender")) {
-			Profiles profile = new Profiles(username,changedProfile,profileRepo.findById(username).get());
-			profileRepo.save(profile);
+		//Profiles profile = new Profiles(username,changedProfile,profileRepo.findById(username).get());
+			//profileRepo.save(profile);
 			return "Success";
 		}
 		return "Invalid data";

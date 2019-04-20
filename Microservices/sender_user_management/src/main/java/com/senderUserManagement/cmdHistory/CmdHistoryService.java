@@ -17,7 +17,7 @@ public class CmdHistoryService{
 	
 	
 	public List<CommandsHistory> getIstoric(String nume) throws IOException {
-		if(JwtUser.getUserName().equals(nume))
+		if(JwtUser.getUserName().equals(nume) && JwtUser.getRole().equals("sender"))
 		   return cRepo.findAllByUsername(nume);
 		else throw new IOException("Invalid username");
 	}
