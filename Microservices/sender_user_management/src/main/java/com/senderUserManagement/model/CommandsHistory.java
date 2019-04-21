@@ -36,10 +36,10 @@ String receiver_name;
 		
 		public CommandsHistory() { }
 		
-		public CommandsHistory(String sender_username,String sender_name,String receiver_name
-				,String package_name,String pickup_date,String deliver_date,String pickup_adress,
-				String deliver_adress) {
+		public CommandsHistory(Integer id,String sender_username,String sender_name,String receiver_name
+				,String package_name,String pickup_date,String deliver_date,String deliver_adress,String pickup_adress) {
 			super();
+			this.id=id;
 			this.username = sender_username;
 			this.sender_name=sender_name;
 			this.receiver_name=receiver_name;
@@ -75,7 +75,7 @@ String receiver_name;
 			this.sender_name = sender_name;
 		}
 
-		public String getRreceiver_name() {
+		public String getReceiver_name() {
 			return receiver_name;
 		}
 
