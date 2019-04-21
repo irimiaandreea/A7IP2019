@@ -16,6 +16,16 @@ public class CmdHistoryService{
 	private CommandsHistoryRepository cRepo;
 	
 	
+	public CommandsHistoryRepository getcRepo() {
+		return cRepo;
+	}
+
+
+	public void setcRepo(CommandsHistoryRepository cRepo) {
+		this.cRepo = cRepo;
+	}
+
+
 	public List<CommandsHistory> getIstoric(String nume) throws IOException {
 		if(JwtUser.getUserName().equals(nume) && JwtUser.getRole().equals("sender"))
 		   return cRepo.findAllByUsername(nume);
