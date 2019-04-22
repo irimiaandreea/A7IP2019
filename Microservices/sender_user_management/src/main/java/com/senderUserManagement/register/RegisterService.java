@@ -1,6 +1,7 @@
 package com.senderUserManagement.register;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import com.senderUserManagement.model.Profiles;
@@ -17,7 +18,7 @@ public class RegisterService {
 	{
         if(user.getPassword().length()<=20 && user.getPassword().length()>=4)
         {
-        	 //user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt())); 
+        	 user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt())); 
              return true;
         }
         return false;
@@ -34,7 +35,8 @@ public class RegisterService {
 	{	
 	
 		if(  isPasswordStrong(newUser) && 
-				!usersRepository.existsById(newUser.getUsername()))
+				!usersRepository.existsById(newUser.getUsername())
+				&& !profilesRepository.existsById(newUser.getUsername()))
 		{
 			Users user = new Users(newUser.getUsername(),newUser.getPassword());
 			Profiles userProfile = new Profiles(newUser.getUsername(),newUser.getEmail(),newUser.getPhone_number()
@@ -45,5 +47,5 @@ public class RegisterService {
 		}
 		return "Invalid data";
 	}
-	// email / username / phoneNr | NULL -> country / profile photo /adresses
+
 }

@@ -23,11 +23,7 @@ public class ModifyProfileDataService {
 		return profileRepo.findAll();
 	}
 
-	public Optional<Profiles> getProfile(String username) {
-		if(JwtUser.getUserName().equals(username))
-		return profileRepo.findById(username);
-		return null;
-	}
+
 
 	public String changeProfileDataObj(String username, ChangedProfiles changedProfile) {
 
