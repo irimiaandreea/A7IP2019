@@ -1,0 +1,61 @@
+<ion-split-pane>
+
+  <ion-menu contentId="content" id="sidenav">
+
+    <ion-content>
+      <ion-list>
+        
+        <!-- Name and user type -->
+        <ion-item style="padding: 20px 0px 0px 20px;">
+          <ion-icon *ngIf="userType === 'client'" color="primary" name="cube" slot="start"></ion-icon>
+          <ion-icon *ngIf="userType === 'driver'" color="secondary" name="car" slot="start"></ion-icon>
+          <ion-label style="color:white; ">
+            <h1>Jane Doe</h1>
+            <p *ngIf="userType === 'client'" style="float:left">CLIENT</p>
+            <p *ngIf="userType === 'driver'" style="float:left">DRIVER</p>
+          </ion-label>
+        </ion-item>
+
+        <!-- Switch User Type Button -->
+          <ion-button fill="outline" *ngIf="userType === 'client'" color="secondary" (click)="changeUserType()" expand="full" size="medium" style="margin: 0px 10px 20px 10px">
+            <ion-icon name="car" style="padding-right: 20px;"></ion-icon>
+            SWITCH TO DRIVER
+          </ion-button>
+          <ion-button  fill="outline" *ngIf="userType === 'driver'" color="primary" (click)="changeUserType()" expand="full" size="medium" style="margin: 0px 10px 20px 10px">
+            <ion-icon name="cube" style="padding-right: 20px;"></ion-icon>
+            SWITCH TO CLIENT
+          </ion-button>
+      
+         <!-- Menu Buttons -->
+        <ng-container *ngIf="userType === 'client'">
+          <ion-menu-toggle auto-hide="false" *ngFor="let p of clientPages">
+            <ion-item [routerLink]="p.url" routerDirection="root" 
+            [class.active-item]="selectedPath === p.url">
+            <ion-icon color="light" slot="start" name={{p.icon}}></ion-icon>
+            <p style="color:white">{{p.title}}</p>
+            </ion-item>
+          </ion-menu-toggle>
+        </ng-container>
+
+        <ng-container *ngIf="userType === 'driver'">
+          <ion-menu-toggle auto-hide="false" *ngFor="let p of driverPages">
+            <ion-item [routerLink]="p.url" routerDirection="root" 
+            [class.active-item]="selectedPath === p.url">
+            <ion-icon color="light" slot="start" name={{p.icon}}></ion-icon>
+            <p style="color:white">{{p.title}}</p>
+            </ion-item>
+          </ion-menu-toggle>
+        </ng-container>
+
+        <!-- Log Out Button -->
+        <ion-button expand="full" color="danger" size="medium" style="margin-left: 10px; margin-right: 10px; margin-top: 25px;">
+          <ion-icon name="log-out" style="padding-right: 20px;"></ion-icon>
+          Log Out
+        </ion-button>
+
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+
+  <ion-router-outlet id ="content" main></ion-router-outlet>
+</ion-split-pane>>
