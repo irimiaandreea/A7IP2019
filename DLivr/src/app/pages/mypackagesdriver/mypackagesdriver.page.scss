@@ -8,20 +8,27 @@ ion-content{
     align-content: center;
 }
 
+
 ion-toolbar {
-    --ion-background-color:  rgb(53, 53, 53);
+    --ion-background-color:  rgb(46, 46, 46);
 }
 
+ion-title {
+    text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 16px;
+    font-weight: bolder;
+    color: gray;
+}
+
+@media only screen and (max-width: 600px) {
+    ion-title {
+      padding-right: 15%;
+    }
+  }
 #addbutton{
     --ion-background-color:rgb(36,35,35);
 }
-
-ion-title{
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-weight: bolder;
-    color: gray;
-    text-align: center;
- }
 
 
 ion-grid {

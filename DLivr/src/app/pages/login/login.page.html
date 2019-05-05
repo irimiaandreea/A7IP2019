@@ -13,6 +13,7 @@
      <ion-col align-self-center size-md="6" size-lg= "5" size-xs="12">
 
        <form [formGroup] ="loginForm" (ngSubmit)="onSubmit()">
+       
        <div text-center>
           <h4> Log into your D-Livr account!</h4>
        </div>
@@ -41,6 +42,9 @@
 
 
         <a routerLink = "#"> Forgot your password? </a>
+
+        
+
         <div class = "login-box" padding>
             <ion-button style="margin-top: 30px;" id = "login" size="large"  type = "submit" expand="full">Sign In</ion-button>
            <ion-button style="margin-top: 10px;" id = "register" size="medium"  color = "grey" expand="full" routerLink = "#">Create an account</ion-button>

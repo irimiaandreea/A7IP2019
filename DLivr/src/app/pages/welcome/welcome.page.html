@@ -1,68 +1,51 @@
+<ion-header>
+  <ion-toolbar>
+    <p style="width: 100px; height:40px; font-size: 20px;margin:auto; 
+    float: left; padding: 5px 0px 10px 20px;color: dodgerblue; font-weight: bolder;">DLivr</p>
+    <ion-button id="loginButton" size="medium"  color="primary" (click)="clickedLogin()" >
+        LOG IN
+    </ion-button>
+    <ion-button id="registerButton" size="medium" fill="clear" color="light" (click)="clickedRegister()" >
+        SIGN UP
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
 
-<ion-content class="backg" >
-    <div class="ion-padding">
-        <h1 class="title">
-           D-Livr
-        </h1>
-        <ion-button class="buton1" size="medium"   color="light" (click)="clickedLogin()" >
-            LOG IN
-        </ion-button>
-      <div class="divider"></div>
-        <ion-button class="buton1" size="medium"  color="light" (click)="clickedRegister()" >
-            SIGN UP
-        </ion-button>
-     </div>
-    
-     <h1 class="subtitle1"> Welcome to D-Livr!</h1>
-     <h2 class="subtitle2"> We deliver...you receive !</h2>
+<ion-content>
 
+  <h1 id="title"> Welcome to D-Livr!</h1>
+  <h2 id="subtitle"> As a client or as a driver,<br>use our service to benefit us all!</h2>
 
-     <div class="horizontal1">
-       <!-- <span class="firstCell" >App features presentation page</span> -->
-     </div>
-     <div class="vertical1">
-        <!-- <span class="secondCell" >Hey there 2</span> -->
-     </div>
-     <div class="horizontal2">
-        <!-- <span class="thirdCell" >Hey there 3</span> -->
-     </div>
-     <div class="vertical2">
-        <!-- <span class="fourthCell" >Hey there 4</span> -->
-     </div>
-    
-      
-     <!-- <div class="table" >
-     <ion-row>
-        <ion-col size="3">
-          ion-col 1 row 1
-        </ion-col>
-     
-        <ion-col>
-          ion-col 2 row 1
-        </ion-col>
-      </ion-row>
-     
-      <ion-row>
-          <ion-col size="3">
-            ion-col 1 row 2 
-          </ion-col>
-          <ion-col>
-            ion-col 2 row 2
-          </ion-col>
-        </ion-row>
-      </div> -->
-      <div class="col"></div>
-      <div class="msj">Do you want to be a driver or send your package through D-Lir service?</div>
-      <div class="button3">
-      <ion-button size="medium"   color="light" >
-          CREATE AN ACCOUNT
-      </ion-button>
-    </div>
-    
-  </ion-content>
+<ion-card style="max-width: 500px; --background: rgb(255, 255, 255);">
+    <ion-item  style="margin-top: 10px; color:white ;max-width: 500px;--background: rgb(54, 54, 54);">
+      <ion-icon name="car" color="light" slot="start"></ion-icon>
+      <ion-label style="font-weight: 300;">Want to drive and deliver?</ion-label>
+    </ion-item>
   
-  <ion-footer>
-      <ion-toolbar>
-        <div class="footer1">D-Livr company @ 2019</div>
-      </ion-toolbar>
-    </ion-footer>
+    <ion-card-content style="color:black;">
+      Sign Up for an account and jump straight into delivering packages around your area. Only need a car, time and a credit card connected to start making loads of money, pal!
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card style="max-width: 500px; --background: rgb(255, 255, 255);">
+      <ion-item  style="margin-top: 10px; color:white ;max-width: 500px;--background: rgb(54, 54, 54);">
+        <ion-icon name="cube" color="light" slot="start"></ion-icon>
+        <ion-label style="font-weight: 300;">Want to get your package delivered?</ion-label>
+      </ion-item>
+    
+      <ion-card-content style="color:black;">
+        Sign Up for an account and start finding drivers in an instant to get your packages delivered as fast as today!! Even better, we assure your packages will be delivered, as your driver can't do nada withoud his dmn code..
+      </ion-card-content>
+    </ion-card>
+
+    <h2 id="subtitle"> Two services, one account!</h2>
+
+  <ion-button id="createAccountButton" size="medium" expand="full" color="primary" (click)="clickedRegister()" >
+    CREATE AN ACCOUNT
+  </ion-button>
+
+  <div id="footer">DLivr Services @ 2019 Programming Engineering 2A7</div>
+
+    
+</ion-content>
+  

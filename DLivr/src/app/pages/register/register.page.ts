@@ -15,8 +15,8 @@ export class RegisterPage implements OnInit {
 
   ngOnInit() {
     this.registerForm = this.formBuilder.group({
-      name: ['', Validators.required],
-      phoneNumber: ['', Validators.required],
+      name: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*')]],
+      phone_number: ['', [Validators.minLength(7), Validators.required, Validators.pattern('[0-9+ ]*')]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(4)]],
       confirmPassword: ['', Validators.required],
@@ -30,16 +30,13 @@ export class RegisterPage implements OnInit {
   onSubmit() {
     this.submitted = true;
 
-    // stop here if form is invalid
     if (this.registerForm.invalid) {
-      console.log('shit');
+      console.log('register form invalid');
         return;
     }
-
-    this.userService.register();
-
     const formJson = JSON.stringify(this.registerForm.value);
-    alert('SUCCESS! \n\n' + JSON.stringify(this.registerForm.value));
+    this.userService.register(formJson);
+    console.log(formJson);
   }
 
   MustMatch(controlName: string, matchingControlName: string) {

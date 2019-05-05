@@ -13,27 +13,27 @@ export class MenuPage implements OnInit {
   clientPages = [
     {
       title: 'Home',
-      url: '/menu/home',
+      url: '../menu/home',
       icon: 'home'
     },
     {
       title: 'My Packages',
-      url: '/menu/mypackages',
+      url: '../menu/mypackages',
       icon: 'cube'
     },
     {
       title: 'Settings',
-      url: '/menu/settings',
+      url: '../menu/settings',
       icon: 'settings'
     },
     {
       title: 'Payment',
-      url: '/menu/payment',
+      url: '../menu/payment',
       icon: 'card'
     },
     {
       title: 'Help',
-      url: '/menu/help',
+      url: '../menu/help',
       icon: 'help-circle'
     },
   ];
@@ -41,27 +41,27 @@ export class MenuPage implements OnInit {
   driverPages = [
     {
     title: 'Home',
-    url: '/menu/homedriver',
+    url: '../menu/homedriver',
     icon: 'home'
     },
     {
       title: 'My Packages',
-      url: '/menu/mypackagesdriver',
+      url: '../menu/mypackagesdriver',
       icon: 'cube'
     },
     {
       title: 'Settings',
-      url: '/menu/settings',
+      url: '../menu/settings',
       icon: 'settings'
     },
     {
       title: 'Payment',
-      url: '/menu/payment',
+      url: '../menu/payment',
       icon: 'card'
     },
     {
       title: 'Help',
-      url: '/menu/help',
+      url: '../menu/help',
       icon: 'help-circle'
     },
   ];
@@ -79,10 +79,10 @@ export class MenuPage implements OnInit {
   changeUserType() {
     if (this.userType === 'client') {
       this.userType = 'driver';
-      this.router.navigate(['menu/homedriver']);
+      this.router.navigate(['app/menu/homedriver']);
     } else {
       this.userType = 'client';
-      this.router.navigate(['menu/home']);
+      this.router.navigate(['app/menu/home']);
     }
   }
 

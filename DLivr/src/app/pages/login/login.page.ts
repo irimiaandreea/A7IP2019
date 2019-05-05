@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { ClientsService } from 'src/app/services/clients.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -10,23 +13,11 @@ export class LoginPage implements OnInit {
   loginForm: FormGroup;
   submitted = false;
 
-  validation_messages = {
-    'username': [
-        { type: 'required', message: 'Username is required.' },
-        { type: 'minlength', message: 'Username must be at least 5 characters long.' },
-        { type: 'maxlength', message: 'Username cannot be more than 25 characters long.' },
-        { type: 'pattern', message: 'Your username must contain only numbers and letters.' },
-        { type: 'validUsername', message: 'Your username has already been taken.' }
-      ],
-      'email': [
-        { type: 'required', message: 'Password is required.' },
-        { type: 'minlength', message: 'Password must be at least 5 characters long.' },
-        { type: 'maxlength', message: 'Password cannot be more than 25 characters long.' },
-        { type: 'pattern', message: 'Your password must contain only numbers and letters.' },
-      ],
-    };
-
-  constructor (public formBuilder: FormBuilder) {
+  constructor (
+    public formBuilder: FormBuilder,
+    private userService: ClientsService,
+    private router: Router
+    ) {
     this.loginForm = this.formBuilder.group(
       {
       password: new FormControl('', Validators.compose(
@@ -52,8 +43,10 @@ export class LoginPage implements OnInit {
       console.log('login form invalid');
         return;
     }
-  }
 
+    const formJson = JSON.stringify(this.loginForm.value);
+    this.userService.login(formJson);
+  }
 
   get f() { return this.loginForm.controls; }
 

@@ -24,16 +24,19 @@
             </ion-input>
           </ion-item>
           <div  style="color:red; font-size: 12px;" *ngIf="submitted && f.name.errors" class="invalid-feedback">
-              <div *ngIf="f.name.errors.required">* First Name is required</div>
+              <div *ngIf="f.name.errors.required">* Name is required</div>
+              <div *ngIf="f.name.errors.pattern">* Names can only contain letters and spaces</div>
           </div>
 
           <ion-item class="form-group">
             <ion-icon name="call" ></ion-icon>
-            <ion-input type = "text" formControlName = "phoneNumber" placeholder = "Phone Number" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.phoneNumber.errors }">
+            <ion-input type = "text" formControlName = "phone_number" placeholder = "Phone Number" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.phone_number.errors }">
             </ion-input>
           </ion-item>
-          <div  style="color:red; font-size: 12px;" *ngIf="submitted && f.phoneNumber.errors" class="invalid-feedback">
-              <div *ngIf="f.phoneNumber.errors.required">* Phone Number is required</div>
+          <div  style="color:red; font-size: 12px;" *ngIf="submitted && f.phone_number.errors" class="invalid-feedback">
+              <div *ngIf="f.phone_number.errors.required">* Phone Number is required</div>
+              <div *ngIf="f.phone_number.errors.pattern">* Please enter a valid phone number</div>
+              <div *ngIf="f.phone_number.errors.minlength">* Please enter a valid phone number</div>
           </div>
 
           <ion-item class="form-group">
@@ -63,12 +66,9 @@
               <div *ngIf="f.confirmPassword.errors.mustMatch">* Passwords must match</div>
           </div>
 
-          
-         
           <ion-button  class="form-group" id = "register" size="large"  type = "submit" expand="full">SUBMIT</ion-button>
-        </div>
 
-       
+        </div>
        </form>
        
      </ion-col>
