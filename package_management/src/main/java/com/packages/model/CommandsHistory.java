@@ -20,9 +20,9 @@ public class CommandsHistory {
 	String emailSender;
 @Column(name="emailDriver")
 	String emailDriver;
-@Column(name="sender_adress")
+@Column(name="sender_address")
 String sender_adress;
-@Column(name="receiver_adress")
+@Column(name="receiver_address")
 String receiver_adress;
 @Column(name="volume")
 float volume;
