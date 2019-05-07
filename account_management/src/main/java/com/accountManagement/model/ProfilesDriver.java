@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "profile_data_sender")
+@Table(name = "profile_data_driver")
 public class ProfilesDriver {
 	
 	@Id

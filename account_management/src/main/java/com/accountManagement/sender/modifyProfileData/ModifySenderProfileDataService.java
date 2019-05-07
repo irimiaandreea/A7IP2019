@@ -21,9 +21,10 @@ public class ModifySenderProfileDataService {
 
 		if(!profileRepo.existsById(username) ) throw new UnknownMatchException ("Adresa de email nu exista in baza de date");
 		
-		if(!JwtUser.getUserName().equals(username)) throw new UnknownMatchException ("Nu sunteti autorizat sa folositi schimabati informatiile de profil al altui utilizator");
+		//if(!JwtUser.getUserName().equals(username)) throw new UnknownMatchException ("Nu sunteti autorizat sa folositi schimabati informatiile de profil al altui utilizator");
 
-		 ProfilesSender profile = new ProfilesSender(profileRepo.findById(username).get());
+		 ProfilesSender profile = new ProfilesSender();
+		profile=profileRepo.findById(username).get();
 		 if(changedProfile.getAddress1() != null)
 		 {
 			 profile.setAddress1(changedProfile.getAddress1());
@@ -52,7 +53,7 @@ public class ModifySenderProfileDataService {
 		
 			profileRepo.save(profile);
 
-			return "Informatiilede profil au fost modificate cu succes";
+			return "Informatiile de profil au fost modificate cu succes";
 	}
 	
 	

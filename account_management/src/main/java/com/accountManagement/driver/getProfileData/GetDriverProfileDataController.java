@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.accountManagement.model.ProfilesDriver;
 import com.accountManagement.model.ProfilesSender;
 
 @RestController
@@ -15,7 +16,7 @@ public class GetDriverProfileDataController {
 
 	
 	 @RequestMapping("/accountManagement/getProfileInformation/driver/{username}")
-		public ResponseEntity<ProfilesSender> getProfile(@PathVariable String username )  {
+		public ResponseEntity<ProfilesDriver> getProfile(@PathVariable String username )  {
 		 return ResponseEntity.ok(profilesService.getProfile(username));
 		}
 	 

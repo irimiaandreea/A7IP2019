@@ -5,7 +5,9 @@ import org.springframework.stereotype.Service;
 
 import com.accountManagement.exceptions.UnknownMatchException;
 import com.accountManagement.model.JwtUser;
+import com.accountManagement.model.ProfilesDriver;
 import com.accountManagement.model.ProfilesSender;
+import com.accountManagement.repositories.ProfilesDriverRepository;
 import com.accountManagement.repositories.ProfilesSenderRepository;
 
 
@@ -13,14 +15,14 @@ import com.accountManagement.repositories.ProfilesSenderRepository;
 public class GetDriverProfileDataService {
 
 	@Autowired
-	private ProfilesSenderRepository profilesRepository;
+	private ProfilesDriverRepository profilesRepository;
 	
 
-	public ProfilesSender getProfile(String username) throws UnknownMatchException {
+	public ProfilesDriver getProfile(String username) throws UnknownMatchException {
 		
 		if(!profilesRepository.existsById(username)) throw new UnknownMatchException("Adresa de email invalida");
 		
-		if(!JwtUser.getUserName().equals(username)) throw new UnknownMatchException("Nu sunteti autorizat sa vedeti informatiile de profil al altui utilizator");
+		//if(!JwtUser.getUserName().equals(username)) throw new UnknownMatchException("Nu sunteti autorizat sa vedeti informatiile de profil al altui utilizator");
 		
 		return profilesRepository.findById(username).get();
 	}
