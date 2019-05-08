@@ -1,4 +1,4 @@
-package com.accountManagement.security;
+package com.tripManagement.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -7,9 +7,9 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import com.accountManagement.model.JwtAuthenticationToken;
-import com.accountManagement.model.JwtUser;
-import com.accountManagement.model.JwtUserDetails;
+import com.tripManagement.model.JwtAuthenticationToken;
+import com.tripManagement.model.JwtUser;
+import com.tripManagement.model.JwtUserDetails;
 
 
 
@@ -36,7 +36,7 @@ public class JwtAuthenticationProvider extends AbstractUserDetailsAuthentication
             throw new RuntimeException("JWT Token is incorrect");
         }
 
-        return new JwtUserDetails(jwtUser.getUserName(),
+        return new JwtUserDetails(JwtUser.getUserName(),
                 token);
     }
 

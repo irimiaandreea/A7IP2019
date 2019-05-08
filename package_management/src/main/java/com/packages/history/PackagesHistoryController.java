@@ -8,7 +8,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.packages.model.CommandsHistory;
+import com.packages.model.PackagesDriverHistory;
+import com.packages.model.PackagesSenderHistory;
 
 @RestController
 public class PackagesHistoryController {
@@ -17,12 +18,12 @@ public class PackagesHistoryController {
 	private PackagesHistoryService packagesHistoryService;
 	
 	 @RequestMapping("/packages/driver/{email}")
-	 public ResponseEntity<List<CommandsHistory>> getPackagesHistoryDriver(@PathVariable String email)  {
+	 public ResponseEntity<List<PackagesDriverHistory>> getPackagesHistoryDriver(@PathVariable String email)  {
 		 return ResponseEntity.ok(packagesHistoryService.gePackagesHistoryDriver(email));
 	 }
 	 
 	 @RequestMapping("/packages/sender/{email}")
-	 public ResponseEntity<List<CommandsHistory>> getPackagesHistorySender(@PathVariable String email)  {
+	 public ResponseEntity<List<PackagesSenderHistory>> getPackagesHistorySender(@PathVariable String email)  {
 		 return ResponseEntity.ok(packagesHistoryService.gePackagesHistorySender(email));
 	 }
 }

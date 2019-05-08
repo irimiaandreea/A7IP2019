@@ -20,7 +20,7 @@ public class LocationService {
 		Map<String, String> vars = new HashMap<String, String>();
 		String result = restTemplate
 		.getForObject(
-		"https://maps.googleapis.com/maps/api/geocode/json?address="+name+",+CA&key=AIzaSyAaeuKLQIt_tlLgluRv9uYcBnmN0-eqM_4",
+		"https://maps.googleapis.com/maps/api/geocode/json?address="+name+"&key=AIzaSyAaeuKLQIt_tlLgluRv9uYcBnmN0-eqM_4",
 		String.class, vars);
 		ObjectMapper mapper = new ObjectMapper();
 			JsonNode actualObj = mapper.readTree(result);
@@ -33,7 +33,7 @@ public class LocationService {
 	}
 	
 	
-	public double getDistance(String startPoint,String endPoint) throws IOException
+	public float getDistance(String startPoint,String endPoint) throws IOException
 	{
 		RestTemplate restTemplate = new RestTemplate();
 		Map<String, String> vars = new HashMap<String, String>();
@@ -45,7 +45,7 @@ public class LocationService {
 		ObjectMapper mapper = new ObjectMapper();
 		JsonNode actualObj = mapper.readTree(result);
 		JsonNode distanceNode =actualObj.path("rows").path(0).path("elements").path(0).path("distance").get("text");
-		double res=Double.parseDouble(distanceNode.asText().split(" ")[0]);
+		float res=Float.parseFloat(distanceNode.asText().split(" ")[0]);
 		return res;
 	}
 	

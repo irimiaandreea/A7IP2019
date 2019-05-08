@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.packages.exceptions.UnknownMatchException;
-import com.packages.model.CommandsHistory;
+import com.packages.model.PackagesSenderHistory;
+import com.packages.model.JwtUser;
+import com.packages.model.JwtUserDetails;
 import com.packages.model.ModifyPackageInformation;
 import com.packages.repositories.CommandsHistoryRepository;
 
@@ -16,19 +18,21 @@ public class PutPackagesService {
 	
 	public String changePackage(ModifyPackageInformation form) {
 		
-		if(form.getId()==0 || form.getStatus()==null || form.getEmailDriver()==null) throw new UnknownMatchException("Date invalide");
+		if(form.getId()==0 || form.getStatus()==null) throw new UnknownMatchException("Date invalide");
 		
 		if(!form.getStatus().equals("Accepted") && !form.getStatus().equals("In Delivery") && !form.getStatus().equals("Delivered")) 
 			throw new UnknownMatchException("Status invalid");
 		
-		CommandsHistory cmd= new CommandsHistory();
+		PackagesSenderHistory cmd= new PackagesSenderHistory();
 		cmd=cmdHistRepo.findById(form.getId()).get();
-		if(cmd.getEmail_driver()==null && form.getStatus().equals("Accepted")) {
-			cmd.setEmail_driver(form.getEmailDriver());
+		if(cmd.getEmailDriver()==null && form.getStatus().equals("Accepted")) {
+			cmd.setEmailDriver(JwtUser.getUserName());
 			cmd.setStatus(form.getStatus());
 		}
 		else {
-			if(cmd.getEmail_driver().equals(form.getEmailDriver())) {
+			if(cmd.getEmailDriver()==null) throw new UnknownMatchException("Date invalide");
+			if(cmd.getEmailDriver().equals(cmd.getEmailSender())) throw new UnknownMatchException("Nu iti poti trimite un pachet tie insuti");
+			if(cmd.getEmailDriver().equals(JwtUser.getUserName())) {
 				cmd.setStatus(form.getStatus());
 			}
 			else throw new UnknownMatchException("Date invalide");

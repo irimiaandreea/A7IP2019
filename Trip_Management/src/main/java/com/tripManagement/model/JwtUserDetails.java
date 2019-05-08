@@ -1,4 +1,4 @@
-package com.packages.model;
+package com.tripManagement.model;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -8,8 +8,8 @@ import java.util.Collection;
 public class JwtUserDetails implements UserDetails {
 
 	private static final long serialVersionUID = 1L;
-	private  String userName;
-    private  String token;
+	private String userName;
+    private String token;
 
     public JwtUserDetails(String userName, String token) {
 
@@ -53,7 +53,7 @@ public class JwtUserDetails implements UserDetails {
     }
 
 
-    public  String getUserName() {
+    public String getUserName() {
         return userName;
     }
 

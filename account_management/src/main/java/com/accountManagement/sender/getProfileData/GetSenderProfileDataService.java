@@ -21,7 +21,8 @@ public class GetSenderProfileDataService {
 		
         if(!profilesRepository.existsById(username)) throw new UnknownMatchException("Adresa de email invalida");
 		
-		if(!JwtUser.getUserName().equals(username)) throw new UnknownMatchException("Nu sunteti autorizat sa vedeti informatiile de profil al altui utilizator");
+        
+		if(!JwtUser.getUserName().equals(username)) throw new UnknownMatchException("Nu sunteti autorizat sa vedeti informatiile de profil ale altui utilizator");
 		
 		return profilesRepository.findById(username).get();
 	}

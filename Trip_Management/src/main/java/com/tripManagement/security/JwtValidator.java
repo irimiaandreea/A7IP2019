@@ -1,10 +1,10 @@
-package com.packages.security;
+package com.tripManagement.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.springframework.stereotype.Component;
 
-import com.packages.model.JwtUser;
+import com.tripManagement.model.JwtUser;
 
 
 @Component

@@ -21,7 +21,7 @@ public class ModifySenderProfileDataService {
 
 		if(!profileRepo.existsById(username) ) throw new UnknownMatchException ("Adresa de email nu exista in baza de date");
 		
-		//if(!JwtUser.getUserName().equals(username)) throw new UnknownMatchException ("Nu sunteti autorizat sa folositi schimabati informatiile de profil al altui utilizator");
+		if(!JwtUser.getUserName().equals(username)) throw new UnknownMatchException ("Nu sunteti autorizat sa folositi schimabati informatiile de profil al altui utilizator");
 
 		 ProfilesSender profile = new ProfilesSender();
 		profile=profileRepo.findById(username).get();

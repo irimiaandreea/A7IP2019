@@ -25,7 +25,7 @@ public class ModifyDriverProfileDataService {
 	public String changeProfileDataObj(String username, ChangedProfiles changedProfile) {
 
 		if(!profileRepo.existsById(username) ) throw new UnknownMatchException ("Adresa de email nu exista in baza de date");
-		if(!JwtUser.getUserName().equals(username)) throw new UnknownMatchException ("Nu sunteti autorizat sa folositi schimabati informatiile de profil al altui utilizator");
+		if(!JwtUser.getUserName().equals(username)) throw new UnknownMatchException ("Nu sunteti autorizat sa schimabati informatiile de profil al altui utilizator");
 		
 		 ProfilesSender profile = new ProfilesSender(profileRepo.findById(username).get());
 		 

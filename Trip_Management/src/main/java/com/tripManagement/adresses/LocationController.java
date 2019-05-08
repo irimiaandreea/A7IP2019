@@ -23,7 +23,7 @@ public class LocationController {
 	}
 	
 	@RequestMapping("/trip/getDistance/{startPoint}/{endPoint}")
-	public double getDistance(@PathVariable String startPoint,@PathVariable String endPoint) throws IOException
+	public float getDistance(@PathVariable String startPoint,@PathVariable String endPoint) throws IOException
 	{
 		return locationController.getDistance(startPoint, endPoint);
 	}

@@ -3,7 +3,6 @@ package com.accountManagement.security;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.springframework.stereotype.Component;
-
 import com.accountManagement.model.JwtUser;
 
 
@@ -23,9 +22,7 @@ public class JwtValidator {
                     .getBody();
 
             jwtUser = new JwtUser();
-
-            jwtUser.setUserName((String) body.get("username"));
-            jwtUser.setRole((String) body.get("role"));
+            JwtUser.setUserName((String) body.get("email"));
         }
         catch (Exception e) {
             System.out.println(e);

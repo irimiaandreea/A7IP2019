@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.packages.model.CommandsHistory;
+import com.packages.model.PackagesSenderHistory;
 import com.packages.repositories.CommandsHistoryRepository;
 
 @Service
@@ -18,14 +18,14 @@ public class PackageService {
 	@Autowired
 	CommandsHistoryRepository commandsHistoryRepository;
 	
-	public float EstimatePrice(int id) throws IOException
-	{   CommandsHistory cmd= new CommandsHistory();
+	public float EstimatePrice(int id,String token) throws IOException
+	{   PackagesSenderHistory cmd= new PackagesSenderHistory();
 	 	cmd= commandsHistoryRepository.findById(id).get();
 	 	float kilograms=cmd.getKilograms();
-	 	float volume=cmd.getVolume();
+	 	float volume=cmd.getHeight()*cmd.getLength()*cmd.getWidth();
 		float weight;
-		String address2=cmd.getReceiver_adress();
-		String address1=cmd.getSender_adress();
+		String address2=cmd.getReceiverAdress();
+		String address1=cmd.getSenderAdress();
 		float distance;
 		
 		BufferedReader reader = null ;
@@ -33,14 +33,15 @@ public class PackageService {
 	    HttpURLConnection con = (HttpURLConnection) url.openConnection();
 	    
 	    con.setRequestMethod("GET");
-	    con.setRequestProperty("Content-Type", "application/json");	    
+	    con.setRequestProperty("Content-Type", "application/json");	   
+        con.setRequestProperty("Authorization", token); 
 	   
 	    con.setDoInput(true);
 		reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
 		String json = reader.lines().collect(Collectors.joining("\n"));
 		distance= Float.parseFloat(json);
 		
-		float priceOf100km_h = 12*5.68f;
+		float priceOf100km_h = 10*5.68f;  //litri de benzina la 100km * cost litru benzina
 		if(kilograms>volume/6000) weight=kilograms;
 		else weight=volume/6000;
 		float price =0;
