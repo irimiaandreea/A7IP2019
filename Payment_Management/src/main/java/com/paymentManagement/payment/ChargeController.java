@@ -37,7 +37,7 @@ public class ChargeController {
         chargeRequest.setCurrency(Currency.EUR);
         
         Stripe.apiKey = "sk_test_yFbrSFbItspR2o3qw3J3bi1i00TJTbo5wo";
-
+/*
         Map<String, Object> tokenParams = new HashMap<String, Object>();
         Map<String, Object> cardParams = new HashMap<String, Object>();
         cardParams.put("number", "4242424242424242");
@@ -45,8 +45,9 @@ public class ChargeController {
         cardParams.put("exp_year", 2020);
         cardParams.put("cvc", "314");
         tokenParams.put("card", cardParams);
+                chargeRequest.setStripeToken(Token.create(tokenParams).getId());
+*/
 
-        chargeRequest.setStripeToken(Token.create(tokenParams).getId());
         Charge charge = paymentsService.charge(chargeRequest);
         model.setAmount(chargeRequest.getAmount()/1000);
         model.setCurrency(chargeRequest.getCurrency());

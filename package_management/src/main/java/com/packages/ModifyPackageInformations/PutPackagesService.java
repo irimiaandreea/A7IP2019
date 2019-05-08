@@ -15,10 +15,13 @@ public class PutPackagesService {
 	private CommandsHistoryRepository cmdHistRepo;
 	
 	public String changePackage(ModifyPackageInformation form) {
-		CommandsHistory cmd= new CommandsHistory();
+		
 		if(form.getId()==0 || form.getStatus()==null || form.getEmailDriver()==null) throw new UnknownMatchException("Date invalide");
+		
 		if(!form.getStatus().equals("Accepted") && !form.getStatus().equals("In Delivery") && !form.getStatus().equals("Delivered")) 
 			throw new UnknownMatchException("Status invalid");
+		
+		CommandsHistory cmd= new CommandsHistory();
 		cmd=cmdHistRepo.findById(form.getId()).get();
 		if(cmd.getEmail_driver()==null && form.getStatus().equals("Accepted")) {
 			cmd.setEmail_driver(form.getEmailDriver());

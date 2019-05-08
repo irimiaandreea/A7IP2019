@@ -9,7 +9,6 @@ public class RegisterPackage {
 	private float kilograms;
 	private String phone_number_sender;
 	private String phone_number_receiver;
-    
 	public RegisterPackage() {
 		
 	}

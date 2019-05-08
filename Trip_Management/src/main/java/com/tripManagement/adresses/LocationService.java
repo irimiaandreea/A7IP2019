@@ -30,7 +30,6 @@ public class LocationService {
 					,Double.parseDouble(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(lngNode))
 					,Double.parseDouble(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(latNode)));
 			return tmp;
-	
 	}
 	
 	
