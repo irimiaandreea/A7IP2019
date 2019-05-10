@@ -22,6 +22,13 @@ public class LocationController {
 		return tmp;
 	}
 	
+	@RequestMapping("trip/verifyLocation/{point}")
+	public Boolean isValidLocation(@PathVariable String point) throws IOException
+	{
+		Boolean tmp = locationController.verifyLocation(point);
+		return tmp;
+	}
+	
 	@RequestMapping("/trip/getDistance/{startPoint}/{endPoint}")
 	public float getDistance(@PathVariable String startPoint,@PathVariable String endPoint) throws IOException
 	{
