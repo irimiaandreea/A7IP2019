@@ -7,9 +7,9 @@
     </ion-toolbar>
   </ion-header>
   
+<!-- LIST OF PACKAGES -->
   <ion-content >
     <ion-grid id ="myPackages">
-  
     <ion-row>
       <ion-col id = "cardList">
         <ion-card *ngFor = "let package of packages" id = "ion-card-id-package">
@@ -43,44 +43,60 @@
        </ion-col>
      </ion-row>
 
+<!-- ADD PACKAGE FORM -->
   <div id = "addPackage" style="display: none;">
     <ion-row>
       <ion-col>
         <ion-card>                
           <ion-item id="addPackageItem" lines="none" color ="red">
-           <p class ="count" > {{packages.length + 1}} </p>
+           <p class ="count"> {{packages.length + 1}} </p>
            <ion-label>     
             <ion-card-header id ="addPackageHeader">
               <ion-card-title style="color: rgb(202, 201, 201);" id ="titleInfo"> Complete the info: </ion-card-title>
             </ion-card-header>
            </ion-label>
-         </ion-item>
+          </ion-item>
 
          <form (ngSubmit)="submitForm(form.value)">
           <div padding>
-            <p id = "formtext"> Package Name </p> 
+            <p id = "formtext"> Package's Name </p> 
             <ion-item lines="none" class ="itemform">
-              <ion-input id = "nameInput" [(ngModel)]="name" [ngModelOptions]="{standalone: true}" type = "text" placeholder = "Package Name" required></ion-input>
+              <ion-input  class ="inputClass" id = "nameInput" [(ngModel)]="name" [ngModelOptions]="{standalone: true}" type = "text" placeholder = "Package's Name" required></ion-input>
             </ion-item>
 
             <p id = "formtext"> Pickup Address</p> 
             <ion-item lines="none" class ="itemform">
-              <ion-input id = "pickupAddressInput" [(ngModel)]="pickupAddress" [ngModelOptions]="{standalone: true}" type = "text" placeholder = "Pickup Address" required></ion-input>
+              <ion-input class ="inputClass" id = "pickupAddressInput" [(ngModel)]="pickupAddress" [ngModelOptions]="{standalone: true}" type = "text" placeholder = "Pickup Address" required></ion-input>
             </ion-item>
 
             <p id = "formtext"> Delivery Address </p> 
             <ion-item lines="none"  class ="itemform">
-             <ion-input id = "deliveryAddressInput" [(ngModel)]="deliveryAddress" [ngModelOptions]="{standalone: true}" type = "text" placeholder = "Delivery Address" required></ion-input>
+             <ion-input class ="inputClass" id = "deliveryAddressInput" [(ngModel)]="deliveryAddress" [ngModelOptions]="{standalone: true}" type = "text" placeholder = "Delivery Address" required></ion-input>
             </ion-item>
 
             <p id = "formtext"> Receiver's Full Name </p> 
             <ion-item lines="none"  class ="itemform">
-              <ion-input id = "receiverName" [(ngModel)]="receiverName" type = "text" [ngModelOptions]="{standalone: true}" placeholder = "Receiver's Full Name" required></ion-input>
+              <ion-input class ="inputClass" id = "receiverName" [(ngModel)]="receiverName" type = "text" [ngModelOptions]="{standalone: true}" placeholder = "Receiver's Full Name" required></ion-input>
             </ion-item>
 
             <p id = "formtext">Receiver's Phone Number </p> 
             <ion-item lines="none"  class ="itemform">
-              <ion-input id = "receiverPhoneNumber" [(ngModel)]="receiverPhoneNumber" [ngModelOptions]="{standalone: true}" type = "text" placeholder = "Receiver's Phone Number" required></ion-input>
+              <ion-input class ="inputClass" id = "receiverPhoneNumber" [(ngModel)]="receiverPhoneNumber" [ngModelOptions]="{standalone: true}" type = "text" placeholder = "Receiver's Phone Number" required></ion-input>
+            </ion-item>
+
+            <p id = "formtext"> Package's Length </p>
+            <ion-item lines="none" class ="itemform">
+              <ion-input class ="inputClass" id = "packageLength" [(ngModel)]="packageLength" [ngModelOptions]="{standalone: true}" type = "text" placeholder = "Package's Length" required></ion-input>
+            </ion-item>
+
+            <p id = "formtext"> Package's Height </p>
+            <ion-item lines="none" class ="itemform">
+              <ion-input class ="inputClass" id = "packageHeight" [(ngModel)]="packageHeight" [ngModelOptions]="{standalone: true}" type = "text" placeholder = "Package's Height" required></ion-input>
+            </ion-item>
+
+            <p id = "formtext"> Package's Width </p>
+            <ion-item lines="none" class ="itemform">
+              <ion-input class ="inputClass" id = "packageWidth" [(ngModel)]="packageWidth" [ngModelOptions]="{standalone: true}" type = "text" placeholder = "Package's Width" required></ion-input>
             </ion-item>
 
            </div>
@@ -136,6 +152,8 @@
     <p class = "textP2"> *The driver will also receive your contact information, so he can contact you for needed details </p>
   </div>
  
+
+<!-- EDIT PACKAGE FORM -->
   <div id = "editPackage" style="display: none;">
       <ion-row>
         <ion-col>
@@ -154,59 +172,52 @@
   
            <form >
             <div padding>
-              <p id = "formtext"> Package Name </p> 
+              <p id = "formtext"> Package's Name </p> 
               <ion-item lines="none" class ="itemform">
-                <ion-input id = "nameInput" [(ngModel)]="name" [ngModelOptions]="{standalone: true}" type = "text"  value = "{{selectedPackage.name}}" required></ion-input>
+                <ion-input class ="inputClass" id = "nameInput" [(ngModel)]="name" [ngModelOptions]="{standalone: true}" type = "text"  placeholder="Package's Name" value = "{{selectedPackage.name}}" required></ion-input>
               </ion-item>
   
               <p id = "formtext"> Pickup Address</p> 
               <ion-item lines="none" class ="itemform">
-                <ion-input id = "pickupAddressInput" [(ngModel)]="pickupAddress" [ngModelOptions]="{standalone: true}" type = "text" value ="{{selectedPackage.pickupAddress}}" required></ion-input>
+                <ion-input class ="inputClass"  id = "pickupAddressInput" [(ngModel)]="pickupAddress" [ngModelOptions]="{standalone: true}" type = "text" placeholder="Pickup Address" value ="{{selectedPackage.pickupAddress}}" required></ion-input>
               </ion-item>
   
               <p id = "formtext"> Delivery Address </p> 
               <ion-item lines="none"  class ="itemform">
-               <ion-input id = "deliveryAddressInput" [(ngModel)]="deliveryAddress" [ngModelOptions]="{standalone: true}" type = "text" value ="{{selectedPackage.deliveryAddress}}" required></ion-input>
+               <ion-input class ="inputClass"  id = "deliveryAddressInput" [(ngModel)]="deliveryAddress" [ngModelOptions]="{standalone: true}" type = "text" placeholder="Delivery Address" value ="{{selectedPackage.deliveryAddress}}" required></ion-input>
               </ion-item>
   
               <p id = "formtext"> Receiver's Full Name </p> 
               <ion-item lines="none"  class ="itemform">
-                <ion-input id = "receiverName" [(ngModel)]="receiverName" type = "text" [ngModelOptions]="{standalone: true}" value ="{{selectedPackage.receiverName}}" required></ion-input>
+                <ion-input class ="inputClass" id = "receiverName" [(ngModel)]="receiverName" type = "text" [ngModelOptions]="{standalone: true}" placeholder="Receiver's Name" value ="{{selectedPackage.receiverName}}" required></ion-input>
               </ion-item>
   
               <p id = "formtext">Receiver's Phone Number </p> 
               <ion-item lines="none"  class ="itemform">
-                <ion-input id = "receiverPhoneNumber" [(ngModel)]="receiverPhoneNumber" [ngModelOptions]="{standalone: true}" type = "text" value ="{{selectedPackage.receiverPhoneNumber}}" required></ion-input>
+                <ion-input class ="inputClass" id = "receiverPhoneNumber" [(ngModel)]="receiverPhoneNumber" [ngModelOptions]="{standalone: true}" type = "text" placeholder="Receiver's Phone Number" value ="{{selectedPackage.receiverPhoneNumber}}" required></ion-input>
               </ion-item>
   
+              
+              <p id = "formtext"> Package's Length </p>
+              <ion-item lines="none" class ="itemform">
+                <ion-input class ="inputClass" id = "packageLength" [(ngModel)]="packageLength" [ngModelOptions]="{standalone: true}" type = "text"  placeholder="Package's Length" value ="{{selectedPackage.packageLength}}" required></ion-input>
+              </ion-item>
+
+              <p id = "formtext"> Package's Height </p>
+              <ion-item lines="none" class ="itemform">
+                <ion-input class ="inputClass" id = "packageHeight" [(ngModel)]="packageHeight" [ngModelOptions]="{standalone: true}" type = "text" placeholder="Package's Height" value ="{{selectedPackage.packageHeight}}" required></ion-input>
+              </ion-item>
+
+              <p id = "formtext"> Package's Width </p>
+              <ion-item lines="none" class ="itemform">
+                <ion-input class ="inputClass" id = "packageWidth" [(ngModel)]="packageWidth" [ngModelOptions]="{standalone: true}" type = "text" placeholder="Package's Width" value ="{{selectedPackage.packageWidth}}" required></ion-input>
+              </ion-item>
              </div>
             </form>
   
             <ion-row>
              <ion-col>
               <p id = "availableTime"> Available Pickup Hours </p> 
-
-              <!--
-              <ion-item  id ="timeItem" lines="none" color="red">
-                  <ion-label  id ="timeLabel">  
-                      <ion-card-content id ="timeContent">
-     
-                       <ion-item lines="none" class ="timeItem2">
-                         <ion-datetime displayFormat="MMMM DD, DDDD" value="2019-01-20" placeholder="Day"></ion-datetime>
-                       </ion-item >
-                       <ion-item class= "timeItem2">
-                         <ion-datetime displayFormat="HH:mm - " value="12:20" placeholder="Start Hour"></ion-datetime>
-                         <ion-datetime displayFormat=" HH:mm"  value ="15:40" placeholder="End Hour"></ion-datetime>
-                       </ion-item>
-     
-                      </ion-card-content>
-                     </ion-label>
-                         
-                     <ion-button id = "deletepickuphour" color ="--ion-color-success-shade" item-right slot="start" (click)="addHoursForm()">
-                       <ion-icon name="close-circle"></ion-icon>
-                     </ion-button>
-              </ion-item>-->
-
 
               <ion-item *ngFor ="let pickupHour of selectedPackage.pickupHours" id ="timeItem" lines="none" color="red">
   

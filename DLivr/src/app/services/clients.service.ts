@@ -56,6 +56,7 @@ export class ClientsService {
     });
   }
 
+  // coroutines
   async presentWarning(hd: String, msg: String) {
     const alert = await this.alertController.create({
       header: hd.toString(),
@@ -65,5 +66,28 @@ export class ClientsService {
     });
 
     await alert.present();
+  }
+
+  getPackages(email: String)
+  {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+      })
+    };
+
+    return this.http.get('http://localhost:8081/packages/sender/' + email, httpOptions);
+  }
+
+  // newPackage is assumed to not in JSON format
+  registerPackage(newPackage)
+  {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+      })
+    };
+
+    return this.http.post('http://localhost:8081/packages/registerPackage', JSON.stringify(newPackage), httpOptions);
   }
 }

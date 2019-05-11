@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuController } from '@ionic/angular';
+import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { ClientsService } from 'src/app/services/clients.service';
 
 @Component({
   selector: 'app-mypackages',
@@ -8,6 +10,7 @@ import { MenuController } from '@ionic/angular';
 })
 export class MypackagesPage implements OnInit {
 
+  // addPackageForm: FormGroup;
   packages = [];
 
   name: string = "";
@@ -15,6 +18,9 @@ export class MypackagesPage implements OnInit {
   deliveryAddress: string = "";
   receiverName: string = "";
   receiverPhoneNumber: string = "";
+  packageLength: string = "";
+  packageHeight: string = "";
+  packageWidth: string = "";
 
   pickupHours = [];
 
@@ -34,14 +40,73 @@ export class MypackagesPage implements OnInit {
     }
   ]
 
-  constructor(private menuCtrl: MenuController) { 
-    this.pickupHours.push(
-      {
-        "pickupDay" : "",
-        "pickupStartHour" : "",
-        "pickupEndHour" : "",
-      }
-    );
+  constructor(
+      private menuCtrl: MenuController, 
+      private userService: ClientsService,
+      // public formBuilder: FormBuilder,
+    ) { 
+
+    userService.getPackages(userService.email)
+    .subscribe(data => {
+      console.log(data);
+      var packages = data['packages'];
+      
+      packages.forEach(p => {
+        this.pushCard(
+          p['name'],
+          p['pickupAddress'],
+          p['deliveryAddress'],
+          p['receiverName'],
+          p['receiverPhoneNumber'],
+          p['packageLength'],
+          p['packageHeight'],
+          p['packageWidth'],
+          p['pickupHours'].concat(),
+        )
+      });
+
+    }, error => {
+      console.log("Unable to retrieve packages from server");
+    });
+
+    // this.addPackageForm = this.formBuilder.group(
+    //   {
+    //   packageName: new FormControl('', Validators.compose(
+    //     [
+    //       Validators.required,
+    //       Validators.minLength(5),
+    //       Validators.maxLength(30),
+    //     ]
+    //   )),
+    //   pickupAddress: new FormControl('', Validators.compose(
+    //     [
+    //       Validators.required,
+    //       Validators.minLength(5),
+    //       Validators.maxLength(60),
+    //     ]
+    //   )),
+    //   deliveryAddress: new FormControl('', Validators.compose(
+    //     [
+    //       Validators.required,
+    //       Validators.minLength(5),
+    //       Validators.maxLength(60),
+    //     ]
+    //   )),
+    //   receiverName: new FormControl('', Validators.compose(
+    //     [
+    //       Validators.required,
+    //       Validators.minLength(3),
+    //       Validators.maxLength(30),
+    //     ]
+    //   )),
+    //   receiverPhoneNumber: new FormControl('', Validators.compose(
+    //     [
+    //       Validators.required,
+    //       Validators.minLength(7),
+    //       Validators.maxLength(30),
+    //     ]
+    //   )),
+    // });
   }
 
   ngOnInit() {
@@ -67,14 +132,17 @@ export class MypackagesPage implements OnInit {
     this.deliveryAddress = "";
     this.receiverName = "";
     this.receiverPhoneNumber = "";
+    this.packageLength = "";
+    this.packageHeight = "";
+    this.packageWidth = "";
     this.pickupHours.splice(0, this.pickupHours.length);
-    this.pickupHours.push(
+    /* this.pickupHours.push(
       {
         "pickupDay" : "",
         "pickupStart" : "",
         "pickupEnd" : "",
       }
-    );
+    ); */
   }
 
   setAddPackageInputs(pack)
@@ -84,6 +152,9 @@ export class MypackagesPage implements OnInit {
     this.deliveryAddress = pack.deliveryAddress;
     this.receiverName = pack.receiverName;
     this.receiverPhoneNumber = pack.receiverPhoneNumber;
+    this.packageLength = pack.packageLength;
+    this.packageHeight = pack.packageHeight;
+    this.packageWidth = pack.packageWidth;
     this.pickupHours = pack.pickupHours.concat();
   }
 
@@ -118,17 +189,37 @@ export class MypackagesPage implements OnInit {
         console.log(pickupHour);
       });
 
-      this.pushCard(
+      var newPackage = this.makePackage(
         this.name, 
         this.pickupAddress,
         this.deliveryAddress,
         this.receiverName,
         this.receiverPhoneNumber,
+        this.packageLength,
+        this.packageHeight,
+        this.packageWidth,
         this.pickupHours
       );
+
+      this.userService.registerPackage(newPackage)
+      .subscribe(data => {
+        this.pushCard(
+          this.name, 
+          this.pickupAddress,
+          this.deliveryAddress,
+          this.receiverName,
+          this.receiverPhoneNumber,
+          this.packageLength,
+          this.packageHeight,
+          this.packageWidth,
+          this.pickupHours
+        );
+      }, error => {
+        console.log('Unable to register package');
+        // alert maybe?
+      });
     }
   }
-
 
   // editPackage form
   editPackageForm(i){
@@ -215,28 +306,42 @@ export class MypackagesPage implements OnInit {
     this.addPickupItem();
   }
 
-  pushCard(name, pickupAddress, deliveryAddress, receiverName, receiverPhoneNumber, pickupHours){
+  makePackage(name, pickupAddress, deliveryAddress, receiverName, receiverPhoneNumber,  packageLength,
+    packageHeight, packageWidth, pickupHours){
+    return [{
+      "number": (this.packages.length + 1).toString(),
+      "name": name,
+      "status": "",
+      "pickupAddress": pickupAddress,
+      "deliveryAddress": deliveryAddress,
+      "receiverName": receiverName,
+      "receiverPhoneNumber": receiverPhoneNumber,
+      "packageLength": packageLength,
+      "packageHeight": packageHeight,
+      "packageWidth": packageWidth,
+      "pickupHours": pickupHours.concat(), // create a copy of the array
+      // We need to do this because putting just pickupHours here is just a reference (pointer) to the pickupHours
+      // array. The next time the form is cleared, the pickupHours array will also be cleared, which would mean this reference would
+      // be empty.
+    }];
+  }
 
-    this.packages.push(
-      {
-        "number": (this.packages.length + 1).toString(),
-        "name": name,
-        "status": "",
-        "pickupAddress": pickupAddress,
-        "deliveryAddress": deliveryAddress,
-        "receiverName": receiverName,
-        "receiverPhoneNumber": receiverPhoneNumber,
-        "pickupHours": pickupHours.concat(), // create a copy of the array
-        // We need to do this because putting just pickupHours here is just a reference (pointer) to the pickupHours
-        // array. The next time the form is cleared, the pickupHours array will also be cleared, which would mean this reference would
-        // be empty.
-      }
-    );
+  pushCard(name, pickupAddress, deliveryAddress, receiverName, receiverPhoneNumber, packageLength,
+     packageHeight, packageWidth, pickupHours){
 
-    //console.log(JSON.stringify(this.packages));
+    this.packages.push(this.makePackage(
+      name, 
+      pickupAddress, 
+      deliveryAddress, 
+      receiverName, 
+      receiverPhoneNumber, 
+      packageLength,
+      packageHeight,
+      packageWidth,
+      pickupHours
+    ));
 
     localStorage.setItem("mypackages.packages", JSON.stringify(this.packages));
-
     this.clearAddPackageInputs();
   }
 
