@@ -17,7 +17,7 @@ import com.accountManagement.repositories.UsersRepository;
 @Service
 public class RegisterService {
 
-	private boolean isPasswordStrong(RegisterDetails user)
+	public boolean isPasswordStrong(RegisterDetails user)
 	{
         if(user.getPassword().length()<=20 && user.getPassword().length()>=4)
         {

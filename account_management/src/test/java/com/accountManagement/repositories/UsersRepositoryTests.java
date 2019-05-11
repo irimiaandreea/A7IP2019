@@ -25,6 +25,8 @@ import com.accountManagement.model.Users;
 @AutoConfigureTestDatabase(replace=Replace.NONE)
 public class UsersRepositoryTests
 {
+	//Before running these tests:
+	//Run as -> Run Configurations-> Select JUnit4 as Test Runner
 	@Autowired
 	UsersRepository repo;
 	

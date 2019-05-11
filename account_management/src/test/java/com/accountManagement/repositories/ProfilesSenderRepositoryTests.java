@@ -24,6 +24,8 @@ import com.accountManagement.model.Users;
 @AutoConfigureTestDatabase(replace=Replace.NONE)
 public class ProfilesSenderRepositoryTests 
 {
+	//Before running these tests:
+		//Run as -> Run Configurations-> Select JUnit4 as Test Runner
 	@Autowired
 	ProfilesSenderRepository senderRepo;
 
