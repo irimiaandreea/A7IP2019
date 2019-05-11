@@ -10,7 +10,7 @@ import { ClientsService } from 'src/app/services/clients.service';
 })
 export class MypackagesPage implements OnInit {
 
-  // addPackageForm: FormGroup;
+  addPackageForm: FormGroup;
   packages = [];
 
   name: string = "";
@@ -19,6 +19,7 @@ export class MypackagesPage implements OnInit {
   receiverName: string = "";
   receiverPhoneNumber: string = "";
   packageLength: string = "";
+  packageWeight: string ="";
   packageHeight: string = "";
   packageWidth: string = "";
 
@@ -43,70 +44,106 @@ export class MypackagesPage implements OnInit {
   constructor(
       private menuCtrl: MenuController, 
       private userService: ClientsService,
-      // public formBuilder: FormBuilder,
+      public formBuilder: FormBuilder,
     ) { 
 
-    userService.getPackages(userService.email)
-    .subscribe(data => {
-      console.log(data);
-      var packages = data['packages'];
-      
-      packages.forEach(p => {
-        this.pushCard(
-          p['name'],
-          p['pickupAddress'],
-          p['deliveryAddress'],
-          p['receiverName'],
-          p['receiverPhoneNumber'],
-          p['packageLength'],
-          p['packageHeight'],
-          p['packageWidth'],
-          p['pickupHours'].concat(),
-        )
-      });
+      console.log('email: ' + this.userService.email);
+      // userService.getPackages(userService.email)
+      // .subscribe(data => {
+      //   console.log("get packages???");
+      //   console.log(data);
+      //   var packages = data['packages'];
+        
+      //   packages.forEach(p => {
+      //     this.pushCard(
+      //       p['name'],
+      //       p['pickupAddress'],
+      //       p['deliveryAddress'],
+      //       p['receiverName'],
+      //       p['receiverPhoneNumber'],
+      //       p['packageLength'],
+      //       p['packageWeight'],
+      //       p['packageHeight'],
+      //       p['packageWidth'],
+      //       p['pickupHours'].concat(),
+      //     )
+      //   });
 
-    }, error => {
-      console.log("Unable to retrieve packages from server");
+      // }, error => {
+      //   console.log("Unable to retrieve packages from server");
+      //   console.log(error);
+      // });
+
+    this.addPackageForm = this.formBuilder.group(
+      {
+      packageName: new FormControl('', Validators.compose(
+        [
+          Validators.required,
+          Validators.minLength(5),
+          Validators.maxLength(30),
+        ]
+      )),
+      pickupAddress: new FormControl('', Validators.compose(
+        [
+          Validators.required,
+          Validators.minLength(5),
+          Validators.maxLength(60),
+        ]
+      )),
+      deliveryAddress: new FormControl('', Validators.compose(
+        [
+          Validators.required,
+          Validators.minLength(5),
+          Validators.maxLength(60),
+        ]
+      )),
+      receiverName: new FormControl('', Validators.compose(
+        [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(30),
+        ]
+      )),
+      receiverPhoneNumber: new FormControl('', Validators.compose(
+        [
+          Validators.required,
+          Validators.minLength(7),
+          Validators.maxLength(30),
+        ]
+      )),
+      packageWeight: new FormControl('', Validators.compose(
+        [
+          Validators.required,
+          Validators.pattern("[0-9]+"),
+          Validators.minLength(1),
+          Validators.maxLength(30),
+        ]
+      )),
+      packageWidth: new FormControl('', Validators.compose(
+        [
+          Validators.required,
+          Validators.pattern("[0-9]+"),
+          Validators.minLength(1),
+          Validators.maxLength(30),
+        ]
+      )),
+      packageLength: new FormControl('', Validators.compose(
+        [
+          Validators.required,
+          Validators.pattern("[0-9]+"),
+          Validators.minLength(1),
+          Validators.maxLength(30),
+        ]
+      )),
+      packageHeight: new FormControl('', Validators.compose(
+        [
+          Validators.required,
+          Validators.pattern("[0-9]+"),
+          Validators.minLength(1),
+          Validators.maxLength(30),
+        ]
+      )),
     });
-
-    // this.addPackageForm = this.formBuilder.group(
-    //   {
-    //   packageName: new FormControl('', Validators.compose(
-    //     [
-    //       Validators.required,
-    //       Validators.minLength(5),
-    //       Validators.maxLength(30),
-    //     ]
-    //   )),
-    //   pickupAddress: new FormControl('', Validators.compose(
-    //     [
-    //       Validators.required,
-    //       Validators.minLength(5),
-    //       Validators.maxLength(60),
-    //     ]
-    //   )),
-    //   deliveryAddress: new FormControl('', Validators.compose(
-    //     [
-    //       Validators.required,
-    //       Validators.minLength(5),
-    //       Validators.maxLength(60),
-    //     ]
-    //   )),
-    //   receiverName: new FormControl('', Validators.compose(
-    //     [
-    //       Validators.required,
-    //       Validators.minLength(3),
-    //       Validators.maxLength(30),
-    //     ]
-    //   )),
-    //   receiverPhoneNumber: new FormControl('', Validators.compose(
-    //     [
-    //       Validators.required,
-    //       Validators.minLength(7),
-    //       Validators.maxLength(30),
-    //     ]
-    //   )),
-    // });
   }
 
   ngOnInit() {
@@ -117,10 +154,10 @@ export class MypackagesPage implements OnInit {
     var divAdd = document.getElementById("addPackage");
     var buttonAdd = document.getElementById("addpackage");
 
-    var divEdit = document.getElementById("editPackage");
+    // var divEdit = document.getElementById("editPackage");
 
     divAdd.style.display = "none";
-    divEdit.style.display = "none";
+    // divEdit.style.display = "none";
 
     //buttonAdd.textContent = "Add Package";
   }
@@ -133,6 +170,7 @@ export class MypackagesPage implements OnInit {
     this.receiverName = "";
     this.receiverPhoneNumber = "";
     this.packageLength = "";
+    this.packageWeight = "";
     this.packageHeight = "";
     this.packageWidth = "";
     this.pickupHours.splice(0, this.pickupHours.length);
@@ -153,6 +191,7 @@ export class MypackagesPage implements OnInit {
     this.receiverName = pack.receiverName;
     this.receiverPhoneNumber = pack.receiverPhoneNumber;
     this.packageLength = pack.packageLength;
+    this.packageWeight = pack.packageWeight;
     this.packageHeight = pack.packageHeight;
     this.packageWidth = pack.packageWidth;
     this.pickupHours = pack.pickupHours.concat();
@@ -196,13 +235,15 @@ export class MypackagesPage implements OnInit {
         this.receiverName,
         this.receiverPhoneNumber,
         this.packageLength,
+        this.packageWeight,
         this.packageHeight,
         this.packageWidth,
         this.pickupHours
       );
 
-      this.userService.registerPackage(newPackage)
+      this.userService.addPackage(newPackage)
       .subscribe(data => {
+        console.log("addPackage success: data");
         this.pushCard(
           this.name, 
           this.pickupAddress,
@@ -210,12 +251,14 @@ export class MypackagesPage implements OnInit {
           this.receiverName,
           this.receiverPhoneNumber,
           this.packageLength,
+          this.packageWeight,
           this.packageHeight,
           this.packageWidth,
           this.pickupHours
         );
       }, error => {
         console.log('Unable to register package');
+        console.log(error);
         // alert maybe?
       });
     }
@@ -307,7 +350,7 @@ export class MypackagesPage implements OnInit {
   }
 
   makePackage(name, pickupAddress, deliveryAddress, receiverName, receiverPhoneNumber,  packageLength,
-    packageHeight, packageWidth, pickupHours){
+    packageWeight, packageHeight, packageWidth, pickupHours){
     return [{
       "number": (this.packages.length + 1).toString(),
       "name": name,
@@ -317,6 +360,7 @@ export class MypackagesPage implements OnInit {
       "receiverName": receiverName,
       "receiverPhoneNumber": receiverPhoneNumber,
       "packageLength": packageLength,
+      "packageWeight": packageWeight,
       "packageHeight": packageHeight,
       "packageWidth": packageWidth,
       "pickupHours": pickupHours.concat(), // create a copy of the array
@@ -327,7 +371,7 @@ export class MypackagesPage implements OnInit {
   }
 
   pushCard(name, pickupAddress, deliveryAddress, receiverName, receiverPhoneNumber, packageLength,
-     packageHeight, packageWidth, pickupHours){
+     packageWeight, packageHeight, packageWidth, pickupHours){
 
     this.packages.push(this.makePackage(
       name, 
@@ -336,6 +380,7 @@ export class MypackagesPage implements OnInit {
       receiverName, 
       receiverPhoneNumber, 
       packageLength,
+      packageWeight,
       packageHeight,
       packageWidth,
       pickupHours

@@ -37,6 +37,8 @@ export class ClientsService {
 
   login(credentials) {
 
+    console.log(credentials);
+
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
@@ -45,11 +47,11 @@ export class ClientsService {
 
     this.http.post('http://localhost:8081/login', credentials, httpOptions)
     .subscribe(data => {
-      console.log(data);
       this.accessToken = data['accessToken'];
-      this.email = credentials['email'];
+      this.email = data['email'];
       this.loggedIn = true;
-      console.log('Acces token received:' + this.accessToken);
+      
+      console.log('Access token received:' + this.accessToken);
       this.router.navigateByUrl('app/menu/home');
      }, error => {
       this.presentWarning('Atentie!', error.error['message']);
@@ -76,18 +78,55 @@ export class ClientsService {
       })
     };
 
-    return this.http.get('http://localhost:8081/packages/sender/' + email, httpOptions);
+    return this.http.get('http://localhost:8082/packages/sender/' + this.truncateEmailHost(this.email), httpOptions);
   }
 
-  // newPackage is assumed to not in JSON format
-  registerPackage(newPackage)
+  truncateEmailHost(email) : String{
+    var index = email.lastIndexOf('@');
+    return email.substring(0, index);
+  }
+
+  // newPackage is assumed to not be in JSON format
+  addPackage(newPackage)
   {
+    console.log(this.accessToken);
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
+        'Authorization': 'Bearer ' + this.accessToken
       })
     };
 
-    return this.http.post('http://localhost:8081/packages/registerPackage', JSON.stringify(newPackage), httpOptions);
+    console.log(this.truncateEmailHost(this.email));
+    console.log(httpOptions);
+    newPackage['emailSender'] = this.truncateEmailHost(this.email);
+    newPackage['emailDriver'] = 'one';
+    newPackage['senderAddress'] = 'one';
+    newPackage['receiverAddress'] = 'one';
+    newPackage['kilograms'] = 'one';
+    newPackage['phoneNumberSender'] = 'one';
+    newPackage['phoneNumberReceiver'] = 'one';
+    newPackage['receiverName'] = 'one';
+    newPackage['length'] = '1';
+    newPackage['height'] = '2';
+    newPackage['width'] = '3';
+
+    var jank = [{
+      'emailSender': this.truncateEmailHost(this.email),
+      "senderAddress": "Iasi",
+      "recieverAddress": "Bucuresti",
+      "kilograms": "23",
+      "phoneNumberSender": "1234",
+      "phoneNumberReceiver": "12345",
+      "receiverName": "marus",
+      "length": "1",
+      "width": "1",
+      "heigth": "1"
+    }];
+
+    
+// emaiSender,emailDriver, senderAddress,receiverAddress,kilograms,phoneNumberSender,phoneNumberReceiver,receiverName,length,width,height si 
+    console.log(JSON.stringify(jank));
+    return this.http.post('http://localhost:8082/packages/registerPackage', JSON.stringify(jank), httpOptions);
   }
 }

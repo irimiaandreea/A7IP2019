@@ -57,46 +57,51 @@
            </ion-label>
           </ion-item>
 
-         <form (ngSubmit)="submitForm(form.value)">
+         <form novalidate [formGroup] ="addPackageForm" (ngSubmit)="submitForm(form.value)">
           <div padding>
             <p id = "formtext"> Package's Name </p> 
             <ion-item lines="none" class ="itemform">
-              <ion-input  class ="inputClass" id = "nameInput" [(ngModel)]="name" [ngModelOptions]="{standalone: true}" type = "text" placeholder = "Package's Name" required></ion-input>
+              <ion-input formControlName = "packageName" name = "packageName" class ="inputClass" id = "nameInput" [(ngModel)]="name" type = "text" placeholder = "Package's Name" required></ion-input>
             </ion-item>
 
             <p id = "formtext"> Pickup Address</p> 
             <ion-item lines="none" class ="itemform">
-              <ion-input class ="inputClass" id = "pickupAddressInput" [(ngModel)]="pickupAddress" [ngModelOptions]="{standalone: true}" type = "text" placeholder = "Pickup Address" required></ion-input>
+              <ion-input formControlName = "pickupAddress" name = "pickupAddress" class ="inputClass" id = "pickupAddressInput" [(ngModel)]="pickupAddress" type = "text" placeholder = "Pickup Address" required></ion-input>
             </ion-item>
 
             <p id = "formtext"> Delivery Address </p> 
             <ion-item lines="none"  class ="itemform">
-             <ion-input class ="inputClass" id = "deliveryAddressInput" [(ngModel)]="deliveryAddress" [ngModelOptions]="{standalone: true}" type = "text" placeholder = "Delivery Address" required></ion-input>
+             <ion-input formControlName = "deliveryAddress" name = "deliveryAddress" class ="inputClass" id = "deliveryAddressInput" [(ngModel)]="deliveryAddress" type = "text" placeholder = "Delivery Address" required></ion-input>
             </ion-item>
 
             <p id = "formtext"> Receiver's Full Name </p> 
             <ion-item lines="none"  class ="itemform">
-              <ion-input class ="inputClass" id = "receiverName" [(ngModel)]="receiverName" type = "text" [ngModelOptions]="{standalone: true}" placeholder = "Receiver's Full Name" required></ion-input>
+              <ion-input formControlName = "receiverName" name = "receiverName" class ="inputClass" id = "receiverName" [(ngModel)]="receiverName" type = "text" placeholder = "Receiver's Full Name" required></ion-input>
             </ion-item>
 
             <p id = "formtext">Receiver's Phone Number </p> 
             <ion-item lines="none"  class ="itemform">
-              <ion-input class ="inputClass" id = "receiverPhoneNumber" [(ngModel)]="receiverPhoneNumber" [ngModelOptions]="{standalone: true}" type = "text" placeholder = "Receiver's Phone Number" required></ion-input>
+              <ion-input formControlName = "receiverPhoneNumber" name = "receiverPhoneNumber" class ="inputClass" id = "receiverPhoneNumber" [(ngModel)]="receiverPhoneNumber" type = "text" placeholder = "Receiver's Phone Number" required></ion-input>
+            </ion-item>
+
+            <p id = "formtext">Package's Weight </p> 
+            <ion-item lines="none"  class ="itemform">
+              <ion-input formControlName = "packageWeight" name = "packageWeight" class ="inputClass" id = "packageWeight" [(ngModel)]="packageWeight" type = "text" placeholder="Package's Weight" required></ion-input>
             </ion-item>
 
             <p id = "formtext"> Package's Length </p>
             <ion-item lines="none" class ="itemform">
-              <ion-input class ="inputClass" id = "packageLength" [(ngModel)]="packageLength" [ngModelOptions]="{standalone: true}" type = "text" placeholder = "Package's Length" required></ion-input>
+              <ion-input formControlName = "packageLength" name = "packageLength" class ="inputClass" id = "packageLength" [(ngModel)]="packageLength" type = "text" placeholder = "Package's Length" required></ion-input>
             </ion-item>
 
             <p id = "formtext"> Package's Height </p>
             <ion-item lines="none" class ="itemform">
-              <ion-input class ="inputClass" id = "packageHeight" [(ngModel)]="packageHeight" [ngModelOptions]="{standalone: true}" type = "text" placeholder = "Package's Height" required></ion-input>
+              <ion-input formControlName = "packageHeight" name = "packageHeight" class ="inputClass" id = "packageHeight" [(ngModel)]="packageHeight" type = "text" placeholder = "Package's Height" required></ion-input>
             </ion-item>
 
             <p id = "formtext"> Package's Width </p>
             <ion-item lines="none" class ="itemform">
-              <ion-input class ="inputClass" id = "packageWidth" [(ngModel)]="packageWidth" [ngModelOptions]="{standalone: true}" type = "text" placeholder = "Package's Width" required></ion-input>
+              <ion-input formControlName = "packageWidth" name = "packageWidth" class ="inputClass" id = "packageWidth" [(ngModel)]="packageWidth" type = "text" placeholder = "Package's Width" required></ion-input>
             </ion-item>
 
            </div>
@@ -154,7 +159,7 @@
  
 
 <!-- EDIT PACKAGE FORM -->
-  <div id = "editPackage" style="display: none;">
+  <!-- <div id = "editPackage" style="display: none;">
       <ion-row>
         <ion-col>
           <ion-card>                
@@ -174,43 +179,47 @@
             <div padding>
               <p id = "formtext"> Package's Name </p> 
               <ion-item lines="none" class ="itemform">
-                <ion-input class ="inputClass" id = "nameInput" [(ngModel)]="name" [ngModelOptions]="{standalone: true}" type = "text"  placeholder="Package's Name" value = "{{selectedPackage.name}}" required></ion-input>
+                <ion-input formControlName = "packageName" name = "packageName" class ="inputClass" id = "nameInput" [(ngModel)]="name" type = "text"  placeholder="Package's Name" value = "{{selectedPackage.name}}" required></ion-input>
               </ion-item>
   
               <p id = "formtext"> Pickup Address</p> 
               <ion-item lines="none" class ="itemform">
-                <ion-input class ="inputClass"  id = "pickupAddressInput" [(ngModel)]="pickupAddress" [ngModelOptions]="{standalone: true}" type = "text" placeholder="Pickup Address" value ="{{selectedPackage.pickupAddress}}" required></ion-input>
+                <ion-input formControlName = "pickupAddress" name = "pickupAddress" class ="inputClass"  id = "pickupAddressInput" [(ngModel)]="pickupAddress" type = "text" placeholder="Pickup Address" value ="{{selectedPackage.pickupAddress}}" required></ion-input>
               </ion-item>
   
               <p id = "formtext"> Delivery Address </p> 
               <ion-item lines="none"  class ="itemform">
-               <ion-input class ="inputClass"  id = "deliveryAddressInput" [(ngModel)]="deliveryAddress" [ngModelOptions]="{standalone: true}" type = "text" placeholder="Delivery Address" value ="{{selectedPackage.deliveryAddress}}" required></ion-input>
+               <ion-input formControlName = "deliveryAddress" name = "deliveryAddress" class ="inputClass"  id = "deliveryAddressInput" [(ngModel)]="deliveryAddress" type = "text" placeholder="Delivery Address" value ="{{selectedPackage.deliveryAddress}}" required></ion-input>
               </ion-item>
   
               <p id = "formtext"> Receiver's Full Name </p> 
               <ion-item lines="none"  class ="itemform">
-                <ion-input class ="inputClass" id = "receiverName" [(ngModel)]="receiverName" type = "text" [ngModelOptions]="{standalone: true}" placeholder="Receiver's Name" value ="{{selectedPackage.receiverName}}" required></ion-input>
+                <ion-input formControlName = "receiverName" name = "receiverName" class ="inputClass" id = "receiverName" [(ngModel)]="receiverName" type = "text" placeholder="Receiver's Name" value ="{{selectedPackage.receiverName}}" required></ion-input>
               </ion-item>
   
               <p id = "formtext">Receiver's Phone Number </p> 
               <ion-item lines="none"  class ="itemform">
-                <ion-input class ="inputClass" id = "receiverPhoneNumber" [(ngModel)]="receiverPhoneNumber" [ngModelOptions]="{standalone: true}" type = "text" placeholder="Receiver's Phone Number" value ="{{selectedPackage.receiverPhoneNumber}}" required></ion-input>
+                <ion-input formControlName = "receiverPhoneNumber" name = "receiverPhoneNumber" class ="inputClass" id = "receiverPhoneNumber" [(ngModel)]="receiverPhoneNumber" type = "text" placeholder="Receiver's Phone Number" value ="{{selectedPackage.receiverPhoneNumber}}" required></ion-input>
               </ion-item>
-  
-              
+
               <p id = "formtext"> Package's Length </p>
               <ion-item lines="none" class ="itemform">
-                <ion-input class ="inputClass" id = "packageLength" [(ngModel)]="packageLength" [ngModelOptions]="{standalone: true}" type = "text"  placeholder="Package's Length" value ="{{selectedPackage.packageLength}}" required></ion-input>
+                <ion-input formControlName = "packageLength" name = "packageLength"  class ="inputClass" id = "packageLength" [(ngModel)]="packageLength" type = "text"  placeholder="Package's Length" value ="{{selectedPackage.packageLength}}" required></ion-input>
+              </ion-item>
+
+              <p id = "formtext">Package's Weight </p> 
+              <ion-item lines="none"  class ="itemform">
+                <ion-input formControlName = "packageWeight" name = "packageWeight"  class ="inputClass" id = "packageWeight" [(ngModel)]="packageWeight" type = "text" placeholder="Package's Weight" value ="{{selectedPackage.packageWeight}}" required></ion-input>
               </ion-item>
 
               <p id = "formtext"> Package's Height </p>
               <ion-item lines="none" class ="itemform">
-                <ion-input class ="inputClass" id = "packageHeight" [(ngModel)]="packageHeight" [ngModelOptions]="{standalone: true}" type = "text" placeholder="Package's Height" value ="{{selectedPackage.packageHeight}}" required></ion-input>
+                <ion-input formControlName = "packageHeight" name = "packageHeight" class ="inputClass" id = "packageHeight" [(ngModel)]="packageHeight" type = "text" placeholder="Package's Height" value ="{{selectedPackage.packageHeight}}" required></ion-input>
               </ion-item>
 
               <p id = "formtext"> Package's Width </p>
               <ion-item lines="none" class ="itemform">
-                <ion-input class ="inputClass" id = "packageWidth" [(ngModel)]="packageWidth" [ngModelOptions]="{standalone: true}" type = "text" placeholder="Package's Width" value ="{{selectedPackage.packageWidth}}" required></ion-input>
+                <ion-input formControlName = "packageWidth" name = "packageWidth"  class ="inputClass" id = "packageWidth" [(ngModel)]="packageWidth" type = "text" placeholder="Package's Width" value ="{{selectedPackage.packageWidth}}" required></ion-input>
               </ion-item>
              </div>
             </form>
@@ -250,7 +259,7 @@
         
        </ion-col>
      </ion-row>
-    </div>
+    </div> -->
   
     <div id ="textDriver2" style="display: none">
       <p class = "textP2"> *The driver will also receive your contact information, so he can contact you for needed details </p>
