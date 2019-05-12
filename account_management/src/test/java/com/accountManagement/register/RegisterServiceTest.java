@@ -1,4 +1,4 @@
-package com.accountManagement.registerTests;
+package com.accountManagement.register;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;

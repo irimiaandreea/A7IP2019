@@ -10,10 +10,10 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ComponentScan
 @EnableAutoConfiguration
-public class SenderUserManagement1Application {
+public class AccountManagementApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SenderUserManagement1Application.class, args);
+		SpringApplication.run(AccountManagementApplication.class, args);
 	}
 
 }
