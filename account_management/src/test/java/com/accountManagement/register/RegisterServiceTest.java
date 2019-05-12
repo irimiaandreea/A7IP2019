@@ -1,17 +1,15 @@
-package com.accountManagement.registerTests;
+package com.accountManagement.register;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
-import org.assertj.core.api.Assertions.*;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import com.accountManagement.exceptions.UnknownMatchException;
 import com.accountManagement.model.ProfilesDriver;
@@ -23,7 +21,7 @@ import com.accountManagement.repositories.ProfilesDriverRepository;
 import com.accountManagement.repositories.ProfilesSenderRepository;
 import com.accountManagement.repositories.UsersRepository;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+@RunWith(SpringRunner.class)
 @SpringBootTest
 public class RegisterServiceTest 
 {
