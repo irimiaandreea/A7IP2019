@@ -16,6 +16,8 @@ import com.accountManagement.repositories.ProfilesSenderRepository;
 @SpringBootTest
 public class ProfilesSenderRepositoryTests 
 {
+	//Before running these tests:
+		//Run as -> Run Configurations-> Select JUnit4 as Test Runner
 	@Autowired
 	ProfilesSenderRepository senderRepo;
 

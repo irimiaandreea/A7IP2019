@@ -17,6 +17,8 @@ import com.accountManagement.model.Users;
 @SpringBootTest
 public class UsersRepositoryTests
 {
+	//Before running these tests:
+	//Run as -> Run Configurations-> Select JUnit4 as Test Runner
 	@Autowired
 	UsersRepository repo;
 	

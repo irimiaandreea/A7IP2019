@@ -55,7 +55,7 @@ public class RegisterServiceTest
 	@Test
 	public void addUser_Test_Succes()
 	{
-		RegisterDetails user = new RegisterDetails("userInexistent@gmail.com","strongP","12345");
+		RegisterDetails user = new RegisterDetails("userInexisten501@gmail.com","strongP","12345");
 		
 		when(repo.existsById(user.getEmail())).thenReturn(false);
 		when(driverRepo.existsById(user.getEmail())).thenReturn(false);
