@@ -1,12 +1,12 @@
-package com.accountManagement.register;
+package com.accountManagement.sender.getProfileData;
 
 import static org.hamcrest.CoreMatchers.*;
-
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -14,7 +14,6 @@ import org.hibernate.annotations.Any;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,6 +23,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.mockito.ArgumentMatchers.*;
 
+import com.accountManagement.driver.getProfileData.GetDriverProfileDataController;
+import com.accountManagement.driver.getProfileData.GetDriverProfileDataService;
+import com.accountManagement.exceptions.UnknownMatchException;
+import com.accountManagement.model.ProfilesDriver;
+import com.accountManagement.model.ProfilesSender;
 import com.accountManagement.model.RegisterDetails;
 import com.accountManagement.register.RegisterController;
 import com.accountManagement.register.RegisterService;
@@ -34,12 +38,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
-public class RegisterControllerTest 
-{
+public class GetSenderProfileDataControllerTests {
+	
 	private MockMvc mockMvc;
 	
 	@Mock
-	private RegisterService service;
+	private GetSenderProfileDataService service;
 	
 	@Mock
 	private UsersRepository userRepo;
@@ -51,7 +55,7 @@ public class RegisterControllerTest
 	private ProfilesDriverRepository driverRepo;
 	
 	@InjectMocks
-	private RegisterController controller;
+	private GetSenderProfileDataController controller;
     
 	@Before
     public void init(){
@@ -60,40 +64,19 @@ public class RegisterControllerTest
                 .standaloneSetup(controller)
                 .build();
     }
-	/*
-	 * NestedServletException
-	 * to be solved
-	@Test
-	public void Controller_Test_Succes() throws Exception
-	{
-		ObjectMapper mapper = new ObjectMapper();
-		
-		RegisterDetails user = new RegisterDetails("user@gmail.com","password","0761234567");
 
-		when(service.addUser(user)).thenReturn("Succes");
-		
-		mockMvc.perform(post("/register")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(mapper.writeValueAsString(user)))
-		.andExpect(status().isOk());
-		
-		verify(service).addUser((org.mockito.Matchers.refEq(user)));
-	}
-	*/
 	@Test
-	public void Controller_Test_Failure() throws Exception
+	public void getProfile_Test_404() throws Exception
 	{
-		ObjectMapper mapper = new ObjectMapper();
+		ProfilesSender sender = new ProfilesSender("notInDatabase","123456789","adres",null,null,null,null);
 		
-		final RegisterDetails user = new RegisterDetails("user@gmail.com","password","0761234567");
-
-		Object object= null;
-		when(service.addUser(user)).thenReturn("Succes");
+		when(service.getProfile(sender.getEmail())).thenThrow(new UnknownMatchException("Adresa de email invalida"));
 		
-		mockMvc.perform(post("/register")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(mapper.writeValueAsString(object)))
-		.andExpect(status().isBadRequest());
+		mockMvc.perform(get("/accountManagement/getProfileInformation/sender/notInDatabase"))
+		.andExpect(status().isNotFound());
 		
+		verify(service).getProfile(sender.getEmail());
 	}
+	
+	//TODO add test for succes
 }

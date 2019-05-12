@@ -1,12 +1,12 @@
-package com.accountManagement.register;
+package com.accountManagement.loginTests;
 
 import static org.hamcrest.CoreMatchers.*;
-
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -14,7 +14,6 @@ import org.hibernate.annotations.Any;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,7 +23,14 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.mockito.ArgumentMatchers.*;
 
+import com.accountManagement.driver.getProfileData.GetDriverProfileDataController;
+import com.accountManagement.driver.getProfileData.GetDriverProfileDataService;
+import com.accountManagement.exceptions.UnknownMatchException;
+import com.accountManagement.login.LoginController;
+import com.accountManagement.login.LoginService;
+import com.accountManagement.model.ProfilesDriver;
 import com.accountManagement.model.RegisterDetails;
+import com.accountManagement.model.Users;
 import com.accountManagement.register.RegisterController;
 import com.accountManagement.register.RegisterService;
 import com.accountManagement.repositories.ProfilesDriverRepository;
@@ -34,12 +40,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
-public class RegisterControllerTest 
-{
+public class LoginControllerTests{
+	
 	private MockMvc mockMvc;
 	
 	@Mock
-	private RegisterService service;
+	private LoginService service;
 	
 	@Mock
 	private UsersRepository userRepo;
@@ -51,7 +57,7 @@ public class RegisterControllerTest
 	private ProfilesDriverRepository driverRepo;
 	
 	@InjectMocks
-	private RegisterController controller;
+	private LoginController controller;
     
 	@Before
     public void init(){
@@ -60,40 +66,40 @@ public class RegisterControllerTest
                 .standaloneSetup(controller)
                 .build();
     }
-	/*
-	 * NestedServletException
-	 * to be solved
+	
 	@Test
-	public void Controller_Test_Succes() throws Exception
+	public void login_Test_Succes() throws Exception
 	{
+		Users user = new Users("Cosmin","12345");
+		
 		ObjectMapper mapper = new ObjectMapper();
 		
-		RegisterDetails user = new RegisterDetails("user@gmail.com","password","0761234567");
-
-		when(service.addUser(user)).thenReturn("Succes");
+		when(service.setUsersObj(user)).thenReturn("succes");
 		
-		mockMvc.perform(post("/register")
+		mockMvc.perform(post("/login")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(mapper.writeValueAsString(user)))
 		.andExpect(status().isOk());
-		
-		verify(service).addUser((org.mockito.Matchers.refEq(user)));
+//		.andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE));
+		verify(service).setUsersObj((org.mockito.Matchers.refEq(user)));
 	}
-	*/
+	
 	@Test
-	public void Controller_Test_Failure() throws Exception
+	public void login_Test_404() throws Exception
 	{
+//		Users user = new Users("newUserNotFound","1313131");
 		ObjectMapper mapper = new ObjectMapper();
+		Object object =null;
+//		when(service.setUsersObj(user)).thenThrow(
+//				new UnknownMatchException("Parola nu este valida"));
 		
-		final RegisterDetails user = new RegisterDetails("user@gmail.com","password","0761234567");
-
-		Object object= null;
-		when(service.addUser(user)).thenReturn("Succes");
-		
-		mockMvc.perform(post("/register")
+		mockMvc.perform(post("/login")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(mapper.writeValueAsString(object)))
 		.andExpect(status().isBadRequest());
 		
+		//verify(service).setUsersObj((org.mockito.Matchers.refEq(user)));
 	}
+	
+
 }
