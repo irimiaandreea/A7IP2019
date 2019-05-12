@@ -24,7 +24,8 @@ public class JwtAuthenticationProvider extends AbstractUserDetailsAuthentication
 
     }
 
-    @Override
+    @SuppressWarnings("static-access")
+	@Override
     protected UserDetails retrieveUser(String username, UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken) throws AuthenticationException {
 
         JwtAuthenticationToken jwtAuthenticationToken = (JwtAuthenticationToken) usernamePasswordAuthenticationToken;

@@ -6,9 +6,7 @@ import org.springframework.stereotype.Service;
 import com.accountManagement.exceptions.UnknownMatchException;
 import com.accountManagement.model.JwtUser;
 import com.accountManagement.model.ProfilesDriver;
-import com.accountManagement.model.ProfilesSender;
 import com.accountManagement.repositories.ProfilesDriverRepository;
-import com.accountManagement.repositories.ProfilesSenderRepository;
 
 
 @Service

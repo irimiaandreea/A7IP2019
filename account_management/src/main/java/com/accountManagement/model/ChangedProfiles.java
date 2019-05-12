@@ -7,6 +7,11 @@ public class ChangedProfiles {
 	String address3;
 	String address4;
 	String address5;
+	
+	public ChangedProfiles() {
+		
+	}
+	
 	public String getPhone_number() {
 		return phone_number;
 	}

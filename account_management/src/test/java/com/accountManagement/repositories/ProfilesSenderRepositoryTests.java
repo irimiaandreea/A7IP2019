@@ -5,19 +5,20 @@ import java.util.Optional;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
+
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.accountManagement.model.ProfilesDriver;
 import com.accountManagement.model.ProfilesSender;
 import com.accountManagement.model.Users;
+
 import com.accountManagement.repositories.ProfilesSenderRepository;
 
 @RunWith(SpringRunner.class)

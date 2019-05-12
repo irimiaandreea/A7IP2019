@@ -1,16 +1,14 @@
 package com.accountManagement.recoverPassword;
 
 
+import java.util.Random;
+
 import javax.mail.MessagingException;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.accountManagement.model.Users;
-
-import java.util.Random;
 
 @RestController
 public class RecoverPasswordController {
@@ -19,6 +17,7 @@ public class RecoverPasswordController {
 	private ResetPasswordService smtpMailSender;
 	private PasswordGenerator newPassword;
 
+	@SuppressWarnings("static-access")
 	@RequestMapping("/passwordRecovery/{email}")
 	public void sendMail(@PathVariable String email) throws MessagingException {
 		String password = "";

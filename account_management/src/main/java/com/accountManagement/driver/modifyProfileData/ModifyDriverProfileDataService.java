@@ -8,17 +8,17 @@ import org.springframework.stereotype.Service;
 import com.accountManagement.exceptions.UnknownMatchException;
 import com.accountManagement.model.ChangedProfiles;
 import com.accountManagement.model.JwtUser;
-import com.accountManagement.model.ProfilesSender;
-import com.accountManagement.repositories.ProfilesSenderRepository;
+import com.accountManagement.model.ProfilesDriver;
+import com.accountManagement.repositories.ProfilesDriverRepository;
 
 
 @Service
 public class ModifyDriverProfileDataService {
 
 	@Autowired
-	private ProfilesSenderRepository profileRepo; 
+	private ProfilesDriverRepository profileRepo; 
 
-	public List<ProfilesSender> getProfiles1() {
+	public List<ProfilesDriver> getProfiles1() {
 		return profileRepo.findAll();
 	}
 
@@ -27,7 +27,7 @@ public class ModifyDriverProfileDataService {
 		if(!profileRepo.existsById(username) ) throw new UnknownMatchException ("Adresa de email nu exista in baza de date");
 		if(!JwtUser.getUserName().equals(username)) throw new UnknownMatchException ("Nu sunteti autorizat sa schimabati informatiile de profil al altui utilizator");
 		
-		 ProfilesSender profile = new ProfilesSender(profileRepo.findById(username).get());
+		 ProfilesDriver profile = new ProfilesDriver(profileRepo.findById(username).get());
 		 
 		 if(changedProfile.getPhone_number()!= null)
 		 {
