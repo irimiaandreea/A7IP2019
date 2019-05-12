@@ -23,7 +23,7 @@ export class ClientsService {
       })
     };
 
-    this.http.post('http://localhost:8081/register', credentials, httpOptions)
+    this.http.post('http://localhost:8298/account-management/register', credentials, httpOptions)
     .subscribe(data => {
       console.log(data['message']);
       this.presentWarning('Account registered successfully!',
@@ -45,9 +45,9 @@ export class ClientsService {
       })
     };
 
-    this.http.post('http://localhost:8081/login', credentials, httpOptions)
+    this.http.post('http://localhost:8298/account-management/login', credentials, httpOptions)
     .subscribe(data => {
-      this.accessToken = data['accessToken'];
+      this.accessToken = data['token'];
       this.email = data['email'];
       this.loggedIn = true;
       

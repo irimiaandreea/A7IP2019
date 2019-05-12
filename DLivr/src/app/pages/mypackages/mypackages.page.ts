@@ -10,6 +10,15 @@ import { ClientsService } from 'src/app/services/clients.service';
 })
 export class MypackagesPage implements OnInit {
 
+  submitted = false; 
+  // error_messages = {
+  //   'packageName': [
+  //     { type: 'required', message: 'Package\'s name is required!'},
+  //     { type: 'minLength', message: 'Package\'name must be longer than 3 characters!' },
+  //     { type: 'maxLength', message: 'Package\'name must be lower than 30 characters!'}
+  //   ]
+  // }
+
   addPackageForm: FormGroup;
   packages = [];
 
@@ -40,6 +49,21 @@ export class MypackagesPage implements OnInit {
       "pickupEndHour" : "",
     }
   ]
+
+
+  get f() { return this.addPackageForm.controls; }
+
+  submitForm() {
+    this.submitted = true;
+
+    // stop here if form is invalid
+    if (this.addPackageForm.invalid) {
+      console.log('Add package form invalid');
+        return;
+    } 
+  }
+    
+
 
   constructor(
       private menuCtrl: MenuController, 
@@ -79,7 +103,7 @@ export class MypackagesPage implements OnInit {
       packageName: new FormControl('', Validators.compose(
         [
           Validators.required,
-          Validators.minLength(5),
+          Validators.minLength(3),
           Validators.maxLength(30),
         ]
       )),
@@ -107,6 +131,7 @@ export class MypackagesPage implements OnInit {
       receiverPhoneNumber: new FormControl('', Validators.compose(
         [
           Validators.required,
+          Validators.pattern("[0-9]+"),
           Validators.minLength(7),
           Validators.maxLength(30),
         ]
