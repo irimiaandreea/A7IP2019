@@ -36,6 +36,7 @@ export class RegisterPage implements OnInit {
     }
     const formJson = JSON.stringify(this.registerForm.value);
     this.userService.register(formJson);
+ 
     console.log(formJson);
   }
 
