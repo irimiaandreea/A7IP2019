@@ -12,18 +12,20 @@ export class ClientsService {
   loggedIn = false;
   accessToken: String = '';
   email: String = '';
-
+  
   constructor(private http: HttpClient, public alertController: AlertController, private router: Router) { }
 
   register(credentials) {
 
     const httpOptions = {
       headers: new HttpHeaders({
-        'Content-Type':  'application/json',
+        'Content-Type':  'application/json'
+       // 'Access-Control-Allow-Origin':'*'
       })
     };
 
     this.http.post('http://localhost:8298/account-management/register', credentials, httpOptions)
+
     .subscribe(data => {
       console.log(data['message']);
       this.presentWarning('Account registered successfully!',
@@ -56,7 +58,7 @@ export class ClientsService {
 
       // localStorage['email'] = this.email;
       // localStorage['accessToken'] = this.accessToken;
-
+      
       this.router.navigateByUrl('app/menu/home');
      }, error => {
       this.presentWarning('Atentie!', error.error['message']);
@@ -65,10 +67,13 @@ export class ClientsService {
 
   // coroutines
   async presentWarning(hd: String, msg: String) {
+   console.log('ms ul asta e ' + msg);
     const alert = await this.alertController.create({
       header: hd.toString(),
       subHeader: '',
-      message:  msg.toString(),
+      message:
+      //"" + msg,
+  msg.toString(),
       buttons: ['OK']
     });
 
@@ -118,8 +123,20 @@ export class ClientsService {
     );
   }
 
-  // mypackagesdriverget()
-  // {
-  //   return this.http.get('http://localhost:8298/package-management/packages/driver/' +  this.email, this.makeAuthorizedHeader());
-  // }
+  mypackagesdriverget()
+  {
+   console.log('Acces email MY PACK DRIVER ' + this.email);
+   //console.log('Acces token MY PACK DRIVER ' + data['email']);
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'Authorization':'Bearer ' + this.accessToken
+      })  
+      };
+      
+    return this.http.get('http://localhost:8298/package-management/packages/driver/'+this.email,httpOptions)
+
+  }
+
 }
