@@ -13,6 +13,7 @@ var RegisterPage = /** @class */ (function () {
             name: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*')]],
             phone_number: ['', [Validators.minLength(7), Validators.required, Validators.pattern('[0-9+ ]*')]],
             email: ['', [Validators.required, Validators.email]],
+            country: ['', [Validators.required, Validators.pattern('[a-zA-Z+]*')]],
             password: ['', [Validators.required, Validators.minLength(4)]],
             confirmPassword: ['', Validators.required],
         }, {

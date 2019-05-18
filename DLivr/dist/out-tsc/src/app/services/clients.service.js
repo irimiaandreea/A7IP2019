@@ -11,12 +11,14 @@ var ClientsService = /** @class */ (function () {
         this.loggedIn = false;
         this.accessToken = '';
         this.email = '';
+        this.apiKey = 'AIzaSyCzbVg-JhZ5enrOtt6KwzDFqG9_7C-vSYo'; /*Your API Key*/
     }
     ClientsService.prototype.register = function (credentials) {
         var _this = this;
         var httpOptions = {
             headers: new HttpHeaders({
-                'Content-Type': 'application/json',
+                'Content-Type': 'application/json'
+                // 'Access-Control-Allow-Origin':'*'
             })
         };
         this.http.post('http://localhost:8298/account-management/register', credentials, httpOptions)
@@ -39,10 +41,11 @@ var ClientsService = /** @class */ (function () {
         };
         this.http.post('http://localhost:8298/account-management/login', credentials, httpOptions)
             .subscribe(function (data) {
-            _this.accessToken = data['accessToken'];
-            _this.email = data['email'];
+            _this.accessToken = data['token'];
+            _this.email = JSON.parse(credentials)['email'];
             _this.loggedIn = true;
             console.log('Access token received:' + _this.accessToken);
+            console.log('Email received:' + _this.email);
             _this.router.navigateByUrl('app/menu/home');
         }, function (error) {
             _this.presentWarning('Atentie!', error.error['message']);
@@ -54,12 +57,16 @@ var ClientsService = /** @class */ (function () {
             var alert;
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.alertController.create({
-                            header: hd.toString(),
-                            subHeader: '',
-                            message: msg.toString(),
-                            buttons: ['OK']
-                        })];
+                    case 0:
+                        console.log('ms ul asta e ' + msg);
+                        return [4 /*yield*/, this.alertController.create({
+                                header: hd.toString(),
+                                subHeader: '',
+                                message: 
+                                //"" + msg,
+                                msg.toString(),
+                                buttons: ['OK']
+                            })];
                     case 1:
                         alert = _a.sent();
                         return [4 /*yield*/, alert.present()];
@@ -70,55 +77,77 @@ var ClientsService = /** @class */ (function () {
             });
         });
     };
-    ClientsService.prototype.getPackages = function (email) {
-        var httpOptions = {
+    ClientsService.prototype.makeAuthorizedHeader = function () {
+        return {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + this.accessToken
             })
         };
-        return this.http.get('http://localhost:8082/packages/sender/' + this.truncateEmailHost(this.email), httpOptions);
+    };
+    // GET for mypackages  
+    ClientsService.prototype.getPackages = function () {
+        return this.http.get('http://localhost:8298/package-management/packages/getPackagesSender', this.makeAuthorizedHeader());
+    };
+    ClientsService.prototype.validateEmailAddress = function (email) {
+        var script = document.createElement('script');
+        var geocoder = google.maps.Geocoder();
+        script.src = 'https://maps.googleapis.com/maps/api/js?key=' + this.apiKey;
+        script.id = 'googleGeocoder';
+        console.log(script.src);
+        document.head.appendChild(script);
+        var mapOptions = {
+            center: { lat: 47.143022, lng: 27.581259 },
+            zoom: 15,
+            mapTypeControl: false
+        };
+        return geocoder.geocode({ 'address': '10389 Shenandoah' }, function (results, status) {
+            console.log(status);
+        });
     };
     ClientsService.prototype.truncateEmailHost = function (email) {
         var index = email.lastIndexOf('@');
         return email.substring(0, index);
     };
-    // newPackage is assumed to not be in JSON format
+    // POST for mypackages
     ClientsService.prototype.addPackage = function (newPackage) {
-        console.log(this.accessToken);
+        var body = {
+            "emailSender": this.email,
+            "namePackage": newPackage['namePackage'],
+            "senderAdress": newPackage['senderAdress'],
+            "receiverAdress": newPackage['receiverAdress'],
+            "kilograms": newPackage['kilograms'],
+            "phoneNumberSender": newPackage['phoneNumberSender'],
+            "phoneNumberReceiver": newPackage['phoneNumberReceiver'],
+            "receiverName": newPackage['receiverName'],
+            "senderName": newPackage['senderName'],
+            "length": newPackage['length'],
+            "width": newPackage['width'],
+            "height": newPackage['height']
+        };
+        console.log(body);
+        return this.http.post('http://localhost:8298/package-management/packages/registerPackage', JSON.stringify(body), this.makeAuthorizedHeader());
+    };
+    // PUT localhost:8298/package-management/packages/modifyPackageInformations modifica informatiile despre un pachet (request facut de sender). 
+    // Primeste in body :  id,namePackage,senderAddress,receiverAddress, 
+    // phoneNumberSender,phoneNumberReceiver,receiverName,kilograms,length,width,height. Numai id-ul este obligatoriu, celelalte campuri pot fi null
+    // POST for mypackages
+    ClientsService.prototype.editPackage = function () {
+    };
+    ClientsService.prototype.mypackagesdriverget = function () {
+        console.log('Access email MY PACK DRIVER ' + this.email);
+        //console.log('Acces token MY PACK DRIVER ' + data['email']);
         var httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + this.accessToken
             })
         };
-        console.log(this.truncateEmailHost(this.email));
-        console.log(httpOptions);
-        newPackage['emailSender'] = this.truncateEmailHost(this.email);
-        newPackage['emailDriver'] = 'one';
-        newPackage['senderAddress'] = 'one';
-        newPackage['receiverAddress'] = 'one';
-        newPackage['kilograms'] = 'one';
-        newPackage['phoneNumberSender'] = 'one';
-        newPackage['phoneNumberReceiver'] = 'one';
-        newPackage['receiverName'] = 'one';
-        newPackage['length'] = '1';
-        newPackage['height'] = '2';
-        newPackage['width'] = '3';
-        var jank = [{
-                'emailSender': this.truncateEmailHost(this.email),
-                "senderAddress": "Iasi",
-                "recieverAddress": "Bucuresti",
-                "kilograms": "23",
-                "phoneNumberSender": "1234",
-                "phoneNumberReceiver": "12345",
-                "receiverName": "marus",
-                "length": "1",
-                "width": "1",
-                "heigth": "1"
-            }];
-        // emaiSender,emailDriver, senderAddress,receiverAddress,kilograms,phoneNumberSender,phoneNumberReceiver,receiverName,length,width,height si 
-        console.log(JSON.stringify(jank));
-        return this.http.post('http://localhost:8082/packages/registerPackage', JSON.stringify(jank), httpOptions);
+        return this.http.get('http://localhost:8298/package-management/packages/driver/' + this.email, httpOptions);
+    };
+    ClientsService.prototype.getPackagesInAreaOf = function (location) {
+        return this.http.get('http://localhost:8298/package-management/packages/getPackages/'
+            + location.toString(), this.makeAuthorizedHeader());
     };
     ClientsService = tslib_1.__decorate([
         Injectable({

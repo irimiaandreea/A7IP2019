@@ -14,25 +14,51 @@
       <ion-col id = "cardList">
         <ion-card *ngFor = "let package of packages" id = "ion-card-id-package">
           <ion-card-content id ="ioncardcontent" no-padding>
-          <ion-item id="cardListItem" lines="none" color="blue">
-            <p class ="count" > {{package.number}} </p>
-            <ion-label id ="cardListLabel">     
+            <ion-item id="cardListItem" lines="none" color="blue">
+             <p class ="count" > {{package.number}} </p>
+             <ion-label id ="cardListLabel">     
               <ion-card-header>
-                <ion-card-title> {{package.name}} </ion-card-title>
+                <ion-card-title> {{package.namePackage}} </ion-card-title>
               </ion-card-header>
-
               <ion-card-content> Status: {{package.status}} </ion-card-content>
             </ion-label>
 
-            <!-- <ion-button id = "ionButtonIcon" color ="--ion-color-success-shade" slot="end" (click)="editPackageForm(package.number)"> -->
-            <ion-button id = "ionButtonIcon" color ="--ion-color-success-shade" slot="end">
-              <ion-icon name="create"></ion-icon>
-            </ion-button>
+            <ion-icon *ngIf="package.status === 'Ready'" 
+              style="display: block;" id = "ionButtonIconEdit" 
+              color="light" size ="small"
+              name="create" slot = "end" 
+              (click)="editPackageForm(package.number)">
+            </ion-icon>
 
-            <ion-button id ="ionDeleteButton" color ="--ion-color-success-shade" slot="end" (click)="deletePackage(package.number)">
-              <ion-icon name="trash"></ion-icon>
-            </ion-button>
+            <ion-icon *ngIf = "package.status === 'Delivered'" 
+              style="display: block;" 
+              color ="dark" 
+              [name]="getRatingIcon(package.ratingShow)" size ="small"  
+              id = "ionButtonIconStar" (click)= "onRatingIconClick(package.number)" 
+              slot = "end">
+            </ion-icon>
 
+            <ion-icon *ngIf = "package.status === 'Ready'" 
+              id ="ionDeleteButton" color="light" size ="small" 
+              slot="end" name="trash"
+              (click)="deletePackage(package.number)">
+            </ion-icon>
+            
+            <div>
+              <ion-card-header>
+                  <ion-card-title *ngIf = "package.ratingShow === true"> Rate the driver: </ion-card-title>
+                </ion-card-header>
+
+              <ion-card-content style = "padding-left: 0px;" *ngIf = "package.ratingShow === true">
+              <rating
+                [rate]="package.rating"
+                readonly="false" 
+                size="default" 
+                (rateChange)="onRateChange(package.number, $event)">
+             </rating>
+   
+            </ion-card-content>
+            </div>
            </ion-item>
           </ion-card-content>
         </ion-card>
@@ -63,36 +89,36 @@
           <div padding>
             <p id = "formtext"> Package's Name </p> 
             <ion-item lines="none" class ="itemform">
-              <ion-input formControlName = "packageName" name = "packageName" class ="inputClass" id = "nameInput" [(ngModel)]="name" type = "text" placeholder = "Package's Name" required></ion-input>
+              <ion-input formControlName = "namePackage" name = "namePackage" class ="inputClass" id = "nameInput" [(ngModel)]="namePackage" type = "text" placeholder = "Package's Name" required></ion-input>
             </ion-item>
 
-            <div  style="color:rgb(253, 101, 101); font-size: 12px;" class = "error-messages" *ngIf=" f.packageName.errors">
-              <div *ngIf="f.packageName.errors.required && (f.packageName.touched || f.packageName.dirty)">* Package's name is required</div>
-              <div *ngIf="f.packageName.errors.minlength && f.packageName.invalid">* Package's name must have at least 3 characters</div>
-              <div *ngIf="f.packageName.errors.maxlength && f.packageName.invalid">* Package's name can't have more than 30 characters</div>
+            <div  style="color:rgb(253, 101, 101); font-size: 12px;" class = "error-messages" *ngIf=" f.namePackage.errors">
+              <div *ngIf="f.namePackage.errors.required && (f.namePackage.touched || f.namePackage.dirty)">* Package's name is required</div>
+              <div *ngIf="f.namePackage.errors.minlength && f.namePackage.invalid">* Package's name must have at least 3 characters</div>
+              <div *ngIf="f.namePackage.errors.maxlength && f.namePackage.invalid">* Package's name can't have more than 30 characters</div>
             </div>
 
-            <p id = "formtext"> Pickup Address</p> 
+            <p id = "formtext"> Receiver's Address</p> 
             <ion-item lines="none" class ="itemform">
-              <ion-input formControlName = "pickupAddress" name = "pickupAddress" class ="inputClass" id = "pickupAddressInput" [(ngModel)]="pickupAddress" type = "text" placeholder = "Pickup Address" required></ion-input>
+              <ion-input formControlName = "receiverAdress" name = "receiverAdress" class ="inputClass" id = "pickupAddressInput" [(ngModel)]="receiverAdress" type = "text" placeholder = "Receiver's Address" required></ion-input>
             </ion-item>
 
-            <div  style="color:rgb(253, 101, 101); font-size: 12px;" class = "error-messages" *ngIf=" f.pickupAddress.errors">
-              <div *ngIf="f.pickupAddress.errors.required && (f.pickupAddress.touched || f.pickupAddress.dirty)">* Pickup address is required</div>
-              <div *ngIf="f.pickupAddress.errors.minlength && f.pickupAddress.invalid">* Pickup address must have at least 3 characters</div>
-              <div *ngIf="f.pickupAddress.errors.maxlength && f.pickupAddress.invalid">* Pickup address can't have more than 30 characters</div>
+            <div  style="color:rgb(253, 101, 101); font-size: 12px;" class = "error-messages" *ngIf=" f.receiverAdress.errors">
+              <div *ngIf="f.receiverAdress.errors.required && (f.receiverAdress.touched || f.receiverAdress.dirty)">* Receiver's address is required</div>
+              <div *ngIf="f.receiverAdress.errors.minlength && f.receiverAdress.invalid">* Receiver's address must have at least 3 characters</div>
+              <div *ngIf="f.receiverAdress.errors.maxlength && f.receiverAdress.invalid">* Receiver's address can't have more than 30 characters</div>
             </div>
 
 
-            <p id = "formtext"> Delivery Address </p> 
+            <p id = "formtext"> Sender's Address </p> 
             <ion-item lines="none"  class ="itemform">
-             <ion-input formControlName = "deliveryAddress" name = "deliveryAddress" class ="inputClass" id = "deliveryAddressInput" [(ngModel)]="deliveryAddress" type = "text" placeholder = "Delivery Address" required></ion-input>
+             <ion-input formControlName = "senderAdress" name = "senderAdress" class ="inputClass" id = "deliveryAddressInput" [(ngModel)]="senderAdress" type = "text" placeholder = " Sender's Address" required></ion-input>
             </ion-item>
 
-            <div  style="color:rgb(253, 101, 101); font-size: 12px;" class = "error-messages" *ngIf=" f.deliveryAddress.errors">
-              <div *ngIf="f.deliveryAddress.errors.required && (f.deliveryAddress.touched || f.deliveryAddress.dirty)">* Delivery address is required</div>
-              <div *ngIf="f.deliveryAddress.errors.minlength && f.deliveryAddress.invalid">* Delivery address must have at least 3 characters</div>
-              <div *ngIf="f.deliveryAddress.errors.maxlength && f.deliveryAddress.invalid">* Delivery address can't have more than 30 characters</div>
+            <div  style="color:rgb(253, 101, 101); font-size: 12px;" class = "error-messages" *ngIf=" f.senderAdress.errors">
+              <div *ngIf="f.senderAdress.errors.required && (f.senderAdress.touched || f.senderAdress.dirty)">* Sender's address is required</div>
+              <div *ngIf="f.senderAdress.errors.minlength && f.senderAdress.invalid">* Sender's address must have at least 3 characters</div>
+              <div *ngIf="f.senderAdress.errors.maxlength && f.senderAdress.invalid">* Sender's address can't have more than 30 characters</div>
             </div>
 
             <p id = "formtext"> Receiver's Full Name </p> 
@@ -106,77 +132,88 @@
               <div *ngIf="f.receiverName.errors.maxlength && f.receiverName.invalid">* Receiver's full name can't have more than 30 characters</div>
             </div>
 
-            <p id = "formtext">Receiver's Phone Number </p> 
+            <p id = "formtext"> Sender's Full Name </p> 
             <ion-item lines="none"  class ="itemform">
-              <ion-input formControlName = "receiverPhoneNumber" name = "receiverPhoneNumber" class ="inputClass" id = "receiverPhoneNumber" [(ngModel)]="receiverPhoneNumber" type = "text" placeholder = "Receiver's Phone Number" required></ion-input>
+              <ion-input formControlName = "senderName" name = "senderName" class ="inputClass" id = "senderName" [(ngModel)]="senderName" type = "text" placeholder = "Sender's Full Name" required></ion-input>
             </ion-item>
 
-            <div  style="color:rgb(253, 101, 101); font-size: 12px;" class = "error-messages" *ngIf=" f.receiverPhoneNumber.errors">
-              <div *ngIf="f.receiverPhoneNumber.errors.required && (f.receiverPhoneNumber.touched || f.receiverPhoneNumber.dirty)">* Receiver's phone number is required</div>
-              <div *ngIf="f.receiverPhoneNumber.errors.minlength && f.receiverPhoneNumber.invalid">* Receiver's phone number must have at least 7 digits</div>
-              <div *ngIf="f.receiverPhoneNumber.errors.pattern && f.receiverPhoneNumber.invalid">* Receiver's phone number must have digits</div>
-              <div *ngIf="f.receiverPhoneNumber.errors.maxlength && f.receiverPhoneNumber.invalid">* Receiver's phone number can't have more than 30 digits</div>
+            <div  style="color:rgb(253, 101, 101); font-size: 12px;" class = "error-messages" *ngIf=" f.senderName.errors">
+              <div *ngIf="f.senderName.errors.required && (f.senderName.touched || f.senderName.dirty)">* Sender's full name is required</div>
+              <div *ngIf="f.senderName.errors.minlength && f.senderName.invalid">* Sender's full name must have at least 3 characters</div>
+              <div *ngIf="f.senderName.errors.maxlength && f.senderName.invalid">* Sender's full name can't have more than 30 characters</div>
+            </div>
+
+            <p id = "formtext">Receiver's Phone Number </p> 
+            <ion-item lines="none"  class ="itemform">
+              <ion-input formControlName = "phoneNumberReceiver" name = "phoneNumberReceiver" class ="inputClass" id = "receiverPhoneNumber" [(ngModel)]="phoneNumberReceiver" type = "text" placeholder = "Receiver's Phone Number" required></ion-input>
+            </ion-item>
+
+            <div  style="color:rgb(253, 101, 101); font-size: 12px;" class = "error-messages" *ngIf=" f.phoneNumberReceiver.errors">
+              <div *ngIf="f.phoneNumberReceiver.errors.required && (f.phoneNumberReceiver.touched || f.phoneNumberReceiver.dirty)">* Receiver's phone number is required</div>
+              <div *ngIf="f.phoneNumberReceiver.errors.minlength && f.phoneNumberReceiver.invalid">* Receiver's phone number must have at least 7 digits</div>
+              <div *ngIf="f.phoneNumberReceiver.errors.pattern && f.phoneNumberReceiver.invalid">* Receiver's phone number must have digits</div>
+              <div *ngIf="f.phoneNumberReceiver.errors.maxlength && f.phoneNumberReceiver.invalid">* Receiver's phone number can't have more than 30 digits</div>
             </div>
 
             <p id = "formtext">Sender's Phone Number </p> 
             <ion-item lines="none"  class ="itemform">
-              <ion-input formControlName = "senderPhoneNumber" name = "senderPhoneNumber" class ="inputClass" id = "senderPhoneNumber" [(ngModel)]="senderPhoneNumber" type = "text" placeholder = "Sender's Phone Number" required></ion-input>
+              <ion-input formControlName = "phoneNumberSender" name = "phoneNumberSender" class ="inputClass" id = "senderPhoneNumber" [(ngModel)]="phoneNumberSender" type = "text" placeholder = "Sender's Phone Number" required></ion-input>
             </ion-item>
 
-            <div  style="color:rgb(253, 101, 101); font-size: 12px;" class = "error-messages" *ngIf=" f.senderPhoneNumber.errors">
-              <div *ngIf="f.senderPhoneNumber.errors.required && (f.senderPhoneNumber.touched || f.senderPhoneNumber.dirty || submitted)">* Receiver's phone number is required</div>
-              <div *ngIf="f.senderPhoneNumber.errors.minlength && f.senderPhoneNumber.invalid">* Sender's phone number number must have at least 7 digits</div>
-              <div *ngIf="f.senderPhoneNumber.errors.pattern && f.senderPhoneNumber.invalid">* Sender's phone number must have digits</div>
-              <div *ngIf="f.senderPhoneNumber.errors.maxlength && f.senderPhoneNumber.invalid">* Sender's phone number can't have more than 30 digits</div>
+            <div  style="color:rgb(253, 101, 101); font-size: 12px;" class = "error-messages" *ngIf=" f.phoneNumberSender.errors">
+              <div *ngIf="f.phoneNumberSender.errors.required && (f.phoneNumberSender.touched || f.phoneNumberSender.dirty || submitted)">* Receiver's phone number is required</div>
+              <div *ngIf="f.phoneNumberSender.errors.minlength && f.phoneNumberSender.invalid">* Sender's phone number number must have at least 7 digits</div>
+              <div *ngIf="f.phoneNumberSender.errors.pattern && f.phoneNumberSender.invalid">* Sender's phone number must have digits</div>
+              <div *ngIf="f.phoneNumberSender.errors.maxlength && f.phoneNumberSender.invalid">* Sender's phone number can't have more than 30 digits</div>
             </div>
 
 
             <p id = "formtext">Package's Weight </p> 
             <ion-item lines="none"  class ="itemform">
-              <ion-input formControlName = "packageWeight" name = "packageWeight" class ="inputClass" id = "packageWeight" [(ngModel)]="packageWeight" type = "text" placeholder="Package's Weight" required></ion-input>
+              <ion-input formControlName = "kilograms" name = "kilograms" class ="inputClass" id = "packageWeight" [(ngModel)]="kilograms" type = "text" placeholder="Package's Weight" required></ion-input>
             </ion-item>
 
-            <div  style="color:rgb(253, 101, 101); font-size: 12px;" class = "error-messages" *ngIf=" f.packageWeight.errors">
-              <div *ngIf="f.packageWeight.errors.required && (f.packageWeight.touched || f.packageWeight.dirty || submitted)">* Package's weight in kg is required</div>
-              <div *ngIf="f.packageWeight.errors.minlength && f.packageWeight.invalid">* Package's weight must have at least 1 digits</div>
-              <div *ngIf="f.packageWeight.errors.pattern && f.packageWeight.invalid">* Package's weight must have digits</div>
-              <div *ngIf="f.packageWeight.errors.maxlength && f.packageWeight.invalid">* Package's weight can't have more than 30 digits</div>
+            <div  style="color:rgb(253, 101, 101); font-size: 12px;" class = "error-messages" *ngIf=" f.kilograms.errors">
+              <div *ngIf="f.kilograms.errors.required && (f.kilograms.touched || f.kilograms.dirty || submitted)">* Package's weight in kg is required</div>
+              <div *ngIf="f.kilograms.errors.minlength && f.kilograms.invalid">* Package's weight must have at least 1 digits</div>
+              <div *ngIf="f.kilograms.errors.pattern && f.kilograms.invalid">* Package's weight must have digits</div>
+              <div *ngIf="f.kilograms.errors.maxlength && f.kilograms.invalid">* Package's weight can't have more than 30 digits</div>
             </div>
 
             <p id = "formtext"> Package's Length </p>
             <ion-item lines="none" class ="itemform">
-              <ion-input formControlName = "packageLength" name = "packageLength" class ="inputClass" id = "packageLength" [(ngModel)]="packageLength" type = "text" placeholder = "Package's Length" required></ion-input>
+              <ion-input formControlName = "length" name = "length" class ="inputClass" id = "packageLength" [(ngModel)]="length" type = "text" placeholder = "Package's Length" required></ion-input>
             </ion-item>
 
-            <div  style="color:rgb(253, 101, 101); font-size: 12px;" class = "error-messages" *ngIf=" f.packageLength.errors">
-              <div *ngIf="f.packageLength.errors.required && (f.packageLength.touched || f.packageLength.dirty || submitted)">* Package's length in cm is required</div>
-              <div *ngIf="f.packageLength.errors.minlength && f.packageLength.invalid">* Package's length must have at least 1 digits</div>
-              <div *ngIf="f.packageLength.errors.pattern && f.packageLength.invalid">* Package's length must have digits</div>
-              <div *ngIf="f.packageLength.errors.maxlength && f.packageLength.invalid">* Package's length can't have more than 30 digits</div>
+            <div  style="color:rgb(253, 101, 101); font-size: 12px;" class = "error-messages" *ngIf=" f.length.errors">
+              <div *ngIf="f.length.errors.required && (f.length.touched || f.length.dirty || submitted)">* Package's length in cm is required</div>
+              <div *ngIf="f.length.errors.minlength && f.length.invalid">* Package's length must have at least 1 digits</div>
+              <div *ngIf="f.length.errors.pattern && f.length.invalid">* Package's length must have digits</div>
+              <div *ngIf="f.length.errors.maxlength && f.length.invalid">* Package's length can't have more than 30 digits</div>
             </div>
 
             <p id = "formtext"> Package's Height </p>
             <ion-item lines="none" class ="itemform">
-              <ion-input formControlName = "packageHeight" name = "packageHeight" class ="inputClass" id = "packageHeight" [(ngModel)]="packageHeight" type = "text" placeholder = "Package's Height" required></ion-input>
+              <ion-input formControlName = "height" name = "height" class ="inputClass" id = "packageHeight" [(ngModel)]="height" type = "text" placeholder = "Package's Height" required></ion-input>
             </ion-item>
 
-            <div  style="color:rgb(253, 101, 101); font-size: 12px;" class = "error-messages" *ngIf=" f.packageHeight.errors">
-              <div *ngIf="f.packageHeight.errors.required && (f.packageHeight.touched || f.packageHeight.dirty || submitted)">* Package's height in cm is required</div>
-              <div *ngIf="f.packageHeight.errors.minlength && f.packageHeight.invalid">* Package's height must have at least 1 digits</div>
-              <div *ngIf="f.packageHeight.errors.pattern && f.packageHeight.invalid">* Package's height must have digits</div>
-              <div *ngIf="f.packageHeight.errors.maxlength && f.packageHeight.invalid">* Package's height can't have more than 30 digits</div>
+            <div  style="color:rgb(253, 101, 101); font-size: 12px;" class = "error-messages" *ngIf=" f.height.errors">
+              <div *ngIf="f.height.errors.required && (f.height.touched || f.height.dirty || submitted)">* Package's height in cm is required</div>
+              <div *ngIf="f.height.errors.minlength && f.height.invalid">* Package's height must have at least 1 digits</div>
+              <div *ngIf="f.height.errors.pattern && f.height.invalid">* Package's height must have digits</div>
+              <div *ngIf="f.height.errors.maxlength && f.height.invalid">* Package's height can't have more than 30 digits</div>
             </div>
 
             <p id = "formtext"> Package's Width </p>
             <ion-item lines="none" class ="itemform">
-              <ion-input formControlName = "packageWidth" name = "packageWidth" class ="inputClass" id = "packageWidth" [(ngModel)]="packageWidth" type = "text" placeholder = "Package's Width" required></ion-input>
+              <ion-input formControlName = "width" name = "width" class ="inputClass" id = "packageWidth" [(ngModel)]="width" type = "text" placeholder = "Package's Width" required></ion-input>
             </ion-item>
 
-            <div  style="color:rgb(253, 101, 101); font-size: 12px;" class = "error-messages" *ngIf=" f.packageWidth.errors">
-              <div *ngIf="f.packageWidth.errors.required && (f.packageWidth.touched || f.packageWidth.dirty || submitted)">* Package's width in cm is required</div>
-              <div *ngIf="f.packageWidth.errors.minLength && f.packageWidth.invalid">* Package's width  must have at least 1 digits</div>
-              <div *ngIf="f.packageWidth.errors.pattern && f.packageWidth.invalid">* Package's width must have digits</div>
-              <div *ngIf="f.packageWidth.errors.maxLength && f.packageWidth.invalid">* Package's width  can't have more than 30 digits</div>
+            <div  style="color:rgb(253, 101, 101); font-size: 12px;" class = "error-messages" *ngIf=" f.width.errors">
+              <div *ngIf="f.width.errors.required && (f.width.touched || f.width.dirty || submitted)">* Package's width in cm is required</div>
+              <div *ngIf="f.width.errors.minLength && f.width.invalid">* Package's width  must have at least 1 digits</div>
+              <div *ngIf="f.width.errors.pattern && f.width.invalid">* Package's width must have digits</div>
+              <div *ngIf="f.width.errors.maxLength && f.width.invalid">* Package's width  can't have more than 30 digits</div>
             </div>
 
            </div>
@@ -185,45 +222,8 @@
           <ion-row>
            <ion-col>
 
-           <!--There are no PickupHours in database.  -->
+            <ion-button id="dontAddPackage" color ="red" (click)="dontAddPackage()" type = "submit" expand="block"> Cancel </ion-button>
 
-           <!--
-             <p id = "availableTime"> Available Pickup Hours </p> 
-            <ion-item *ngFor ="let pickupHour of pickupHours;let index = index;trackBy:trackByIndex;" id ="timeItem" lines="none" color="red">
-
-              <ion-label  id ="timeLabel">  
-               <ion-card-content id ="timeContent">
-                <ion-item lines="none" class ="timeItem2">
-                  <ion-datetime displayFormat="MMMM DD, DDDD" placeholder="Day" 
-                    [(ngModel)]="pickupHours[index].pickupDay"
-                    [ngModelOptions]="{standalone: true}"
-                  ></ion-datetime>
-                </ion-item >
-                
-                <ion-item class= "timeItem2">
-                  <ion-datetime displayFormat="HH:mm - " placeholder="Start Hour"
-                    [(ngModel)]="pickupHours[index].pickupStartHour"
-                    [ngModelOptions]="{standalone: true}"
-                  ></ion-datetime>
-                  
-                  <ion-datetime displayFormat=" HH:mm"  placeholder="End Hour"
-                    [(ngModel)]="pickupHours[index].pickupEndHour"
-                    [ngModelOptions]="{standalone: true}"
-                  ></ion-datetime>
-                </ion-item>
-            
-               </ion-card-content>
-              </ion-label>
-                  
-              <ion-button id = "deletepickuphour" color ="--ion-color-success-shade" item-right slot="start" (click)="deleteHoursForm(selectedpickupHours.id)">
-                <ion-icon name="close-circle"></ion-icon>
-              </ion-button>
-            </ion-item>
-
-            <ion-button id="addpickuphour" color = "grey" (click)="addPickupHour()" type = "submit" >Add pickup time</ion-button>
-            -->
-            <ion-button id="dontAddPackage" color ="red" (click)="dontAddPackage()" type = "submit" expand="block">Cancel </ion-button>
-         
           </ion-col>
         </ion-row>
       </ion-card>
@@ -237,11 +237,9 @@
     <p class = "textP2"> *The driver will also receive your contact information, so he can contact you for needed details </p>
   </div>
  
-<!-- There is no functionality for edit in the server FOR NOW -->
-<!-- TO DO -->
 
-<!-- EDIT PACKAGE FORM -->
- <!--   <div id = "editPackage" style="display: none;">
+  <!-- EDIT PACKAGE FORM -->
+  <div id = "editPackage" style="display: none;">
       <ion-row>
         <ion-col>
           <ion-card>                
@@ -251,46 +249,44 @@
                   <ion-card-header>
                    <ion-card-title style="color: rgb(202, 201, 201);"> {{selectedPackage.name}} </ion-card-title>
                   </ion-card-header>
-      
                   <ion-card-content style="color: rgb(202, 201, 201);"> Status: {{selectedPackage.status}} </ion-card-content>
                 </ion-label>
-      
               </ion-item>
   
-           <form novalidate [formGroup] ="addPackageForm" (ngSubmit)="submitForm(form.value)">
+            <form novalidate [formGroup] = "addPackageForm" (ngSubmit) = "submitForm">
             <div padding>
               <p id = "formtext"> Package's Name </p> 
               <ion-item lines="none" class ="itemform">
-                <ion-input formControlName = "packageName" name = "packageName" class ="inputClass" id = "nameInput" [(ngModel)]="name" type = "text"  placeholder="Package's Name" value = "{{selectedPackage.name}}" required></ion-input>
+                <ion-input formControlName = "namePackage" name = "namePackage" class ="inputClass" id = "nameInput" [(ngModel)]="namePackage" type = "text"  placeholder="Package's Name" value = "{{selectedPackage.namePackage}}" required></ion-input>
               </ion-item>
 
-            <div  style="color:rgb(250, 146, 146); font-size: 12px;" class = "error-messages" *ngIf=" f.packageName.errors">
-              <div *ngIf="f.packageName.errors.required && (f.packageName.touched || f.packageName.dirty)">* Package's name is required</div>
-              <div *ngIf="f.packageName.errors.minlength && f.packageName.invalid">* Package's name must have at least 3 characters</div>
-              <div *ngIf="f.packageName.errors.maxlength && f.packageName.invalid">* Package's name can't have more than 30 characters</div>
+            <div  style="color:rgb(250, 146, 146); font-size: 12px;" class = "error-messages" *ngIf=" f.namePackage.errors">
+              <div *ngIf="f.namePackage.errors.required && (f.namePackage.touched || f.namePackage.dirty)">* Package's name is required</div>
+              <div *ngIf="f.namePackage.errors.minlength && f.namePackage.invalid">* Package's name must have at least 3 characters</div>
+              <div *ngIf="f.namePackage.errors.maxlength && f.namePackage.invalid">* Package's name can't have more than 30 characters</div>
             </div>
   
-              <p id = "formtext"> Pickup Address</p> 
+              <p id = "formtext"> Receiver's Address</p> 
               <ion-item lines="none" class ="itemform">
-                <ion-input formControlName = "pickupAddress" name = "pickupAddress" class ="inputClass"  id = "pickupAddressInput" [(ngModel)]="pickupAddress" type = "text" placeholder="Pickup Address" value ="{{selectedPackage.pickupAddress}}" required></ion-input>
+                <ion-input formControlName = "receiverAdress" name = "receiverAdress" class ="inputClass"  id = "pickupAddressInput" [(ngModel)]="receiverAdress" type = "text" placeholder="Receiver's Address" value ="{{selectedPackage.receiverAdress}}" required></ion-input>
               </ion-item>
 
-            <div  style="color:rgb(250, 146, 146); font-size: 12px;" class = "error-messages" *ngIf=" f.pickupAddress.errors">
-              <div *ngIf="f.pickupAddress.errors.required && (f.pickupAddress.touched || f.pickupAddress.dirty)">* Pickup address is required</div>
-              <div *ngIf="f.pickupAddress.errors.minlength && f.pickupAddress.invalid">* Pickup address must have at least 5 characters</div>
-              <div *ngIf="f.pickupAddress.errors.maxlength && f.pickupAddress.invalid">* Pickup address can't have more than 30 characters</div>
+            <div  style="color:rgb(250, 146, 146); font-size: 12px;" class = "error-messages" *ngIf=" f.receiverAdress.errors">
+              <div *ngIf="f.receiverAdress.errors.required && (f.receiverAdress.touched || f.receiverAdress.dirty)">* Receiver's address is required</div>
+              <div *ngIf="f.receiverAdress.errors.minlength && f.receiverAdress.invalid">* Receiver's address must have at least 5 characters</div>
+              <div *ngIf="f.receiverAdress.errors.maxlength && f.receiverAdress.invalid">* Receiver's address can't have more than 30 characters</div>
             </div>
 
   
-              <p id = "formtext"> Delivery Address </p> 
+              <p id = "formtext"> Sender's Address </p> 
               <ion-item lines="none"  class ="itemform">
-               <ion-input formControlName = "deliveryAddress" name = "deliveryAddress" class ="inputClass"  id = "deliveryAddressInput" [(ngModel)]="deliveryAddress" type = "text" placeholder="Delivery Address" value ="{{selectedPackage.deliveryAddress}}" required></ion-input>
+               <ion-input formControlName = "senderAdress" name = "senderAdress" class ="inputClass"  id = "deliveryAddressInput" [(ngModel)]="senderAdress" type = "text" placeholder="Sender's Address" value ="{{selectedPackage.senderAdress}}" required></ion-input>
               </ion-item>
 
-            <div  style="color:rgb(250, 146, 146); font-size: 12px;" class = "error-messages" *ngIf=" f.deliveryAddress.errors">
-              <div *ngIf="f.deliveryAddress.errors.required && (f.deliveryAddress.touched || f.deliveryAddress.dirty)">* Delivery address is required</div>
-              <div *ngIf="f.deliveryAddress.errors.minlength && f.deliveryAddress.invalid">* Delivery address must have at least 5 characters</div>
-              <div *ngIf="f.deliveryAddress.errors.maxlength && f.deliveryAddress.invalid">* Delivery address can't have more than 30 characters</div>
+            <div  style="color:rgb(250, 146, 146); font-size: 12px;" class = "error-messages" *ngIf=" f.senderAdress.errors">
+              <div *ngIf="f.senderAdress.errors.required && (f.senderAdress.touched || f.senderAdress.dirty)">* Sender's address is required</div>
+              <div *ngIf="f.senderAdress.errors.minlength && f.senderAdress.invalid">* Sender's address must have at least 5 characters</div>
+              <div *ngIf="f.senderAdress.errors.maxlength && f.senderAdress.invalid">* Sender's address can't have more than 30 characters</div>
             </div>
   
               <p id = "formtext"> Receiver's Full Name </p> 
@@ -303,100 +299,98 @@
               <div *ngIf="f.receiverName.errors.minlength && f.receiverName.invalid">* Receiver's full name must have at least 3 characters</div>
               <div *ngIf="f.receiverName.errors.maxlength && f.receiverName.invalid">* Receiver's full name can't have more than 30 characters</div>
             </div>
+
+            <p id = "formtext"> Sender's Full Name </p> 
+            <ion-item lines="none"  class ="itemform">
+              <ion-input formControlName = "senderName" name = "senderName" class ="inputClass" id = "receiverName" [(ngModel)]="senderName" type = "text" placeholder="Sender's Name" value ="{{selectedPackage.senderName}}" required></ion-input>
+            </ion-item>
+
+          <div  style="color:rgb(250, 146, 146); font-size: 12px;" class = "error-messages" *ngIf=" f.senderName.errors">
+            <div *ngIf="f.senderName.errors.required && (f.senderName.touched || f.senderName.dirty)">* Receiver's full name is required</div>
+            <div *ngIf="f.senderName.errors.minlength && f.senderName.invalid">* Receiver's full name must have at least 3 characters</div>
+            <div *ngIf="f.senderName.errors.maxlength && f.senderName.invalid">* Receiver's full name can't have more than 30 characters</div>
+          </div>
   
               <p id = "formtext">Receiver's Phone Number </p> 
               <ion-item lines="none"  class ="itemform">
-                <ion-input formControlName = "receiverPhoneNumber" name = "receiverPhoneNumber" class ="inputClass" id = "receiverPhoneNumber" [(ngModel)]="receiverPhoneNumber" type = "text" placeholder="Receiver's Phone Number" value ="{{selectedPackage.receiverPhoneNumber}}" required></ion-input>
+                <ion-input formControlName = "phoneNumberReceiver" name = "phoneNumberReceiver" class ="inputClass" id = "receiverPhoneNumber" [(ngModel)]="phoneNumberReceiver" type = "text" placeholder="Receiver's Phone Number" value ="{{selectedPackage.phoneNumberReceiver}}" required></ion-input>
               </ion-item>
 
-            <div  style="color:rgb(250, 146, 146); font-size: 12px;" class = "error-messages" *ngIf=" f.receiverPhoneNumber.errors">
-              <div *ngIf="f.receiverPhoneNumber.errors.required && (f.receiverPhoneNumber.touched || f.receiverPhoneNumber.dirty)">* Receiver's phone number is required</div>
-              <div *ngIf="f.receiverPhoneNumber.errors.minlength && f.receiverPhoneNumber.invalid">* Receiver's phone number must have at least 7 characters</div>
-              <div *ngIf="f.receiverPhoneNumber.errors.maxlength && f.receiverPhoneNumber.invalid">* Receiver's phone number can't have more than 30 characters</div>
+            <div  style="color:rgb(250, 146, 146); font-size: 12px;" class = "error-messages" *ngIf=" f.phoneNumberReceiver.errors">
+              <div *ngIf="f.phoneNumberReceiver.errors.required && (f.phoneNumberReceiver.touched || f.phoneNumberReceiver.dirty)">* Receiver's phone number is required</div>
+              <div *ngIf="f.phoneNumberReceiver.errors.minlength && f.phoneNumberReceiver.invalid">* Receiver's phone number must have at least 7 characters</div>
+              <div *ngIf="f.phoneNumberReceiver.errors.maxlength && f.phoneNumberReceiver.invalid">* Receiver's phone number can't have more than 30 characters</div>
             </div>
+
+            <p id = "formtext">Sender's Phone Number </p> 
+            <ion-item lines="none"  class ="itemform">
+              <ion-input formControlName = "phoneNumberSender" name = "phoneNumberSender" class ="inputClass" id = "phoneNumberSender" [(ngModel)]="phoneNumberSender" type = "text" placeholder="Sender's Phone Number" value ="{{selectedPackage.phoneNumberSender}}" required></ion-input>
+            </ion-item>
+
+          <div  style="color:rgb(250, 146, 146); font-size: 12px;" class = "error-messages" *ngIf=" f.phoneNumberReceiver.errors">
+            <div *ngIf="f.phoneNumberReceiver.errors.required && (f.phoneNumberReceiver.touched || f.phoneNumberReceiver.dirty)">* Sender's phone number is required</div>
+            <div *ngIf="f.phoneNumberReceiver.errors.minlength && f.phoneNumberReceiver.invalid">* Sender's phone number must have at least 7 characters</div>
+            <div *ngIf="f.phoneNumberReceiver.errors.maxlength && f.phoneNumberReceiver.invalid">* Sender's phone number can't have more than 30 characters</div>
+          </div>
 
              <p id = "formtext">Package's Weight </p> 
               <ion-item lines="none"  class ="itemform">
-                <ion-input formControlName = "packageWeight" name = "packageWeight"  class ="inputClass" id = "packageWeight" [(ngModel)]="packageWeight" type = "text" placeholder="Package's Weight" value ="{{selectedPackage.packageWeight}}" required></ion-input>
+                <ion-input formControlName = "kilograms" name = "kilograms"  class ="inputClass" id = "packageWeight" [(ngModel)]="kilograms" type = "text" placeholder="Package's Weight" value ="{{selectedPackage.kilograms}}" required></ion-input>
               </ion-item>
 
-            <div  style="color:rgb(250, 146, 146); font-size: 12px;" class = "error-messages" *ngIf=" f.packageWeight.errors">
-              <div *ngIf="f.packageWeight.errors.required && (f.packageWeight.touched || f.packageWeight.dirty)">* Package's weight is required</div>
-              <div *ngIf="f.packageWeight.errors.minlength && f.packageWeight.invalid">* Package's weight must have at least 1 characters</div>
-              <div *ngIf="f.packageWeight.errors.maxlength && f.packageWeight.invalid">* Package's weight can't have more than 30 characters</div>
+            <div  style="color:rgb(250, 146, 146); font-size: 12px;" class = "error-messages" *ngIf=" f.kilograms.errors">
+              <div *ngIf="f.kilograms.errors.required && (f.kilograms.touched || f.kilograms.dirty)">* Package's weight is required</div>
+              <div *ngIf="f.kilograms.errors.minlength && f.kilograms.invalid">* Package's weight must have at least 1 characters</div>
+              <div *ngIf="f.kilograms.errors.maxlength && f.kilograms.invalid">* Package's weight can't have more than 30 characters</div>
             </div>
 
               <p id = "formtext"> Package's Length </p>
               <ion-item lines="none" class ="itemform">
-                <ion-input formControlName = "packageLength" name = "packageLength"  class ="inputClass" id = "packageLength" [(ngModel)]="packageLength" type = "text"  placeholder="Package's Length" value ="{{selectedPackage.packageLength}}" required></ion-input>
+                <ion-input formControlName = "length" name = "length"  class ="inputClass" id = "packageLength" [(ngModel)]="length" type = "text"  placeholder="Package's Length" value ="{{selectedPackage.length}}" required></ion-input>
               </ion-item>
 
-            <div  style="color:rgb(250, 146, 146); font-size: 12px;" class = "error-messages" *ngIf=" f.packageLength.errors">
-              <div *ngIf="f.packageLength.errors.required && (f.packageLength.touched || f.packageLength.dirty)">* Package's length is required</div>
-              <div *ngIf="f.packageLength.errors.minlength && f.packageLength.invalid">* Package's length must have at least 1 characters</div>
-              <div *ngIf="f.packageLength.errors.maxlength && f.packageLength.invalid">* Package's length can't have more than 30 characters</div>
+            <div  style="color:rgb(250, 146, 146); font-size: 12px;" class = "error-messages" *ngIf=" f.length.errors">
+              <div *ngIf="f.length.errors.required && (f.length.touched || f.length.dirty)">* Package's length is required</div>
+              <div *ngIf="f.length.errors.minlength && f.length.invalid">* Package's length must have at least 1 characters</div>
+              <div *ngIf="f.length.errors.maxlength && f.length.invalid">* Package's length can't have more than 30 characters</div>
             </div>
 
               <p id = "formtext"> Package's Height </p>
               <ion-item lines="none" class ="itemform">
-                <ion-input formControlName = "packageHeight" name = "packageHeight" class ="inputClass" id = "packageHeight" [(ngModel)]="packageHeight" type = "text" placeholder="Package's Height" value ="{{selectedPackage.packageHeight}}" required></ion-input>
+                <ion-input formControlName = "height" name = "height" class ="inputClass" id = "packageHeight" [(ngModel)]="height" type = "text" placeholder="Package's Height" value ="{{selectedPackage.height}}" required></ion-input>
               </ion-item>
 
-            <div  style="color:rgb(250, 146, 146); font-size: 12px;" class = "error-messages" *ngIf=" f.packageHeight.errors">
-              <div *ngIf="f.packageHeight.errors.required && (f.packageHeight.touched || f.packageHeight.dirty)">* Package's height is required</div>
-              <div *ngIf="f.packageHeight.errors.minlength && f.packageHeight.invalid">* Package's height must have at least 1 characters</div>
-              <div *ngIf="f.packageHeight.errors.maxlength && f.packageHeight.invalid">* Package's height can't have more than 30 characters</div>
+            <div  style="color:rgb(250, 146, 146); font-size: 12px;" class = "error-messages" *ngIf=" f.height.errors">
+              <div *ngIf="f.height.errors.required && (f.height.touched || f.height.dirty)">* Package's height is required</div>
+              <div *ngIf="f.height.errors.minlength && f.height.invalid">* Package's height must have at least 1 characters</div>
+              <div *ngIf="f.height.errors.maxlength && f.height.invalid">* Package's height can't have more than 30 characters</div>
             </div>
 
               <p id = "formtext"> Package's Width </p>
               <ion-item lines="none" class ="itemform">
-                <ion-input formControlName = "packageWidth" name = "packageWidth"  class ="inputClass" id = "packageWidth" [(ngModel)]="packageWidth" type = "text" placeholder="Package's Width" value ="{{selectedPackage.packageWidth}}" required></ion-input>
+                <ion-input formControlName = "width" name = "width"  class ="inputClass" id = "packageWidth" [(ngModel)]="width" type = "text" placeholder="Package's Width" value ="{{selectedPackage.Width}}" required></ion-input>
               </ion-item>
  
-            <div  style="color:rgb(250, 146, 146); font-size: 12px;" class = "error-messages" *ngIf=" f.packageWidth.errors">
-              <div *ngIf="f.packageWidth.errors.required && (f.packageWidth.touched || f.packageWidth.dirty)">* Package's width  is required</div>
-              <div *ngIf="f.packageWidth.errors.minLength && f.packageWidth.invalid">* Package's width  must have at least 1 characters</div>
-              <div *ngIf="f.packageWidth.errors.maxLength && f.packageWidth.invalid">* Package's width  can't have more than 30 characters</div>
+            <div  style="color:rgb(250, 146, 146); font-size: 12px;" class = "error-messages" *ngIf=" f.width.errors">
+              <div *ngIf="f.width.errors.required && (f.width.touched || f.width.dirty)">* Package's width  is required</div>
+              <div *ngIf="f.width.errors.minLength && f.width.invalid">* Package's width  must have at least 1 characters</div>
+              <div *ngIf="f.width.errors.maxLength && f.width.invalid">* Package's width  can't have more than 30 characters</div>
             </div>
              </div>
             </form>
   
             <ion-row>
              <ion-col>
-              <p id = "availableTime"> Available Pickup Hours </p> 
-
-              <ion-item *ngFor ="let pickupHour of selectedPackage.pickupHours" id ="timeItem" lines="none" color="red">
-  
-                <ion-label  id ="timeLabel">  
-                 <ion-card-content id ="timeContent">
-
-                  <ion-item lines="none" class ="timeItem2">
-                    <ion-datetime displayFormat="MMMM DD, DDDD" placeholder="Day" value = "{{pickupHour.pickupDay}}"></ion-datetime>
-                  </ion-item >
-                  <ion-item class= "timeItem2">
-                    <ion-datetime displayFormat="HH:mm - " placeholder="Start Hour" value = "{{pickupHour.pickupStartHour}}"></ion-datetime>
-                    <ion-datetime displayFormat=" HH:mm"   placeholder="End Hour" value = "{{pickupHour.pickupEndHour}}"></ion-datetime>
-                  </ion-item>
-
-                 </ion-card-content>
-                </ion-label>
-                    
-                <ion-button id = "deletepickuphour" color ="--ion-color-success-shade" item-right slot="start" (click)="addHoursForm()">
-                  <ion-icon name="close-circle"></ion-icon>
-                </ion-button>
-              </ion-item>
-  
-              <ion-button id="addpickuphour" color = "grey" (click)="addPickupHour()" type = "submit" >Add pickup time</ion-button>
               <ion-button id="dontSaveEditPackage" color ="red" (click)="dontSaveEditPackage()" type = "submit" expand="block">Cancel </ion-button>
-           
             </ion-col>
           </ion-row>
+
         </ion-card>
   
         
        </ion-col>
      </ion-row>
-    </div> -->
+    </div>
   
     <div id ="textDriver2" style="display: none">
       <p class = "textP2"> *The driver will also receive your contact information, so he can contact you for needed details </p>
