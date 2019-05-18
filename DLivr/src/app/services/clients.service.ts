@@ -78,7 +78,7 @@ export class ClientsService implements AfterViewInit {
       'idPackage': id, 
       'rating': rating
     };
-    
+
     console.log("sendPackageRating: " + JSON.stringify(body));
 
     return this.http.post(
@@ -132,26 +132,44 @@ export class ClientsService implements AfterViewInit {
     return this.http.get('http://localhost:8298/package-management/packages/getPackagesSender', this.makeAuthorizedHeader());
   }
 
-  validateEmailAddress(email)
+  // validateEmailAddress(email)
+  // {
+  //   const mapOptions = {
+  //       center: {lat: 47.143022, lng: 27.581259},
+  //       zoom: 15,
+  //       mapTypeControl: false
+  //   };
+
+  //   const script = document.createElement('script');
+  //   script.src = 'https://maps.googleapis.com/maps/api/js?key=' + this.apiKey;
+  //   script.id = 'googleMap';
+  //   script.type = 'text/javascript';
+  //   console.log(script.src);
+
+  //   document.head.appendChild(script);
+  //   this.geocoder = new google.maps.Geocoder();
+
+  //   return this.geocoder.geocode({'address': '10389 Shenandoah'}, function(results, status)
+  //   {
+  //     console.log(status);
+  //   });
+  // }
+
+  validateAddress()
   {
-    const mapOptions = {
-        center: {lat: 47.143022, lng: 27.581259},
-        zoom: 15,
-        mapTypeControl: false
-    };
+    var address1 = document.getElementById('pickupAddressInput');
+    //var address2 = document.getElementById('deliveryAddressInput');
 
-    const script = document.createElement('script');
-    script.src = 'https://maps.googleapis.com/maps/api/js?key=' + this.apiKey;
-    script.id = 'googleMap';
-    script.type = 'text/javascript';
-    console.log(script.src);
-
-    document.head.appendChild(script);
     this.geocoder = new google.maps.Geocoder();
-
-    return this.geocoder.geocode({'address': '10389 Shenandoah'}, function(results, status)
-    {
-      console.log(status);
+    this.geocoder.geocode({'address': address1}, function(results, status) {
+      if (status === 'OK') 
+      {
+        console.log("Address is good.");
+      }
+      else 
+      {
+        alert('Geocode was not successful for the following reason: ' + status);
+      }
     });
   }
 

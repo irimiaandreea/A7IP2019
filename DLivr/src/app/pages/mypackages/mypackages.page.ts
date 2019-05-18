@@ -56,14 +56,14 @@ export class MypackagesPage implements OnInit {
     });
   }
 
-  validateAddress(userService: ClientsService)
-  {
-    console.log("Validate address test");
+  // validateAddress(userService: ClientsService)
+  // {
+  //   console.log("Validate address test");
 
-    return (control: AbstractControl): Observable<ValidationErrors> => {
-      return userService.validateEmailAddress("horse");
-    };
-  }
+  //   return (control: AbstractControl): Observable<ValidationErrors> => {
+  //     return userService.validateAddress();
+  //   };
+  // }
 
   getAllPackages()
   {
@@ -165,7 +165,6 @@ constructor(
           Validators.maxLength(60),
         ]
       )),
-      // this.validateAddress(this.userService)
       receiverAdress: new FormControl('', Validators.compose(
         [
           Validators.required,
