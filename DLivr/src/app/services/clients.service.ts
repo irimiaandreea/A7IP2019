@@ -139,4 +139,12 @@ export class ClientsService {
 
   }
 
+
+
+  getPackagesInAreaOf(location: String) {
+    return this.http.get('http://localhost:8298/package-management/packages/getPackages/'
+    + location.toString(), this.makeAuthorizedHeader());
+  }
+
+
 }
