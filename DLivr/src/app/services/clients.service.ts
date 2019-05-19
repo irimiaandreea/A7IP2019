@@ -2,6 +2,8 @@ import { Injectable, AfterViewInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
+import { Card } from '../card';
+
 import { Observable } from 'rxjs';
 
 declare var google: any;
@@ -108,7 +110,7 @@ export class ClientsService implements AfterViewInit {
       header: hd.toString(),
       subHeader: '',
       message:
-      //"" + msg,
+   //   "" + msg,
   msg.toString(),
       buttons: ['OK']
     });
@@ -233,14 +235,53 @@ export class ClientsService implements AfterViewInit {
       })  
     };
       
-    return this.http.get('http://localhost:8298/package-management/packages/driver/'+this.email,httpOptions)
+    return this.http.get('http://localhost:8298/package-management/packages/getPackagesDriver',httpOptions)
 
+  }
+
+  getCards()
+  {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'Authorization':'Bearer ' + this.accessToken
+      })  
+      };
+      
+    return this.http.get('http://localhost:8298/account-management/accountManagement/getCards',httpOptions)
+
+  }
+
+  addCard(card: Card){
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'Authorization':'Bearer ' + this.accessToken
+      })  
+      };
+
+    return this.http.post<any>('http://localhost:8298/account-management/accountManagement/addCard', card, httpOptions )
+  }
+
+
+  deleteCard(card: number) {
+    console.log('Delete this card number: ' + card);
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'Authorization':'Bearer ' + this.accessToken,
+        'Access-Control-Allow-Origin': '*'
+
+      })  
+      };
+
+    return this.http.delete('http://localhost:8298/account-management/accountManagement/deleteCard/'+ card, httpOptions )
+    
   }
 
   getPackagesInAreaOf(location: String) {
     return this.http.get('http://localhost:8298/package-management/packages/getPackages/'
     + location.toString(), this.makeAuthorizedHeader());
   }
-
-
 }
