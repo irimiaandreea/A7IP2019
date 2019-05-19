@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { MenuController } from '@ionic/angular';
-import { FormGroup, FormBuilder, FormControl, Validators, AsyncValidatorFn, ValidationErrors } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ClientsService } from 'src/app/services/clients.service';
 import { AbstractControl } from '@angular/forms';
 import { Observable } from 'rxjs';
@@ -534,5 +534,6 @@ constructor(
 
     this.clearAddPackageInputs();
   }
+
 
 }
