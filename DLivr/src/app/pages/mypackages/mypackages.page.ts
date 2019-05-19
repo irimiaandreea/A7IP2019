@@ -430,7 +430,7 @@ constructor(
     this.selectedPackage = this.packages[i - 1];
     console.log("editPackageForm: ");
     console.log("i = " + i);
-    console.log("Name = " + this.selectedPackage["name"]);
+    console.log("Name = " + this.selectedPackage["namePackage"]);
     console.log("Number = " + this.selectedPackage["number"]);
 
     this.clearAddPackageInputs();
