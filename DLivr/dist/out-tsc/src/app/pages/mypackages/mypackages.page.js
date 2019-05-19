@@ -5,79 +5,74 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ClientsService } from 'src/app/services/clients.service';
 var MypackagesPage = /** @class */ (function () {
     function MypackagesPage(menuCtrl, userService, formBuilder) {
+        var _this = this;
         this.menuCtrl = menuCtrl;
         this.userService = userService;
         this.formBuilder = formBuilder;
         this.submitted = false;
-        this.error_messages = {
-            'packageName': [
-                { type: 'required', message: 'Package\'s name is required!' },
-                { type: 'minLength', message: 'Package\'name must be longer than 3 characters!' },
-                { type: 'maxLength', message: 'Package\'name must be lower than 30 characters!' }
-            ]
-        };
         this.packages = [];
-        this.name = "";
-        this.pickupAddress = "";
-        this.deliveryAddress = "";
+        this.namePackage = "";
+        this.senderAdress = "";
+        this.receiverAdress = "";
         this.receiverName = "";
-        this.receiverPhoneNumber = "";
-        this.packageLength = "";
-        this.packageWeight = "";
-        this.packageHeight = "";
-        this.packageWidth = "";
+        this.senderName = "";
+        this.phoneNumberReceiver = "";
+        this.phoneNumberSender = "";
+        this.length = "";
+        this.kilograms = "";
+        this.height = "";
+        this.width = "";
         this.pickupHours = [];
-        this.id = "";
-        this.pickupDay = "";
-        this.pickupStartHour = "";
-        this.pickupEndHour = "";
         this.selectedPackage = [];
-        this.selectedpickupHours = [
-            {
-                "id": 0,
-                "pickupDay": "",
-                "pickupStartHour": "",
-                "pickupEndHour": "",
+        this.id = "";
+        console.log('email received in mypackages: ' + this.userService.email);
+        userService.getPackages()
+            .subscribe(function (data) {
+            console.log(data);
+            var packages = Object.values(data);
+            console.log(packages);
+            packages.forEach(function (p) {
+                /*const names =  (p['receiverName'] + '');
+                const colonIndex = names.lastIndexOf(':');
+      
+                // So we can see the actual name of the package
+                // because there is no packageName in the database
+                var receiverName = names;
+                var packageName = '<name>';
+                if (colonIndex != -1)
+                {
+                  receiverName = names.substring(0, colonIndex - 1);
+                  packageName = names.substring(colonIndex + 1);
+                }*/
+                // /getPackagesSender returneaza un json care repezinta un obiect cu urmatoarele campuri: id,namePackage,senderAddress,receiverAddress,
+                // kilograms,phoneNumberSender,phoneNumberReceiver,senderName,receiverName,length,width,height. Length,width,height sunt de tip int
+                _this.pushCard(p['namePackage'], // p['name'],
+                p['senderAdress'], // p['pickupAddress'],
+                p['receiverAdress'], // p['deliveryAddress'],
+                p['receiverName'], p['senderName'], p['phoneNumberReceiver'], p['phoneNumberSender'], p['length'], p['kilograms'], p['height'], p['width'], p['status']);
+            });
+            if (packages.length > 0) {
+                var divNoPackage = document.getElementById("noPackageText");
+                divNoPackage.style.display = "none";
             }
-        ];
-        console.log('email: ' + this.userService.email);
-        // userService.getPackages(userService.email)
-        // .subscribe(data => {
-        //   console.log("get packages???");
-        //   console.log(data);
-        //   var packages = data['packages'];
-        //   packages.forEach(p => {
-        //     this.pushCard(
-        //       p['name'],
-        //       p['pickupAddress'],
-        //       p['deliveryAddress'],
-        //       p['receiverName'],
-        //       p['receiverPhoneNumber'],
-        //       p['packageLength'],
-        //       p['packageWeight'],
-        //       p['packageHeight'],
-        //       p['packageWidth'],
-        //       p['pickupHours'].concat(),
-        //     )
-        //   });
-        // }, error => {
-        //   console.log("Unable to retrieve packages from server");
-        //   console.log(error);
-        // });
+        }, function (error) {
+            console.log("Unable to retrieve packages from server");
+            console.log(error);
+        });
         this.addPackageForm = this.formBuilder.group({
-            packageName: new FormControl('', Validators.compose([
+            namePackage: new FormControl('', Validators.compose([
                 Validators.required,
-                Validators.minLength(5),
+                Validators.minLength(3),
                 Validators.maxLength(30),
             ])),
-            pickupAddress: new FormControl('', Validators.compose([
+            senderAdress: new FormControl('', Validators.compose([
                 Validators.required,
-                Validators.minLength(5),
+                Validators.minLength(3),
                 Validators.maxLength(60),
-            ])),
-            deliveryAddress: new FormControl('', Validators.compose([
+            ]), this.validateAddress(this.userService)),
+            receiverAdress: new FormControl('', Validators.compose([
                 Validators.required,
-                Validators.minLength(5),
+                Validators.minLength(3),
                 Validators.maxLength(60),
             ])),
             receiverName: new FormControl('', Validators.compose([
@@ -85,30 +80,42 @@ var MypackagesPage = /** @class */ (function () {
                 Validators.minLength(3),
                 Validators.maxLength(30),
             ])),
-            receiverPhoneNumber: new FormControl('', Validators.compose([
+            senderName: new FormControl('', Validators.compose([
                 Validators.required,
+                Validators.minLength(3),
+                Validators.maxLength(30),
+            ])),
+            phoneNumberSender: new FormControl('', Validators.compose([
+                Validators.required,
+                Validators.pattern("[0-9]+"),
                 Validators.minLength(7),
                 Validators.maxLength(30),
             ])),
-            packageWeight: new FormControl('', Validators.compose([
+            phoneNumberReceiver: new FormControl('', Validators.compose([
+                Validators.required,
+                Validators.pattern("[0-9]+"),
+                Validators.minLength(7),
+                Validators.maxLength(30),
+            ])),
+            kilograms: new FormControl('', Validators.compose([
                 Validators.required,
                 Validators.pattern("[0-9]+"),
                 Validators.minLength(1),
                 Validators.maxLength(30),
             ])),
-            packageWidth: new FormControl('', Validators.compose([
+            width: new FormControl('', Validators.compose([
                 Validators.required,
                 Validators.pattern("[0-9]+"),
                 Validators.minLength(1),
                 Validators.maxLength(30),
             ])),
-            packageLength: new FormControl('', Validators.compose([
+            length: new FormControl('', Validators.compose([
                 Validators.required,
                 Validators.pattern("[0-9]+"),
                 Validators.minLength(1),
                 Validators.maxLength(30),
             ])),
-            packageHeight: new FormControl('', Validators.compose([
+            height: new FormControl('', Validators.compose([
                 Validators.required,
                 Validators.pattern("[0-9]+"),
                 Validators.minLength(1),
@@ -129,6 +136,23 @@ var MypackagesPage = /** @class */ (function () {
             return;
         }
     };
+    MypackagesPage.prototype.toArray = function (object) {
+        return Object.keys(object).map(function (key) {
+            return [Number(key), object[key]];
+        });
+    };
+    MypackagesPage.prototype.validateAddress = function (userService) {
+        console.log("Validate address test");
+        return function (control) {
+            return userService.validateEmailAddress("horse");
+        };
+    };
+    MypackagesPage.prototype.removeValidators = function (form) {
+        for (var key in form.controls) {
+            form.get(key).clearValidators();
+            form.get(key).updateValueAndValidity();
+        }
+    };
     MypackagesPage.prototype.ngOnInit = function () {
     };
     // close addPackage page/ editPackage page
@@ -141,48 +165,45 @@ var MypackagesPage = /** @class */ (function () {
         //buttonAdd.textContent = "Add Package";
     };
     MypackagesPage.prototype.clearAddPackageInputs = function () {
-        this.name = "";
-        this.pickupAddress = "";
-        this.deliveryAddress = "";
+        this.namePackage = "";
+        this.receiverAdress = "";
         this.receiverName = "";
-        this.receiverPhoneNumber = "";
-        this.packageLength = "";
-        this.packageWeight = "";
-        this.packageHeight = "";
-        this.packageWidth = "";
-        this.pickupHours.splice(0, this.pickupHours.length);
-        /* this.pickupHours.push(
-          {
-            "pickupDay" : "",
-            "pickupStart" : "",
-            "pickupEnd" : "",
-          }
-        ); */
+        this.phoneNumberReceiver = "";
+        this.senderName = "";
+        this.senderAdress = "";
+        this.phoneNumberSender = "";
+        this.length = "";
+        this.kilograms = "";
+        this.height = "";
+        this.width = "";
     };
     MypackagesPage.prototype.setAddPackageInputs = function (pack) {
-        this.name = pack.name;
-        this.pickupAddress = pack.pickupAddress;
-        this.deliveryAddress = pack.deliveryAddress;
+        this.namePackage = pack.name;
+        this.senderName = pack.senderName;
+        this.senderAdress = pack.senderAdress;
+        this.phoneNumberSender = pack.phoneNumberSender;
+        this.receiverAdress = pack.receiverAdress;
         this.receiverName = pack.receiverName;
-        this.receiverPhoneNumber = pack.receiverPhoneNumber;
-        this.packageLength = pack.packageLength;
-        this.packageWeight = pack.packageWeight;
-        this.packageHeight = pack.packageHeight;
-        this.packageWidth = pack.packageWidth;
-        this.pickupHours = pack.pickupHours.concat();
+        this.phoneNumberReceiver = pack.phoneNumberReceiver;
+        this.length = pack.length;
+        this.kilograms = pack.kilograms;
+        this.height = pack.height;
+        this.width = pack.width;
     };
     // addPackage form
     MypackagesPage.prototype.addPackageButton = function () {
         var _this = this;
-        var divNoPackage = document.getElementById("text");
+        var divNoPackage = document.getElementById("noPackageText");
         var divDriverText = document.getElementById("textDriver");
         var divAdd = document.getElementById("addPackage");
         var buttonAdd = document.getElementById("addpackage");
         var divtextDriver2 = document.getElementById("textDriver2");
         console.log(buttonAdd.textContent);
-        this.closeExistingPackage();
+        if (!this.addPackageForm.invalid)
+            this.closeExistingPackage();
         divtextDriver2.style.display = "none";
         if (buttonAdd.textContent == "Add Package") {
+            this.submitted = false;
             divNoPackage.style.display = "none";
             divAdd.style.display = "block";
             buttonAdd.textContent = "Confirm";
@@ -190,20 +211,30 @@ var MypackagesPage = /** @class */ (function () {
         }
         else // Confirm
          {
-            buttonAdd.textContent = "Add Package";
-            divDriverText.style.display = "none";
-            this.pickupHours.forEach(function (pickupHour) {
-                console.log(pickupHour);
-            });
-            var newPackage = this.makePackage(this.name, this.pickupAddress, this.deliveryAddress, this.receiverName, this.receiverPhoneNumber, this.packageLength, this.packageWeight, this.packageHeight, this.packageWidth, this.pickupHours);
+            // if (this.addPackageForm.invalid)
+            // {
+            //   this.submitted = true;
+            //   this.addPackageForm.updateValueAndValidity();
+            //   return;
+            // }
+            if (!this.addPackageForm.invalid) {
+                buttonAdd.textContent = "Add Package";
+                divDriverText.style.display = "none";
+                this.addPackageForm.clearValidators();
+                this.addPackageForm.updateValueAndValidity();
+            }
+            var newPackage = this.makePackage(this.namePackage, this.senderAdress, this.receiverAdress, this.receiverName, this.senderName, this.phoneNumberReceiver, this.phoneNumberSender, this.length, this.kilograms, this.height, this.width, "Accepted");
+            console.log(newPackage);
+            this.submitted = true;
             this.userService.addPackage(newPackage)
                 .subscribe(function (data) {
                 console.log("addPackage success: data");
-                _this.pushCard(_this.name, _this.pickupAddress, _this.deliveryAddress, _this.receiverName, _this.receiverPhoneNumber, _this.packageLength, _this.packageWeight, _this.packageHeight, _this.packageWidth, _this.pickupHours);
+                _this.pushCard(_this.namePackage, _this.senderAdress, _this.receiverAdress, _this.receiverName, _this.senderName, _this.phoneNumberReceiver, _this.phoneNumberSender, _this.length, _this.kilograms, _this.height, _this.width, "Accepted");
             }, function (error) {
                 console.log('Unable to register package');
                 console.log(error);
-                // alert maybe?
+                _this.userService.presentWarning("Formular Invalid", "A aparut o problema cu informatiile pe care le-ati trimis");
+                // There was a problem with the info you provided
             });
         }
     };
@@ -221,10 +252,6 @@ var MypackagesPage = /** @class */ (function () {
         console.log("i = " + i);
         console.log("Name = " + this.selectedPackage["name"]);
         console.log("Number = " + this.selectedPackage["number"]);
-        var pickupHours = this.selectedPackage["pickupHours"];
-        pickupHours.forEach(function (element) {
-            console.log(element);
-        });
         this.clearAddPackageInputs();
         this.setAddPackageInputs(this.selectedPackage);
     };
@@ -241,12 +268,14 @@ var MypackagesPage = /** @class */ (function () {
         var buttonEdit = document.getElementById("addpackage");
         var divtextDriver2 = document.getElementById("textDriver2");
         this.closeExistingPackage();
+        this.addPackageForm.clearValidators();
         buttonEdit.textContent = "Add Package";
         divtextDriver2.style.display = "none";
+        divEdit.style.display = "none";
     };
     // cancel edit in editPackage
     MypackagesPage.prototype.dontSaveEditPackage = function () {
-        var buttonEdit = document.getElementById("addpackage");
+        var buttonEdit = document.getElementById("editpackage");
         var divtextDriver2 = document.getElementById("textDriver2");
         this.closeExistingPackage();
         buttonEdit.textContent = "Add Package";
@@ -262,39 +291,26 @@ var MypackagesPage = /** @class */ (function () {
         divDriverText.style.display = "none";
         this.clearAddPackageInputs();
     };
-    // add pickup hour ng
-    MypackagesPage.prototype.addPickupHour = function () {
-        this.addPickupItem();
+    MypackagesPage.prototype.makePackage = function (namePackage, senderAdress, receiverAdress, receiverName, senderName, phoneNumberReceiver, phoneNumberSender, length, kilograms, height, width, status) {
+        return {
+            "number": (this.packages.length + 1).toString(),
+            "namePackage": namePackage,
+            "status": status,
+            "senderAdress": senderAdress,
+            "receiverAdress": receiverAdress,
+            "receiverName": receiverName,
+            "senderName": senderName,
+            "phoneNumberReceiver": phoneNumberReceiver,
+            "phoneNumberSender": phoneNumberSender,
+            "length": length,
+            "kilograms": kilograms,
+            "height": height,
+            "width": width,
+        };
     };
-    MypackagesPage.prototype.makePackage = function (name, pickupAddress, deliveryAddress, receiverName, receiverPhoneNumber, packageLength, packageWeight, packageHeight, packageWidth, pickupHours) {
-        return [{
-                "number": (this.packages.length + 1).toString(),
-                "name": name,
-                "status": "",
-                "pickupAddress": pickupAddress,
-                "deliveryAddress": deliveryAddress,
-                "receiverName": receiverName,
-                "receiverPhoneNumber": receiverPhoneNumber,
-                "packageLength": packageLength,
-                "packageWeight": packageWeight,
-                "packageHeight": packageHeight,
-                "packageWidth": packageWidth,
-                "pickupHours": pickupHours.concat(),
-            }];
-    };
-    MypackagesPage.prototype.pushCard = function (name, pickupAddress, deliveryAddress, receiverName, receiverPhoneNumber, packageLength, packageWeight, packageHeight, packageWidth, pickupHours) {
-        this.packages.push(this.makePackage(name, pickupAddress, deliveryAddress, receiverName, receiverPhoneNumber, packageLength, packageWeight, packageHeight, packageWidth, pickupHours));
-        localStorage.setItem("mypackages.packages", JSON.stringify(this.packages));
+    MypackagesPage.prototype.pushCard = function (namePackage, senderAdress, receiverAdress, receiverName, senderName, phoneNumberReceiver, phoneNumberSender, length, kilograms, height, width, status) {
+        this.packages.push(this.makePackage(namePackage, senderAdress, receiverAdress, receiverName, senderName, phoneNumberReceiver, phoneNumberSender, length, kilograms, height, width, status));
         this.clearAddPackageInputs();
-    };
-    MypackagesPage.prototype.addPickupItem = function () {
-        this.pickupHours.push({
-            // name (as string) : actual value
-            // "id" : (this.selectedpickupHours.length + 1).toString(),
-            "pickupDay": "",
-            "pickupStartHour": "",
-            "pickupEndHour": "",
-        });
     };
     MypackagesPage = tslib_1.__decorate([
         Component({

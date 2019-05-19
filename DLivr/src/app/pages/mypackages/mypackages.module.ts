@@ -5,6 +5,9 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
+// Import ionic-rating module
+import { IonicRatingModule } from 'ionic4-rating';
+
 import { MypackagesPage } from './mypackages.page';
 
 const routes: Routes = [
@@ -18,6 +21,7 @@ const routes: Routes = [
 @NgModule({
   imports: [
     CommonModule,
+    IonicRatingModule,
     ReactiveFormsModule,
     FormsModule,
     IonicModule,
