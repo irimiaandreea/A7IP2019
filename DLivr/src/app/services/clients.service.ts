@@ -17,6 +17,8 @@ export class ClientsService implements AfterViewInit {
   apiKey: String = 'AIzaSyCzbVg-JhZ5enrOtt6KwzDFqG9_7C-vSYo'; /*Your API Key*/
   geocoder: any;
 
+  userType: String = 'client';
+
   ngAfterViewInit()
   {
   }
@@ -25,6 +27,7 @@ export class ClientsService implements AfterViewInit {
   {
   }
 
+  // REGISTER : post
   register(credentials) {
 
     const httpOptions = {
@@ -47,6 +50,7 @@ export class ClientsService implements AfterViewInit {
     });
   }
 
+  // LOGIN : post
   login(credentials) {
 
     console.log(credentials);
@@ -72,6 +76,7 @@ export class ClientsService implements AfterViewInit {
     });
   }
 
+  // RATING : post
   sendPackageRating(id, rating)
   {
     const body = {
@@ -101,6 +106,16 @@ export class ClientsService implements AfterViewInit {
   //   await alert.present();
   // }
 
+  changeToDriver()
+  {
+    this.userType = 'driver';
+  }
+
+  changeToClient()
+  {
+    this.userType = 'client';
+  }
+
   // coroutines
   async presentWarning(hd: String, msg: String) {
    console.log('ms ul asta e ' + msg);
@@ -116,6 +131,7 @@ export class ClientsService implements AfterViewInit {
     await alert.present();
   }
 
+  // HEADER : CORS 
   makeAuthorizedHeader() 
   {
     return {
@@ -126,35 +142,13 @@ export class ClientsService implements AfterViewInit {
     };
   }
 
-  // GET for mypackages  
+  // MYPACKAGES_ client : get
   getPackages()
   {
     return this.http.get('http://localhost:8298/package-management/packages/getPackagesSender', this.makeAuthorizedHeader());
   }
 
-  // validateEmailAddress(email)
-  // {
-  //   const mapOptions = {
-  //       center: {lat: 47.143022, lng: 27.581259},
-  //       zoom: 15,
-  //       mapTypeControl: false
-  //   };
-
-  //   const script = document.createElement('script');
-  //   script.src = 'https://maps.googleapis.com/maps/api/js?key=' + this.apiKey;
-  //   script.id = 'googleMap';
-  //   script.type = 'text/javascript';
-  //   console.log(script.src);
-
-  //   document.head.appendChild(script);
-  //   this.geocoder = new google.maps.Geocoder();
-
-  //   return this.geocoder.geocode({'address': '10389 Shenandoah'}, function(results, status)
-  //   {
-  //     console.log(status);
-  //   });
-  // }
-
+  // a try of validate address
   validateAddress()
   {
     var address1 = document.getElementById('pickupAddressInput');
@@ -178,7 +172,7 @@ export class ClientsService implements AfterViewInit {
     return email.substring(0, index);
   }
 
-  // POST for mypackages
+  // MYPACKAGES_ client : post
   addPackage(newPackage)
   {
     const body = {
@@ -203,16 +197,13 @@ export class ClientsService implements AfterViewInit {
     );
   }
 
-  // PUT localhost:8298/package-management/packages/modifyPackageInformations modifica informatiile despre un pachet (request facut de sender). 
-  // Primeste in body :  id,namePackage,senderAddress,receiverAddress, 
-  // phoneNumberSender,phoneNumberReceiver,receiverName,kilograms,length,width,height. Numai id-ul este obligatoriu, celelalte campuri pot fi null
-
+  // MYPACKAGES_ client: delete
   deletePackage(id)
   {
     return this.http.delete('http://localhost:8298/package-management/packages/deletePackage/' + id, this.makeAuthorizedHeader());
   }
 
-  // PUT for mypackages
+  // MYPACKAGES_ client: put
   editPackage(packageToUpdate)
   {
     return this.http.put('http://localhost:8298/package-management/packages/modifyPackageInformations', 
@@ -221,6 +212,7 @@ export class ClientsService implements AfterViewInit {
     );
   }
 
+  // MYPACKAGES_ driver: get
   mypackagesdriverget()
   {
    console.log('Access email MY PACK DRIVER ' + this.email);
@@ -237,10 +229,34 @@ export class ClientsService implements AfterViewInit {
 
   }
 
+  // HOMEPAGE_ driver: get
   getPackagesInAreaOf(location: String) {
     return this.http.get('http://localhost:8298/package-management/packages/getPackages/'
     + location.toString(), this.makeAuthorizedHeader());
   }
 
 
+  // FORGOT_PASSWORD: get
+  generatePassword(email : String)
+  {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+      })
+    };
+
+    return this.http.get('http://localhost:8298/account-management/passwordRecovery/' + email, httpOptions);
+  }
+
+  // GET_PROFILE_INFO_ driver: get
+  getProfileInfoDriver()
+  {
+    return this.http.get("http://localhost:8298/account-management/accountManagement/getProfileInformation/driver", this.makeAuthorizedHeader());
+  }
+
+  // GET_PROFILE_INFO_ sender: get
+  getProfileInfoSender()
+  {
+    return this.http.get("http://localhost:8298/account-management/accountManagement/getProfileInformation/sender", this.makeAuthorizedHeader());
+  }
 }

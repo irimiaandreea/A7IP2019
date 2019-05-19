@@ -58,25 +58,42 @@ export class LoginPage implements OnInit {
   async forgotPasswordAlert()
   {
     const alert = await this.alertController.create({
-      header: 'Reset Password',
+      header: 'Reset your password',
       inputs:
       [
         {
-          name: 'email',
+          name: 'emailAlert',
           placeholder: 'Email',
         },
-        {
-          name: 'newPassword',
-          placeholder: 'New Password'
-        }
       ],
+      message: 'A new password will be sent to this email:',
       buttons: 
       [
         {
-          text: 'Save'
+          text: 'Cancel',
+          handler: () => {
+            console.log('Pressed the button cancel');
+          }
         },
         {
-          text: 'Cancel'
+          text: 'Generate password',
+          handler: (data) => {
+            data['emailAlert'];
+            console.log('Pressed the button generate password with the email: ' + data['emailAlert']);
+
+           this.userService.generatePassword(data['emailAlert'])
+           .subscribe(data => {
+            console.log("The password was generated with succcess");
+            this.userService.presentWarning("Atentie", "O noua parola a fost trimisa la emailul dvs");
+
+          }, error => {
+            console.log('Unable to generate password');
+            this.userService.presentWarning("Atentie", "Acest email nu este inregistrat in baza de date");
+            console.log(error);
+
+            //this.userService.presentWarning("Formular Invalid", "A aparut o problema cu informatiile pe care le-ati trimis");
+          });
+          }
         }
       ]
     });
