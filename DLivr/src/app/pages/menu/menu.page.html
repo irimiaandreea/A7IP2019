@@ -7,27 +7,27 @@
         
         <!-- Name and user type -->
         <ion-item style="padding: 20px 0px 0px 20px;">
-          <ion-icon *ngIf="userType === 'client'" color="primary" name="cube" slot="start"></ion-icon>
-          <ion-icon *ngIf="userType === 'driver'" color="secondary" name="car" slot="start"></ion-icon>
+          <ion-icon *ngIf="userService.userType === 'client'" color="primary" name="cube" slot="start"></ion-icon>
+          <ion-icon *ngIf="userService.userType === 'driver'" color="secondary" name="car" slot="start"></ion-icon>
           <ion-label style="color:white; ">
-            <h1>Jane Doe</h1>
-            <p *ngIf="userType === 'client'" style="float:left">CLIENT</p>
-            <p *ngIf="userType === 'driver'" style="float:left">DRIVER</p>
+            <h1 id="userName">{{name}}</h1>
+            <p *ngIf="userService.userType === 'client'" style="float:left">CLIENT</p>
+            <p *ngIf="userService.userType === 'driver'" style="float:left">DRIVER</p>
           </ion-label>
         </ion-item>
 
         <!-- Switch User Type Button -->
-          <ion-button fill="outline" *ngIf="userType === 'client'" color="secondary" (click)="changeUserType()" expand="full" size="medium" style="margin: 0px 10px 20px 10px">
+          <ion-button fill="outline" *ngIf="userService.userType === 'client'" color="secondary" (click)="changeUserType()" expand="full" size="medium" style="margin: 0px 10px 20px 10px">
             <ion-icon name="car" style="padding-right: 20px;"></ion-icon>
             SWITCH TO DRIVER
           </ion-button>
-          <ion-button  fill="outline" *ngIf="userType === 'driver'" color="primary" (click)="changeUserType()" expand="full" size="medium" style="margin: 0px 10px 20px 10px">
+          <ion-button  fill="outline" *ngIf="userService.userType === 'driver'" color="primary" (click)="changeUserType()" expand="full" size="medium" style="margin: 0px 10px 20px 10px">
             <ion-icon name="cube" style="padding-right: 20px;"></ion-icon>
             SWITCH TO CLIENT
           </ion-button>
       
          <!-- Menu Buttons -->
-        <ng-container *ngIf="userType === 'client'">
+        <ng-container *ngIf="userService.userType === 'client'">
           <ion-menu-toggle auto-hide="false" *ngFor="let p of clientPages">
             <ion-item [routerLink]="p.url" routerDirection="root" 
             [class.active-item]="selectedPath === p.url">
@@ -37,7 +37,7 @@
           </ion-menu-toggle>
         </ng-container>
 
-        <ng-container *ngIf="userType === 'driver'">
+        <ng-container *ngIf="userService.userType === 'driver'">
           <ion-menu-toggle auto-hide="false" *ngFor="let p of driverPages">
             <ion-item [routerLink]="p.url" routerDirection="root" 
             [class.active-item]="selectedPath === p.url">

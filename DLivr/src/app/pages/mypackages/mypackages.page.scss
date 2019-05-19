@@ -3,6 +3,8 @@ $green-color: rgb(78, 238, 91);
 $black-color: rgb(41, 41, 41);
 $red-color: rgb(194, 61, 61);
 $grey-color: rgb(114, 114, 114);
+$gold-color: rgb(243, 187, 84);
+$white-color: white;
 
 ion-content{
     align-content: center;
@@ -140,13 +142,24 @@ p{
     font-weight: 13%;
 }
 
+ion-icon #ionButtonIconEdit{
+    color: white;
+}
 
-#ionButtonIcon{
+#ionButtonIconEdit{
+    color: $white-color;
     background: $black-color;
     border-radius: 2px;
 }
 
+#ionButtonIconStar{
+    color: $white-color;
+    background: $gold-color;
+    border-radius: 2px;
+}
+
 #ionDeleteButton{
+    color: $white-color;
     background: $red-color;
     border-radius: 2px;
 }

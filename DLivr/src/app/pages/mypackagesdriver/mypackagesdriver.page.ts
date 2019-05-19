@@ -59,7 +59,6 @@ export class MypackagesdriverPage implements OnInit {
         {
           text: 'Ok',
           role: 'ok',
-    
         }
       ]
     });
