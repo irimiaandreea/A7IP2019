@@ -1,4 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { ClientsService } from 'src/app/services/clients.service';
+import { AlertController } from '@ionic/angular';
+import { Card } from 'src/app/card';
+
 
 @Component({
   selector: 'app-payment',
@@ -7,22 +13,124 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PaymentPage implements OnInit {
 
-  constructor() { }
+ // addCardForm: FormGroup;
+  // cardData = {
+  //   "cardNr":"", 
+  //   "date":"",
+  //   "cvv":"",
+  //   "country":"",
+  //   "zipcode":""
+  // }
+
+  cards = [];
+  holdLength : number;
+  cardModel = new Card(null,null,null,null,'default',null);
+  countries =  ['Afghanistan','Albania','Algeria','Andorra','Angola','Anguilla','Antigua ', 'Barbuda','Argentina','Armenia','Aruba','Australia','Austria','Azerbaijan','Bahamas'
+	,'Bahrain','Bangladesh','Barbados','Belarus','Belgium','Belize','Benin','Bermuda','Bhutan','Bolivia','Bosnia ',' Herzegovina','Botswana','Brazil','British Virgin Islands'
+	,'Brunei','Bulgaria','Burkina Faso','Burundi','Cambodia','Cameroon','Canada','Cape Verde','Cayman Islands','Chad','Chile','China','Colombia','Congo','Cook Islands','Costa Rica'
+	,'Cote D Ivoire','Croatia','Cruise Ship','Cuba','Cyprus','Czech Republic','Denmark','Djibouti','Dominica','Dominican Republic','Ecuador','Egypt','El Salvador','Equatorial Guinea'
+	,'Estonia','Ethiopia','Falkland Islands','Faroe Islands','Fiji','Finland','France','French Polynesia','French West Indies','Gabon','Gambia','Georgia','Germany','Ghana'
+	,'Gibraltar','Greece','Greenland','Grenada','Guam','Guatemala','Guernsey','Guinea','Guinea Bissau','Guyana','Haiti','Honduras','Hong Kong','Hungary','Iceland','India'
+	,'Indonesia','Iran','Iraq','Ireland','Isle of Man','Israel','Italy','Jamaica','Japan','Jersey','Jordan','Kazakhstan','Kenya','Kuwait','Kyrgyz Republic','Laos','Latvia'
+	,'Lebanon','Lesotho','Liberia','Libya','Liechtenstein','Lithuania','Luxembourg','Macau','Macedonia','Madagascar','Malawi','Malaysia','Maldives','Mali','Malta','Mauritania'
+	,'Mauritius','Mexico','Moldova','Monaco','Mongolia','Montenegro','Montserrat','Morocco','Mozambique','Namibia','Nepal','Netherlands','Netherlands Antilles','New Caledonia'
+	,'New Zealand','Nicaragua','Niger','Nigeria','Norway','Oman','Pakistan','Palestine','Panama','Papua New Guinea','Paraguay','Peru','Philippines','Poland','Portugal'
+	,'Puerto Rico','Qatar','Reunion','Romania','Russia','Rwanda','Saint Pierre ','Miquelon','Samoa','San Marino','Satellite','Saudi Arabia','Senegal','Serbia','Seychelles'
+	,'Sierra Leone','Singapore','Slovakia','Slovenia','South Africa','South Korea','Spain','Sri Lanka','St Kitts ',' Nevis','St Lucia','St Vincent','St. Lucia','Sudan'
+	,'Suriname','Swaziland','Sweden','Switzerland','Syria','Taiwan','Tajikistan','Tanzania','Thailand','Timor LEste','Togo','Tonga','Trinidad','Tobago','Tunisia'
+	,'Turkey','Turkmenistan','Turks',' Caicos','Uganda','Ukraine','United Arab Emirates','United Kingdom','United States','United States Minor Outlying Islands','Uruguay'
+	,'Uzbekistan','Venezuela','Vietnam','Virgin Islands (US)','Yemen','Zambia','Zimbabwe'];
+
+
+
+  constructor(private myFirstService : ClientsService,public alertController: AlertController) {
+  }
 
   ngOnInit() {
+   // this.cardModel = new Card(4535345435444,null,null,null,'default',null);
+    this.myFirstService.getCards()
+    .subscribe(data  => {
+      console.log(" My cards : ", data);
+      this.cards = data as [];
+      console.log(" length - 1  : ", this.cards['length']-1);
+    }, error => {
+      console.log(error);
+      this.presentWarning('Atentie!', error.error['message']);
+    });
+    
+    // this.addCardForm = new FormGroup({
+    //   cardNr: new FormControl('', [Validators.required, Validators.pattern('[a-zA-Z ]*'), Validators.minLength(4), Validators.maxLength(10)]),
+    //   date: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(12)]),
+    //   cvv: new FormControl('', [Validators.required, Validators.pattern('[a-zA-Z ]*'), Validators.minLength(4), Validators.maxLength(30)]),
+    //   country: new FormControl('', [Validators.required]),
+    //   zipcode: new FormControl('',[Validators.required])
+    // });
   }
+  async presentWarning(hd: String, msg: String) {
+    console.log('ms ul asta e ' + msg);
+     const alert = await this.alertController.create({
+       header: hd.toString(),
+       subHeader: '',
+       message:
+      // "" + msg,
+   msg.toString(),
+       buttons: ['OK']
+     });
+ 
+     await alert.present();
+   }
 
   go(){
     var x = document.getElementById("formular");
     var y = document.getElementById("addCard");
     var z = document.getElementById("cards");
     
-    
-      // Otherwise, show it
       x.style.display = "block";
       y.style.display = "none";
       z.style.display = "none";
     
+  }
+
+  saveCard(cardForm: NgForm): void {
+    console.log("Current card details ",cardForm.value);
+    console.log(cardForm);
+
+    this.myFirstService.addCard(this.cardModel)
+    .subscribe(
+      data =>{
+        console.log("I sent this card ! ", data);
+        this.myFirstService.getCards()
+      .subscribe(data  => {
+        console.log(" My cards : ", data);
+         this.cards = data as [];
+  
+      }, error => {
+        console.log(error);
+        this.presentWarning('Atentie!', error.error['message']);
+      });
+      }, error => {
+        console.log(error);
+        this.presentWarning('Atentie!', error.error['message']);
+      });
+
+      
+
+    var x = document.getElementById("formular");
+    var y = document.getElementById("addCard");
+    var z = document.getElementById("cards");
+    //var w = document.getElementById("pCardNumber");
+    //var del = document.getElementById("delete");
+
+    x.style.display = "none";
+    y.style.display = "block";
+    z.style.display = "block";
+
+    (<HTMLInputElement>document.getElementById('cardNumber')).value= "";
+    (<HTMLInputElement>document.getElementById('mm')).value= "";
+    (<HTMLInputElement>document.getElementById('yy')).value= "";
+    (<HTMLInputElement>document.getElementById('cvv')).value= "";
+    (<HTMLInputElement>document.getElementById('country')).value= "";
+    (<HTMLInputElement>document.getElementById('zipcode')).value= "";
   }
 
   cancel(){
@@ -32,111 +140,66 @@ export class PaymentPage implements OnInit {
     var z = document.getElementById("cards");
     var w = document.getElementById("pCardNumber");
 
+    
      x.style.display = "none";
      y.style.display = "block";
      z.style.display = "block";
      w.style.display = "none";
 
      (<HTMLInputElement>document.getElementById('cardNumber')).value= "";
-     (<HTMLInputElement>document.getElementById('date')).value= "";
+     (<HTMLInputElement>document.getElementById('mm')).value= "";
+     (<HTMLInputElement>document.getElementById('yy')).value= "";
      (<HTMLInputElement>document.getElementById('cvv')).value= "";
      (<HTMLInputElement>document.getElementById('country')).value= "";
      (<HTMLInputElement>document.getElementById('zipcode')).value= "";
-     
+
   }
-  // cancelEdit(){
-  //   var e = document.getElementById("edit");
-  //   e.style.display = "none";
-  // }
+
+  deleteCardd(cardnumber: number): void{
+    this.holdLength = this.cards['length']-1;// ultimul card din lista
+   // console.log(" My last card number is : ", this.cards[this.holdLength]['cardNumber']); 
+   
+    console.log("delete this card ", cardnumber );
+    this.presentPrompt('Do you want to delete this card ?',cardnumber);
+  }
+  async presentPrompt(message: String,cardnumber: number) {
+    let alert = await this.alertController.create({
+      header: message.toString(),
+      buttons: [
+        {
+          text: 'No',
+         //role: 'deleteCard',
+         handler: () => {},
+        },
+        {
+          text: 'Yes',
+        //  role: 'doNotDeleteCard',
+          handler: () => {
+      
+          console.log("delete this card (alert function)  ", cardnumber );
+            this.myFirstService.deleteCard(cardnumber)
+            .subscribe(
+              data =>{
+                console.log("oh well, I deleted this card ! ", data);
+                this.myFirstService.getCards()
+                .subscribe(data  => {
+                  console.log(" My cards : ", data);
+                   this.cards = data as [];
+            
+                }, error => {
+                  console.log(error);
+                  this.presentWarning('Atentie!', error.error['message']);
+                });
+              }, error => {
+                console.log(error);
+                this.presentWarning('Atentie!', error.error['message']);
+              });
+
+        }
+        }
+      ]
+    });
+  await  alert.present();
+  }
   
-  save(){
-    var x = document.getElementById("formular");
-    var y = document.getElementById("addCard");
-    var w = document.getElementById("pCardNumber");
-    var e = document.getElementById("edit");
-    var del = document.getElementById("delete");
-    var exit = document.getElementById("cancelEdit");
-    var str1 = "**** ";
-
-    // var button = document.createElement("button");
-    // button.innerHTML = "Edit";
-    // button.style.backgroundColor = "transparent";
-    // button.style.outline = "none";
-
-    // button.addEventListener ("click", function() {
-    //   e.style.display = "block";
-    
-    // //  button.innerHTML = "";
-    //   button.appendChild(e);
-    //   // button.appendChild(exit);
-    // });
-    // exit.addEventListener ("click", function(){
-      
-    //   del.style.display = "none";
-    //   exit.style.display = "none";
-    //  // 
-    //   button.innerHTML = "Edit";
-    //   button.style.display = "block";
-
-    // });
-
-      var listOfCards = document.getElementById('cards');
-      var cardNr = (<HTMLInputElement>document.getElementById('cardNumber')).value;
-
-      if(cardNr && cardNr.length==19){
-        var subst4 = cardNr.substring(cardNr.length - 4, cardNr.length);
-        var result = str1.concat(subst4);
-        var entry = document.createElement('ion-item');
-        entry.appendChild(document.createTextNode(result));
-        
-       // entry.appendChild(button);
-        entry.style.color = "grey";
-     
-        listOfCards.appendChild(entry);
-       // listOfCards.appendChild(button);
-        var br = document.createElement("br");
-        listOfCards.appendChild(br);
-        entry.addEventListener("click", function(){
-       // alert("edit");
-       if(e.style.display = "none"){
-        e.style.display = "block";
-        entry.appendChild(e);
-       } else {
-        e.style.display = "none";
-        entry.removeChild(e);
-       }
-      
-        });
-        // exit.addEventListener("click", function(){
-        //   // alert("edit");
-        //    var str2 = "";
-        //   entry.replaceChild(del,e);
-        //    });
-
-        //button.style.backgroundColor= "transparent";
-        //button.style.color = "grey";
-        //button.style.cssFloat = "right";
-        entry.style.display = "inline-block";
-        //button.style.display = "inline-block";
-        x.style.display = "none";
-        y.style.display = "block";
-        listOfCards.style.display = "block";
-        w.style.display = "none";
-      
-        
-        (<HTMLInputElement>document.getElementById('cardNumber')).value= "";
-        (<HTMLInputElement>document.getElementById('date')).value= "";
-        (<HTMLInputElement>document.getElementById('cvv')).value= "";
-        (<HTMLInputElement>document.getElementById('country')).value= "";
-        (<HTMLInputElement>document.getElementById('zipcode')).value= "";
-        (<HTMLInputElement>document.getElementById('e')).value= "";
-
-      }else{
-        x.style.display = "block";
-        y.style.display = "none";
-        listOfCards.style.display = "none";
-        w.style.display = "block";
-      }
-  }
-
 }
