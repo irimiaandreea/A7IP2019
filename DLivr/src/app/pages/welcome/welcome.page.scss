@@ -49,14 +49,13 @@
     font-weight: 300px;
     font-size: 12px;
 }
-#dlivr {
-    float:left;
-    width:40%;
-    height: 50px;
-    vertical-align: middle;
-    padding: 0;
-    margin: 0;
-}
+// #dlivr {
+//     width:40%;
+//     height: 50px;
+//     vertical-align: middle;
+//     padding: 0 !important;
+//     margin: 0 !important;
+// }
 
 ion-toolbar {
     --ion-background-color:  rgb(53, 53, 53);
@@ -68,4 +67,6 @@ ion-toolbar {
     ion-title {
       padding-right: 15%;
     }
+
   }
+

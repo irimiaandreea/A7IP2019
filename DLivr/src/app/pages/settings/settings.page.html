@@ -7,13 +7,81 @@
     </ion-toolbar>
   </ion-header>
   
-  <ion-content padding>
-  
-    <ion-menu-toggle>
-      <ion-button expand="full">Toggle Menu</ion-button>
-    </ion-menu-toggle>
-  
-    <ion-button expand="full" (click)="openMenu()">Open Menu</ion-button>
-    <ion-button expand="full" routerLink="/menu/settings">Go To Settings</ion-button>
+  <ion-content >
+
+      <ion-content>
+          <ion-card color="dark">
+            <!-- Only for drivers -->
+            <div id= "ratingDriver" *ngIf="userService.userType === 'driver'">
+                  <ion-item>
+                      <ion-label color="warning">
+                        Your rating
+                        <p>to enter rating</p>
+                      </ion-label>
+                    <ion-icon name="star" color="warning" slot="start"></ion-icon>
+                    </ion-item>
+      
+            </div>
+      
+            <!-- Client and Driver -->
+            <ion-label color="primary" style="padding-left: 15px;"> Your private informations: </ion-label>
+      
+            <ion-item>
+                <ion-label color="light">
+                  Email
+                  <p>to enter email</p>
+                </ion-label>
+               <ion-icon name="mail" color="primary" slot="start"></ion-icon>
+              </ion-item>
+      
+            <ion-item>
+              <ion-label color="light">
+                Name
+                <p>to enter name</p>
+              </ion-label>
+             <ion-icon name="person" color="primary" slot="start"></ion-icon>
+             <ion-icon name="create" color ="light" (click) = "changeName()" slot ="end"></ion-icon>
+            </ion-item>
+      
+            <ion-item>
+                <ion-label color="light">
+                  Phone Number
+                  <p>to enter phone number</p>
+                </ion-label>
+                <ion-icon name="call" color="primary" slot="start"></ion-icon>
+                <ion-icon name="create" color ="light" (click) = "changePhoneNumber()" slot ="end"></ion-icon>
+            </ion-item>
+      
+            <ion-item>
+                <ion-label color="light">
+                  Country
+                  <p>to enter country</p>
+                </ion-label>
+                <ion-icon name="flag" color="primary" slot="start"></ion-icon>
+                <ion-icon name="create" color ="light" (click) = "changeCountry()" slot ="end"></ion-icon>
+            </ion-item>
+      
+            <div id = "onlyClients" *ngIf="userService.userType === 'client'" >
+            <ion-label color="tertiary" style="padding-left: 15px;"> Predefined addresses to use when placing a package: </ion-label>
+            
+            <ion-item>
+              <ion-label color = "light">
+                <p>to enter address </p>
+              </ion-label>
+              <ion-icon name="home" color="tertiary" slot="start" ></ion-icon>
+              <ion-icon name="create" color ="light"  (click) = "changeAddress1()" slot ="end"></ion-icon>
+            </ion-item>
+            
+            <ion-item>
+                <ion-label color = "light">
+                  <p>to enter address </p>
+                </ion-label>
+                <ion-icon name="home" color="tertiary" slot="start" ></ion-icon>
+                <ion-icon name="create" color ="light"  (click) = "changeAddress2()" slot ="end"></ion-icon>
+              </ion-item>
+            </div>
+
+            </ion-card>
+      
   </ion-content>
   

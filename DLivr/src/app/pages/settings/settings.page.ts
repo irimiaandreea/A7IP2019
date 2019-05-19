@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ClientsService } from 'src/app/services/clients.service';
 
 @Component({
   selector: 'app-settings',
@@ -7,9 +8,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SettingsPage implements OnInit {
 
-  constructor() { }
+  constructor(private userService: ClientsService) {
+  }
 
   ngOnInit() {
+  }
+
+  changeUserType() {
+    if (this.userService.userType === 'client') {
+      this.userService.changeToDriver();
+
+    } else {
+      this.userService.changeToClient();
+
+    }
   }
 
 }

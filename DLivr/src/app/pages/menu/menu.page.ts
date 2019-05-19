@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterEvent } from '@angular/router';
 import { debug } from 'util';
+import { ClientsService } from 'src/app/services/clients.service';
 
 @Component({
   selector: 'app-menu',
@@ -9,7 +10,7 @@ import { debug } from 'util';
 })
 export class MenuPage implements OnInit {
 
-  userType: String = 'client';
+  name: String = '';
   clientPages = [
     {
       title: 'Home',
@@ -67,9 +68,21 @@ export class MenuPage implements OnInit {
   ];
 
   selectedPath = '';
-  constructor(private router: Router) {
+  constructor(private router: Router, private userService: ClientsService,) {
     this.router.events.subscribe((event: RouterEvent) => {
         this.selectedPath = event.url;
+    });
+
+    console.log()
+    this.userService.getProfileInfoSender()
+    .subscribe(data => {
+      console.log("Can get the name.");
+      this.name = data['name'];
+      console.log(JSON.stringify(data));
+
+    }, error => {
+      console.log("Can't get the name.");
+      console.log(error);
     });
    }
 
@@ -77,11 +90,11 @@ export class MenuPage implements OnInit {
   }
 
   changeUserType() {
-    if (this.userType === 'client') {
-      this.userType = 'driver';
+    if (this.userService.userType === 'client') {
+      this.userService.changeToDriver();
       this.router.navigate(['app/menu/homedriver']);
     } else {
-      this.userType = 'client';
+      this.userService.changeToClient();
       this.router.navigate(['app/menu/home']);
     }
   }
