@@ -10,7 +10,7 @@
           <ion-icon *ngIf="userType === 'client'" color="primary" name="cube" slot="start"></ion-icon>
           <ion-icon *ngIf="userType === 'driver'" color="secondary" name="car" slot="start"></ion-icon>
           <ion-label style="color:white; ">
-            <h1>Jane Doe</h1>
+            <h1 id="userName">Jane Doe</h1>
             <p *ngIf="userType === 'client'" style="float:left">CLIENT</p>
             <p *ngIf="userType === 'driver'" style="float:left">DRIVER</p>
           </ion-label>

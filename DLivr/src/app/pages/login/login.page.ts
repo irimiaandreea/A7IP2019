@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { HttpClient } from '@angular/common/http';
 import { ClientsService } from 'src/app/services/clients.service';
 import { Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -16,6 +17,7 @@ export class LoginPage implements OnInit {
   constructor (
     public formBuilder: FormBuilder,
     private userService: ClientsService,
+    public alertController: AlertController,
     private router: Router
     ) {
     this.loginForm = this.formBuilder.group(
@@ -52,4 +54,33 @@ export class LoginPage implements OnInit {
 
   ngOnInit() {
   }
+
+  async forgotPasswordAlert()
+  {
+    const alert = await this.alertController.create({
+      header: 'Reset Password',
+      inputs:
+      [
+        {
+          name: 'email',
+          placeholder: 'Email',
+        },
+        {
+          name: 'newPassword',
+          placeholder: 'New Password'
+        }
+      ],
+      buttons: 
+      [
+        {
+          text: 'Save'
+        },
+        {
+          text: 'Cancel'
+        }
+      ]
+    });
+    await alert.present();
+  }
+
 }
