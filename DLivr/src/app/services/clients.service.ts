@@ -24,7 +24,7 @@ export class ClientsService implements AfterViewInit {
   userType: String = 'client';
 
   // host: String = 'localhost';
-  //host: String = '192.168.0.102';
+  // host: String = '192.168.0.102';
 
   ngAfterViewInit()
   {
