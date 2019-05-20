@@ -15,28 +15,30 @@
   <!-- add a card form -->
   <!-- /////////////////////////////////////////////////////////// -->
 
-  <form novalidate #cardsForm="ngForm" (ngSubmit)="saveCard(cardsForm)" >
+  <form novalidate  #cardsForm="ngForm" (ngSubmit)="saveCard(cardsForm.value)" >
     <!-- cardsForm is a variable that holds a reference to the form 
          ngForm directive suppliments the form with all the properties such as dirty, touched etc
          that directive gives us the access to the value of the form
     -->
+    <!-- Value: {{addCardForm.value | json }} -->
 
   <div id="formular">
     <h6>Enter card details</h6>
 <ion-grid>
     <ion-row>
       <ion-col>
-          <ion-input id="cardNumber" required  #cardNr="ngModel" placeholder="Card Number" [(ngModel)]="cardModel.cardNumber" name="cardNumber">
+      
+          <ion-input id="cardNumber"  required  pattern="^[0-9]{16}$" #cardNr="ngModel" placeholder="Card Number" [(ngModel)]="cardModel.cardNumber" name="cardNumber">
             <!-- we use banana in a boc [()] for two way bingind data from the class to view, and from the view to class
                  and with two way binding we have the ngModel and Angular sync 
                  pattern="^(?:4[0-9]{12}(?:[0-9]{3})?|[25][1-7][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\d{3})\d{11})$"
                 -->
             <ion-icon name="card"></ion-icon> 
            </ion-input> 
-           <!-- <div *ngIf="cardNr.errors && (cardNr.invalid || cardNr.touched)">
-              <small  style="color:rgb(233, 0, 0);" *ngIf="cardNr.errors.required">Card number is required</small>
-              <small  style="color:rgb(233, 0, 0);" *ngIf="cardNr.errors.pattern">Card number is incorrect</small>
-           </div> -->
+      
+           <!-- <small  style="color:rgb(190, 4, 4);" *ngIf="(cardNr.invalid && cardNr.touched )">Card number is required</small> -->
+           <small  style="color:rgb(190, 4, 4);" *ngIf="(cardNr.invalid && cardNr.dirty )">Card number must have 16 digits</small>
+          
       
       </ion-col>
     </ion-row>
@@ -44,14 +46,23 @@
          {{cardNr.pristine}}  -->
     <ion-row>
         <ion-col>
-            <ion-input id="mm" placeholder="MM" required [(ngModel)]="cardModel.mm" name="mounth" ></ion-input>  
+           
+            <ion-input id="mm" #mmm="ngModel" pattern="^(0?[1-9]|1[012])$" placeholder="MM" required [(ngModel)]="cardModel.mm" name="month" ></ion-input>  
+            <!-- <small  style="color:rgb(190, 4, 4);" *ngIf="(mmm.invalid && mmm.touched )">Month is required</small> -->
+            <small  style="color:rgb(190, 4, 4);" *ngIf="(mmm.invalid && mmm.dirty )">Invalid Month</small>
           </ion-col>
           <ion-col>
-              <ion-input id="yy" placeholder="YY" required [(ngModel)]="cardModel.yy" name="year" ></ion-input>  
+           
+              <ion-input id="yy" #yyy="ngModel"   pattern="^((2|3|4|5|6|7|8|9){1}[0-9]{1})|19$" placeholder="YY" required [(ngModel)]="cardModel.yy" name="year" ></ion-input>  
+              <!-- <small  style="color:rgb(190, 4, 4);" *ngIf="(yyy.invalid && yyy.touched )">Year is required</small> -->
+              <small  style="color:rgb(190, 4, 4);" *ngIf="(yyy.invalid && yyy.dirty )">Invalid Year</small>
             </ion-col>
           <ion-col>
-            <ion-input  id="cvv" placeholder="CVV" required [(ngModel)]="cardModel.cvv" name="cvv"></ion-input>
-        </ion-col>
+         
+            <ion-input  id="cvv" #cvvv="ngModel" pattern="^[0-9]{3}$" placeholder="CVV" required [(ngModel)]="cardModel.cvv" name="cvv"></ion-input>
+            <!-- <small  style="color:rgb(190, 4, 4);" *ngIf="(cvvv.invalid && cvvv.touched )"> CVV is required</small> -->
+            <small  style="color:rgb(190, 4, 4);" *ngIf="(cvvv.invalid && cvvv.dirty )">Invalid CVV</small>
+          </ion-col>
       </ion-row>
       <ion-row>
           <ion-col id="searchable">
@@ -60,19 +71,23 @@
           <ion-icon name="flag"></ion-icon>
         </div>
         <div class="inline">
-          <ion-select  id="country" required placeholder="Country" [(ngModel)]="cardModel.country" name="country">
+          <ion-select  id="country" #coutryy="ngModel"  required placeholder="Country" [(ngModel)]="cardModel.country" name="country">
 
           <ion-select-option *ngFor="let country of countries">{{country}}</ion-select-option>
     
           </ion-select>
+          <!-- <small  style="color:rgb(233, 0, 0);" *ngIf="(countryy.invalid && countryy.touched )">Select a country</small> -->
       </div>
               </ion-col>
   
         </ion-row>
         <ion-row>
             <ion-col>
-                <ion-input id="zipcode" required placeholder="Zip Code" [(ngModel)]="cardModel.zipCode" name="zipcode"></ion-input>
-            </ion-col>
+           
+                <ion-input id="zipcode"   #zipcodee="ngModel" pattern="^[0-9]{5}$" required placeholder="Zip Code" [(ngModel)]="cardModel.zipCode" name="zipcode"></ion-input>
+                <!-- <small  style="color:rgb(190, 4, 4);" *ngIf="(zipcodee.invalid && zipcodee.touched )">ZipCode is required</small> -->
+                <small  style="color:rgb(190, 4, 4);" *ngIf="(zipcodee.invalid && zipcodee.dirty )">ZipCode must have 5 digits</small>
+              </ion-col>
           </ion-row>
           <ion-row>
              <br/>
