@@ -284,4 +284,37 @@ export class ClientsService implements AfterViewInit {
     return this.http.get('http://localhost:8298/package-management/packages/getPackages/'
     + location.toString(), this.makeAuthorizedHeader());
   }
+
+  modifyStatusDelivered(id: number, pin: number){
+    console.log(' Body ul ptr "Delivered" ');
+    console.log(' id ' + id);//Delivered
+    console.log(' pin ' + pin);//Delivered
+
+    const body = {
+      "id" : id,
+      "status" : "Delivered",
+      "pin": pin
+    };
+    return this.http.put('http://localhost:8298/package-management/packages/modifyStatus',body, this.makeAuthorizedHeader());
+  }
+
+  modifyStatusAccepted(id: number){
+    console.log(' Body ul ptr "Accepted" ');
+    console.log(' id ' + id);//Accepted
+    const body = {
+      "id" : id,
+      "status" : "Accepted"
+    };
+    return this.http.put('http://localhost:8298/package-management/packages/modifyStatus',body, this.makeAuthorizedHeader());
+  }
+
+  modifyStatusInDelivery(id: number){
+    console.log(' Body ul ptr "In Delivery" ');
+    console.log(' id ' + id);//In Delivery
+    const body = {
+      "id" : id,
+      "status" : "In Delivery"
+    };
+    return this.http.put('http://localhost:8298/package-management/packages/modifyStatus',body, this.makeAuthorizedHeader());
+  }
 }

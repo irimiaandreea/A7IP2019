@@ -15,7 +15,7 @@ import { AlertController } from '@ionic/angular';
 export class MypackagesdriverPage implements OnInit {
 
   packages = [];
-
+ // pin: number;
   constructor(private myFirstService : ClientsService,public alertController: AlertController,private alertCtrl: AlertController) {
     /*this.packages = JSON.parse(localStorage.getItem("mypackages.packages"));
     console.log("packages: " + JSON.stringify(this.packages[0].pickupAddress));*/
@@ -37,11 +37,13 @@ export class MypackagesdriverPage implements OnInit {
       });
   }
 
-  markPackageAsDelivered(){
-    this.presentPrompt();
+  markPackageAsDelivered(id: number){
+    console.log(" id in ts ", id );
+    this.presentPrompt(id);
   }
 
-  async presentPrompt() {
+  async presentPrompt(id: number) {
+
     let alert = await this.alertCtrl.create({
      // title: 'PIN',
       inputs: [
@@ -54,11 +56,36 @@ export class MypackagesdriverPage implements OnInit {
         {
           text: 'Cancel',
           role: 'cancel',
-  
         },
         {
           text: 'Ok',
-          role: 'ok',
+          //role: 'ok',
+
+          handler: data => {
+           // this.pin = (data.PIN);
+            console.log(" package id  ", id );
+            console.log(" data.PIN  ", data.PIN );
+         //   console.log("  this.pin = JSON.stringify(data.PIN); ", this.pin);
+              this.myFirstService.modifyStatusDelivered(id,data.PIN)//iau pinul
+              .subscribe(
+                data =>{
+                  console.log("oh well, package delivered ! ", data);
+                  this.myFirstService.mypackagesdriverget()
+                  .subscribe(data  => {
+                    console.log(" My accepted packages : ", data);
+                     this.packages = data as [];
+              
+                  }, error => {
+                    console.log(error);
+                    this.presentWarning('Atentie!', error.error['message']);
+                  });
+                }, error => {
+                  console.log(error);
+                  this.presentWarning('Atentie!', error.error['message']);
+                });
+  
+          }
+
         }
       ]
     });
