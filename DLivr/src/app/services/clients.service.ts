@@ -5,6 +5,7 @@ import { AlertController } from '@ionic/angular';
 import { Card } from '../card';
 
 import { Observable } from 'rxjs';
+import { stripSummaryForJitFileSuffix } from '@angular/compiler/src/aot/util';
 
 declare var google: any;
 
@@ -13,11 +14,17 @@ declare var google: any;
 })
 export class ClientsService implements AfterViewInit {
 
+;
   loggedIn = false;
   accessToken: String = '';
   email: String = '';
   apiKey: String = 'AIzaSyCzbVg-JhZ5enrOtt6KwzDFqG9_7C-vSYo'; /*Your API Key*/
   geocoder: any;
+
+  userType: String = 'client';
+
+  // host: String = 'localhost';
+  // host: String = '192.168.0.102';
 
   ngAfterViewInit()
   {
@@ -27,6 +34,7 @@ export class ClientsService implements AfterViewInit {
   {
   }
 
+  // REGISTER : post
   register(credentials) {
 
     const httpOptions = {
@@ -49,6 +57,7 @@ export class ClientsService implements AfterViewInit {
     });
   }
 
+  // LOGIN : post
   login(credentials) {
 
     console.log(credentials);
@@ -74,6 +83,7 @@ export class ClientsService implements AfterViewInit {
     });
   }
 
+  // RATING : post
   sendPackageRating(id, rating)
   {
     const body = {
@@ -103,6 +113,16 @@ export class ClientsService implements AfterViewInit {
   //   await alert.present();
   // }
 
+  changeToDriver()
+  {
+    this.userType = 'driver';
+  }
+
+  changeToClient()
+  {
+    this.userType = 'client';
+  }
+
   // coroutines
   async presentWarning(hd: String, msg: String) {
    console.log('ms ul asta e ' + msg);
@@ -118,6 +138,7 @@ export class ClientsService implements AfterViewInit {
     await alert.present();
   }
 
+  // HEADER : CORS 
   makeAuthorizedHeader() 
   {
     return {
@@ -128,35 +149,13 @@ export class ClientsService implements AfterViewInit {
     };
   }
 
-  // GET for mypackages  
+  // MYPACKAGES_ client : get
   getPackages()
   {
     return this.http.get('http://localhost:8298/package-management/packages/getPackagesSender', this.makeAuthorizedHeader());
   }
 
-  // validateEmailAddress(email)
-  // {
-  //   const mapOptions = {
-  //       center: {lat: 47.143022, lng: 27.581259},
-  //       zoom: 15,
-  //       mapTypeControl: false
-  //   };
-
-  //   const script = document.createElement('script');
-  //   script.src = 'https://maps.googleapis.com/maps/api/js?key=' + this.apiKey;
-  //   script.id = 'googleMap';
-  //   script.type = 'text/javascript';
-  //   console.log(script.src);
-
-  //   document.head.appendChild(script);
-  //   this.geocoder = new google.maps.Geocoder();
-
-  //   return this.geocoder.geocode({'address': '10389 Shenandoah'}, function(results, status)
-  //   {
-  //     console.log(status);
-  //   });
-  // }
-
+  // a try of validate address
   validateAddress()
   {
     var address1 = document.getElementById('pickupAddressInput');
@@ -180,7 +179,7 @@ export class ClientsService implements AfterViewInit {
     return email.substring(0, index);
   }
 
-  // POST for mypackages
+  // MYPACKAGES_ client : post
   addPackage(newPackage)
   {
     const body = {
@@ -205,16 +204,13 @@ export class ClientsService implements AfterViewInit {
     );
   }
 
-  // PUT localhost:8298/package-management/packages/modifyPackageInformations modifica informatiile despre un pachet (request facut de sender). 
-  // Primeste in body :  id,namePackage,senderAddress,receiverAddress, 
-  // phoneNumberSender,phoneNumberReceiver,receiverName,kilograms,length,width,height. Numai id-ul este obligatoriu, celelalte campuri pot fi null
-
+  // MYPACKAGES_ client: delete
   deletePackage(id)
   {
     return this.http.delete('http://localhost:8298/package-management/packages/deletePackage/' + id, this.makeAuthorizedHeader());
   }
 
-  // PUT for mypackages
+  // MYPACKAGES_ client: put
   editPackage(packageToUpdate)
   {
     return this.http.put('http://localhost:8298/package-management/packages/modifyPackageInformations', 
@@ -223,6 +219,7 @@ export class ClientsService implements AfterViewInit {
     );
   }
 
+  // MYPACKAGES_ driver: get
   mypackagesdriverget()
   {
    console.log('Access email MY PACK DRIVER ' + this.email);
@@ -280,11 +277,12 @@ export class ClientsService implements AfterViewInit {
     
   }
 
+  // HOMEPAGE_ driver: get
   getPackagesInAreaOf(location: String) {
     return this.http.get('http://localhost:8298/package-management/packages/getPackages/'
     + location.toString(), this.makeAuthorizedHeader());
   }
-
+  
   modifyStatusDelivered(id: number, pin: number){
     console.log(' Body ul ptr "Delivered" ');
     console.log(' id ' + id);//Delivered
@@ -316,5 +314,200 @@ export class ClientsService implements AfterViewInit {
       "status" : "In Delivery"
     };
     return this.http.put('http://localhost:8298/package-management/packages/modifyStatus',body, this.makeAuthorizedHeader());
+  
+  // FORGOT_PASSWORD: get
+  generatePassword(email : String)
+  {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+      })
+    };
+
+    return this.http.get('http://localhost:8298/account-management/passwordRecovery/' + email, httpOptions);
+  }
+
+  // GET_PROFILE_INFO_ driver: get
+  getProfileInfoDriver()
+  {
+    return this.http.get("http://localhost:8298/account-management/accountManagement/getProfileInformation/driver", this.makeAuthorizedHeader());
+  }
+
+  // GET_PROFILE_INFO_ sender: get
+  getProfileInfoSender()
+  {
+    return this.http.get("http://localhost:8298/account-management/accountManagement/getProfileInformation/sender", this.makeAuthorizedHeader());
+  }
+
+  // GET_RATING_ driver: get
+  // GET localhost:8298/rating-management/rating/getRating/{driverEmail}   se returneaza un json cu o cheie "rating" care retine un float. 
+  getRating(email : String)
+  {
+    return this.http.get("http://localhost:8298/rating-management/rating/getRating/" + email, this.makeAuthorizedHeader());
+  }
+
+  // POST_PROFILE_INFO_ sender : post NAME
+  sendProfileInfoName(name)
+  {
+    const body = {
+      "name" : name,
+      "country" : null,
+      "phone_number" : null,
+      "address1" : null, 
+      "address2" : null, 
+      "address3" : null, 
+      "address4" : null, 
+      "address5" : null, 
+    };
+
+    return this.http.put('http://localhost:8298/account-management/accountManagement/modifyProfileInformation/sender', 
+      JSON.stringify(body),
+      this.makeAuthorizedHeader()
+    );
+  }
+ // POST_PROFILE_INFO_ sender : post COUNTRY
+  sendProfileInfoCountry(country)
+  {
+    const body = {
+      "name" : null,
+      "country" : country,
+      "phone_number" : null,
+      "address1" : null, 
+      "address2" : null, 
+      "address3" : null, 
+      "address4" : null, 
+      "address5" : null, 
+    };
+
+    return this.http.put('http://localhost:8298/account-management/accountManagement/modifyProfileInformation/sender', 
+      JSON.stringify(body),
+      this.makeAuthorizedHeader()
+    );
+  }
+ // POST_PROFILE_INFO_ sender : post PHONE
+  sendProfileInfoPhoneNumber(phone_number)
+  {
+    const body = {
+      "name" : null,
+      "country" : null,
+      "phone_number" : phone_number,
+      "address1" : null, 
+      "address2" : null, 
+      "address3" : null, 
+      "address4" : null, 
+      "address5" : null, 
+    };
+
+    return this.http.put('http://localhost:8298/account-management/accountManagement/modifyProfileInformation/sender', 
+      JSON.stringify(body),
+      this.makeAuthorizedHeader()
+    );
+  }
+ // POST_PROFILE_INFO_ sender : post ADDRESS1
+  sendProfileInfoAddress1(address1)
+  {
+    const body = {
+      "name" : null,
+      "country" : null,
+      "phone_number" : null,
+      "address1" : address1, 
+      "address2" : null, 
+      "address3" : null, 
+      "address4" : null, 
+      "address5" : null, 
+    };
+
+    return this.http.put('http://localhost:8298/account-management/accountManagement/modifyProfileInformation/sender', 
+      JSON.stringify(body),
+      this.makeAuthorizedHeader()
+    );
+  }
+ // POST_PROFILE_INFO_ sender : post ADDRESS2
+  sendProfileInfoAddress2(address2)
+  {
+    const body = {
+      "name" : null,
+      "country" : null,
+      "phone_number" : null,
+      "address1" : null, 
+      "address2" : address2, 
+      "address3" : null, 
+      "address4" : null, 
+      "address5" : null, 
+    };
+
+    return this.http.put('http://localhost:8298/account-management/accountManagement/modifyProfileInformation/sender', 
+      JSON.stringify(body),
+      this.makeAuthorizedHeader()
+    );
+  }
+ // POST_PROFILE_INFO_ sender : post ADDRESS3
+  sendProfileInfoAddress3(address3)
+  {
+    const body = {
+      "name" : null,
+      "country" : null,
+      "phone_number" : null,
+      "address1" : null, 
+      "address2" : null, 
+      "address3" : address3, 
+      "address4" : null, 
+      "address5" : null, 
+    };
+
+    return this.http.put('http://localhost:8298/account-management/accountManagement/modifyProfileInformation/sender', 
+      JSON.stringify(body),
+      this.makeAuthorizedHeader()
+    );
+  }
+ // POST_PROFILE_INFO_ sender : post ADDRESS4
+  sendProfileInfoAddress4(address4)
+  {
+    const body = {
+      "name" : null,
+      "country" : null,
+      "phone_number" : null,
+      "address1" : null, 
+      "address2" : null, 
+      "address3" : null, 
+      "address4" : address4, 
+      "address5" : null, 
+    };
+
+    return this.http.put('http://localhost:8298/account-management/accountManagement/modifyProfileInformation/sender', 
+      JSON.stringify(body),
+      this.makeAuthorizedHeader()
+    );
+  }
+ // POST_PROFILE_INFO_ sender : post ADDRESS5
+  sendProfileInfoAddress5(address5)
+  {
+    const body = {
+      "name" : null,
+      "country" : null,
+      "phone_number" : null,
+      "address1" : null, 
+      "address2" : null, 
+      "address3" : null, 
+      "address4" : null, 
+      "address5" : address5, 
+    };
+
+    return this.http.put('http://localhost:8298/account-management/accountManagement/modifyProfileInformation/sender', 
+      JSON.stringify(body),
+      this.makeAuthorizedHeader()
+    );
+  }
+
+  // PUT_CHANGE_PASS : put PASSWORD
+  changePassword(oldPassword, newPassword)
+  {
+    const body = {
+      "oldPassword" : oldPassword,
+      "newPassword" : newPassword
+    }
+    return this.http.put('http://localhost:8298/account-management/accountManagement/resetPassword',
+      body,
+      this.makeAuthorizedHeader());
   }
 }

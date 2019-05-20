@@ -10,6 +10,7 @@ import { ClientsService } from 'src/app/services/clients.service';
 export class RegisterPage implements OnInit {
   registerForm: FormGroup;
   submitted = false;
+  
 
   constructor(private formBuilder: FormBuilder, private userService: ClientsService) { }
 
