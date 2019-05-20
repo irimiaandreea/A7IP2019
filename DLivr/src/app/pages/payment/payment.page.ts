@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ClientsService } from 'src/app/services/clients.service';
 import { AlertController } from '@ionic/angular';
 import { Card } from 'src/app/card';
@@ -10,17 +10,22 @@ import { Card } from 'src/app/card';
   selector: 'app-payment',
   templateUrl: './payment.page.html',
   styleUrls: ['./payment.page.scss'],
+
 })
+
+
 export class PaymentPage implements OnInit {
 
- // addCardForm: FormGroup;
-  // cardData = {
-  //   "cardNr":"", 
-  //   "date":"",
-  //   "cvv":"",
-  //   "country":"",
-  //   "zipcode":""
-  // }
+  //addCardForm: FormGroup;
+
+  //get f() { return this.addCardForm.controls; }
+
+  // cardNumber: string = "";
+  // mm: string = "";
+  // yy: string = "";
+  // cvv: string = "";
+  // country: string = "";
+  // zipcode: string = "";
 
   cards = [];
   holdLength : number;
@@ -43,10 +48,39 @@ export class PaymentPage implements OnInit {
 
 
 
-  constructor(private myFirstService : ClientsService,public alertController: AlertController) {
+  constructor(private myFirstService : ClientsService,public alertController: AlertController,private fb: FormBuilder) {
   }
 
   ngOnInit() {
+
+    //  this.addCardForm = new FormGroup({
+    //   cardNr: new FormControl('', [ Validators.required, Validators.minLength(16),
+    //     Validators.maxLength(16)]),
+    //   mm: new FormControl('', [Validators.required,    Validators.minLength(1),
+    //     Validators.maxLength(2),
+    //   Validators.min(1),
+    // Validators.max(12)]),
+    //   cvv: new FormControl('', [Validators.required]),
+    //   country: new FormControl('', [Validators.required]),
+    //   zipcode: new FormControl('',[Validators.required])
+    // });
+
+
+    // this.addCardForm = this.fb.group(
+    //   {
+    //     cardNumber:['',[Validators.required,
+    //     Validators.minLength(16),
+    //     Validators.maxLength(16)]],
+    //     mm:['',[Validators.required,
+    //       Validators.minLength(1),
+    //       Validators.maxLength(2),
+    //     Validators.min(1),
+    //   Validators.max(12)]],
+    //     yy:'',
+    //     cvv:'',
+    //     country:'',
+    //     zipcode:''
+    //   });
    // this.cardModel = new Card(4535345435444,null,null,null,'default',null);
     this.myFirstService.getCards()
     .subscribe(data  => {
@@ -58,14 +92,17 @@ export class PaymentPage implements OnInit {
       this.presentWarning('Atentie!', error.error['message']);
     });
     
-    // this.addCardForm = new FormGroup({
-    //   cardNr: new FormControl('', [Validators.required, Validators.pattern('[a-zA-Z ]*'), Validators.minLength(4), Validators.maxLength(10)]),
-    //   date: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(12)]),
-    //   cvv: new FormControl('', [Validators.required, Validators.pattern('[a-zA-Z ]*'), Validators.minLength(4), Validators.maxLength(30)]),
-    //   country: new FormControl('', [Validators.required]),
-    //   zipcode: new FormControl('',[Validators.required])
-    // });
+   
   }
+
+  // get cardNumber(){
+  //   return  this.addCardForm.get('cardNumber');
+  // }
+
+  // get mm(){
+  //   return  this.addCardForm.get('mm');
+  // }
+
   async presentWarning(hd: String, msg: String) {
     console.log('ms ul asta e ' + msg);
      const alert = await this.alertController.create({

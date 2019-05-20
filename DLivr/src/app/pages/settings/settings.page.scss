@@ -1,3 +1,5 @@
+$green-color: rgb(78, 238, 91);
+
 ion-toolbar {
   --ion-background-color:  rgb(46, 46, 46);
 }
@@ -10,11 +12,26 @@ ion-title {
   color: gray;
 }
 
+#passwordbutton{
+  //background: $green-color;
+  color: black;
+  // border-radius: 5px;
+  font-weight: 13%;
+}
 
 ion-card {
-width: 100%;
+width: 95%;
 
 }
+
+.phraseText
+{
+  font-size: 13px;
+}
+// ion-content{
+//   align-items: center;
+//   align-content: center;
+// }
 
 @media only screen and (max-width: 600px) {
   ion-title {
@@ -22,6 +39,10 @@ width: 100%;
   }
 
   ion-card {
-    width: 100%
+    width: 95%
   }
+  // #long{
+  //   font-size: 13px;
+  // }
+
 }
