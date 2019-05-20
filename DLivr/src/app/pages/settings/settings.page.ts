@@ -102,7 +102,28 @@ export class SettingsPage implements OnInit {
             this.userService.sendProfileInfoName(data['name'])
             .subscribe(data => {
             console.log("The name was updated");
+            this.userService.presentWarning("Atentie", "Numele a fost modificat cu success");
 
+            this.userService.getProfileInfoSender()
+            .subscribe(data => {
+              console.log('Getting data from server'+  JSON.stringify(data));
+              this.email = data['email'];
+              this.name = data['name'];
+              this.phoneNumber = data['phone_number'];
+              this.country = data['country'];
+              this.address1 = data['address1'];
+              this.address2 = data['address2'];
+              this.address3 = data['address3'];
+              this.address4 = data['address4'];
+              this.address5 = data['address5'];
+          
+            }, error => {
+              console.log('Unable to get info');
+              console.log(error);
+          
+          
+            });
+        
           }, error => {
             console.log("Can't update the name");
             this.userService.presentWarning("Atentie", "A aparut o problema cu informatia pe care ati trimis-o");
@@ -114,6 +135,8 @@ export class SettingsPage implements OnInit {
       ]
     });
     await alert.present();
+    
+
   }
 
   async changePhoneNumber(){
@@ -139,9 +162,30 @@ export class SettingsPage implements OnInit {
           handler: (data) => {
             data['phone_number'];
             console.log('Pressed the button Save ' + data['phone_number']);
-            this.userService.sendProfileInfoName(data['phone_number'])
+            this.userService.sendProfileInfoPhoneNumber(data['phone_number'])
             .subscribe(data => {
             console.log("The phone_number was updated");
+            this.userService.presentWarning("Atentie", "Numarul de telefon a fost modificat cu success");
+                        
+            this.userService.getProfileInfoSender()
+            .subscribe(data => {
+              console.log('Getting data from server'+  JSON.stringify(data));
+              this.email = data['email'];
+              this.name = data['name'];
+              this.phoneNumber = data['phone_number'];
+              this.country = data['country'];
+              this.address1 = data['address1'];
+              this.address2 = data['address2'];
+              this.address3 = data['address3'];
+              this.address4 = data['address4'];
+              this.address5 = data['address5'];
+          
+            }, error => {
+              console.log('Unable to get info');
+              console.log(error);
+          
+          
+            });
 
           }, error => {
             console.log("Can't update the phone_number");
@@ -179,9 +223,30 @@ export class SettingsPage implements OnInit {
           handler: (data) => {
             data['country'];
             console.log('Pressed the button Save ' + data['country']);
-            this.userService.sendProfileInfoName(data['phone_number'])
+            this.userService.sendProfileInfoCountry(data['country'])
             .subscribe(data => {
             console.log("The country was updated");
+            this.userService.presentWarning("Atentie", "Tara a fost modificata cu success");
+                        
+            this.userService.getProfileInfoSender()
+            .subscribe(data => {
+              console.log('Getting data from server'+  JSON.stringify(data));
+              this.email = data['email'];
+              this.name = data['name'];
+              this.phoneNumber = data['phone_number'];
+              this.country = data['country'];
+              this.address1 = data['address1'];
+              this.address2 = data['address2'];
+              this.address3 = data['address3'];
+              this.address4 = data['address4'];
+              this.address5 = data['address5'];
+          
+            }, error => {
+              console.log('Unable to get info');
+              console.log(error);
+          
+          
+            });
 
           }, error => {
             console.log("Can't update the country");
@@ -219,9 +284,30 @@ export class SettingsPage implements OnInit {
           handler: (data) => {
             data['address1'];
             console.log('Pressed the button Save ' + data['address1']);
-            this.userService.sendProfileInfoName(data['address1'])
+            this.userService.sendProfileInfoAddress1(data['address1'])
             .subscribe(data => {
             console.log("The address1 was updated");
+            this.userService.presentWarning("Atentie", "Adresa predefinita a fost modificata cu success");
+       
+            this.userService.getProfileInfoSender()
+            .subscribe(data => {
+              console.log('Getting data from server'+  JSON.stringify(data));
+              this.email = data['email'];
+              this.name = data['name'];
+              this.phoneNumber = data['phone_number'];
+              this.country = data['country'];
+              this.address1 = data['address1'];
+              this.address2 = data['address2'];
+              this.address3 = data['address3'];
+              this.address4 = data['address4'];
+              this.address5 = data['address5'];
+          
+            }, error => {
+              console.log('Unable to get info');
+              console.log(error);
+          
+          
+            });
 
           }, error => {
             console.log("Can't update the address1");
@@ -259,9 +345,30 @@ export class SettingsPage implements OnInit {
           handler: (data) => {
             data['address2'];
             console.log('Pressed the button Save ' + data['address2']);
-            this.userService.sendProfileInfoName(data['address2'])
+            this.userService.sendProfileInfoAddress2(data['address2'])
             .subscribe(data => {
             console.log("The address2 was updated");
+            this.userService.presentWarning("Atentie", "Adresa predefinita a fost modificata cu success");
+                        
+            this.userService.getProfileInfoSender()
+            .subscribe(data => {
+              console.log('Getting data from server'+  JSON.stringify(data));
+              this.email = data['email'];
+              this.name = data['name'];
+              this.phoneNumber = data['phone_number'];
+              this.country = data['country'];
+              this.address1 = data['address1'];
+              this.address2 = data['address2'];
+              this.address3 = data['address3'];
+              this.address4 = data['address4'];
+              this.address5 = data['address5'];
+          
+            }, error => {
+              console.log('Unable to get info');
+              console.log(error);
+          
+          
+            });
 
           }, error => {
             console.log("Can't update the address2");
@@ -299,9 +406,30 @@ export class SettingsPage implements OnInit {
           handler: (data) => {
             data['address3'];
             console.log('Pressed the button Save ' + data['address3']);
-            this.userService.sendProfileInfoName(data['address3'])
+            this.userService.sendProfileInfoAddress3(data['address3'])
             .subscribe(data => {
             console.log("The address3 was updated");
+            this.userService.presentWarning("Atentie", "Adresa predefinita a fost modificata cu success");
+                        
+            this.userService.getProfileInfoSender()
+            .subscribe(data => {
+              console.log('Getting data from server'+  JSON.stringify(data));
+              this.email = data['email'];
+              this.name = data['name'];
+              this.phoneNumber = data['phone_number'];
+              this.country = data['country'];
+              this.address1 = data['address1'];
+              this.address2 = data['address2'];
+              this.address3 = data['address3'];
+              this.address4 = data['address4'];
+              this.address5 = data['address5'];
+          
+            }, error => {
+              console.log('Unable to get info');
+              console.log(error);
+          
+          
+            });
 
           }, error => {
             console.log("Can't update the address3");
@@ -339,9 +467,30 @@ export class SettingsPage implements OnInit {
           handler: (data) => {
             data['address4'];
             console.log('Pressed the button Save ' + data['address4']);
-            this.userService.sendProfileInfoName(data['address4'])
+            this.userService.sendProfileInfoAddress4(data['address4'])
             .subscribe(data => {
             console.log("The address4 was updated");
+            this.userService.presentWarning("Atentie", "Adresa predefinita a fost modificata cu success");
+                        
+            this.userService.getProfileInfoSender()
+            .subscribe(data => {
+              console.log('Getting data from server'+  JSON.stringify(data));
+              this.email = data['email'];
+              this.name = data['name'];
+              this.phoneNumber = data['phone_number'];
+              this.country = data['country'];
+              this.address1 = data['address1'];
+              this.address2 = data['address2'];
+              this.address3 = data['address3'];
+              this.address4 = data['address4'];
+              this.address5 = data['address5'];
+          
+            }, error => {
+              console.log('Unable to get info');
+              console.log(error);
+          
+          
+            });
 
           }, error => {
             console.log("Can't update the address4");
@@ -379,9 +528,30 @@ export class SettingsPage implements OnInit {
           handler: (data) => {
             data['address5'];
             console.log('Pressed the button Save ' + data['address5']);
-            this.userService.sendProfileInfoName(data['address5'])
+            this.userService.sendProfileInfoAddress5(data['address5'])
             .subscribe(data => {
             console.log("The address5 was updated");
+            this.userService.presentWarning("Atentie", "Adresa predefinita a fost modificata cu success");
+                        
+            this.userService.getProfileInfoSender()
+            .subscribe(data => {
+              console.log('Getting data from server'+  JSON.stringify(data));
+              this.email = data['email'];
+              this.name = data['name'];
+              this.phoneNumber = data['phone_number'];
+              this.country = data['country'];
+              this.address1 = data['address1'];
+              this.address2 = data['address2'];
+              this.address3 = data['address3'];
+              this.address4 = data['address4'];
+              this.address5 = data['address5'];
+          
+            }, error => {
+              console.log('Unable to get info');
+              console.log(error);
+          
+          
+            });
 
           }, error => {
             console.log("Can't update the address5");

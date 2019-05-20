@@ -329,7 +329,7 @@ export class ClientsService implements AfterViewInit {
       "address5" : null, 
     };
 
-    return this.http.post('http://localhost:8298/account-management/accountManagement/modifyProfileInformation/sender', 
+    return this.http.put('http://localhost:8298/account-management/accountManagement/modifyProfileInformation/sender', 
       JSON.stringify(body),
       this.makeAuthorizedHeader()
     );
@@ -348,7 +348,7 @@ export class ClientsService implements AfterViewInit {
       "address5" : null, 
     };
 
-    return this.http.post('http://localhost:8298/account-management/accountManagement/modifyProfileInformation/sender', 
+    return this.http.put('http://localhost:8298/account-management/accountManagement/modifyProfileInformation/sender', 
       JSON.stringify(body),
       this.makeAuthorizedHeader()
     );
@@ -367,7 +367,7 @@ export class ClientsService implements AfterViewInit {
       "address5" : null, 
     };
 
-    return this.http.post('http://localhost:8298/account-management/accountManagement/modifyProfileInformation/sender', 
+    return this.http.put('http://localhost:8298/account-management/accountManagement/modifyProfileInformation/sender', 
       JSON.stringify(body),
       this.makeAuthorizedHeader()
     );
@@ -386,7 +386,7 @@ export class ClientsService implements AfterViewInit {
       "address5" : null, 
     };
 
-    return this.http.post('http://localhost:8298/account-management/accountManagement/modifyProfileInformation/sender', 
+    return this.http.put('http://localhost:8298/account-management/accountManagement/modifyProfileInformation/sender', 
       JSON.stringify(body),
       this.makeAuthorizedHeader()
     );
@@ -405,7 +405,7 @@ export class ClientsService implements AfterViewInit {
       "address5" : null, 
     };
 
-    return this.http.post('http://localhost:8298/account-management/accountManagement/modifyProfileInformation/sender', 
+    return this.http.put('http://localhost:8298/account-management/accountManagement/modifyProfileInformation/sender', 
       JSON.stringify(body),
       this.makeAuthorizedHeader()
     );
@@ -424,7 +424,7 @@ export class ClientsService implements AfterViewInit {
       "address5" : null, 
     };
 
-    return this.http.post('http://localhost:8298/account-management/accountManagement/modifyProfileInformation/sender', 
+    return this.http.put('http://localhost:8298/account-management/accountManagement/modifyProfileInformation/sender', 
       JSON.stringify(body),
       this.makeAuthorizedHeader()
     );
@@ -443,7 +443,7 @@ export class ClientsService implements AfterViewInit {
       "address5" : null, 
     };
 
-    return this.http.post('http://localhost:8298/account-management/accountManagement/modifyProfileInformation/sender', 
+    return this.http.put('http://localhost:8298/account-management/accountManagement/modifyProfileInformation/sender', 
       JSON.stringify(body),
       this.makeAuthorizedHeader()
     );
@@ -462,7 +462,7 @@ export class ClientsService implements AfterViewInit {
       "address5" : address5, 
     };
 
-    return this.http.post('http://localhost:8298/account-management/accountManagement/modifyProfileInformation/sender', 
+    return this.http.put('http://localhost:8298/account-management/accountManagement/modifyProfileInformation/sender', 
       JSON.stringify(body),
       this.makeAuthorizedHeader()
     );
