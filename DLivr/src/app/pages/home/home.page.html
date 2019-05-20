@@ -7,12 +7,28 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content>
 
-  <ion-menu-toggle>
-    <ion-button expand="full">Toggle Menu</ion-button>
-  </ion-menu-toggle>
+  <ion-grid id="myNotifications">
+    
+    <ion-row>
+      <ion-col id = "notificationsList">
+        <ion-card id = "ion-card-id-package" *ngFor="let notification of notifications">
+          <ion-card-content>
+            <ion-item id = "notificationListItem" lines="none" color="blue">
+                <ion-card-content>
+                  <ion-text class ="textForm"> 
+                    Your package "{{notification.namePackage}}" has the status: Ready
+                  </ion-text>
+                </ion-card-content>
+            </ion-item>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
 
-  <ion-button expand="full" (click)="openMenu()">Open Menu</ion-button>
-  <ion-button expand="full" routerLink="/menu/settings">Go To Settings</ion-button>
+
+
+  </ion-grid>
+  
 </ion-content>
