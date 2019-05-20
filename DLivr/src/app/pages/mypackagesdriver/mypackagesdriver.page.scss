@@ -47,7 +47,7 @@ ion-title {
      ion-card-content{
         //  margin-top: -15px;
           padding: -5px 0px 0px 0px;
-          color: rgb(73, 73, 73);
+          color: rgb(255, 0, 0);//aici moific culoarea
           margin: 0px 0px 0px 0px;
       }
       
@@ -65,7 +65,7 @@ ion-grid {
 
 ion-card-title{
     color: rgb(255, 136, 0);
-    // font-weight: bolder;
+    background:rgb(49, 47, 49);
 }
 
 ion-card-subtitle{
@@ -77,24 +77,21 @@ ion-card-subtitle{
 ion-card-content{
   //  margin-top: -15px;
     padding: 5px 0px 0px 2px;
-    color: rgb(73, 73, 73);
+    color: rgb(197, 197, 197);
 }
 
 ion-card{
-    background:rgb(219, 219, 219);
+    background:rgb(43, 41, 41);
 }
 
 
 ion-item{
-    background:rgb(219, 219, 219);
+    background:rgb(49, 47, 49);
 }
 
-ion-item{
-    --background: rgb(219, 219, 219);
-}
 
 ion-card-header{
-    background: rgb(219, 219, 219);
+    background: rgb(34, 32, 32);
 }
 
 
@@ -118,7 +115,7 @@ ion-card-header{
         //  margin-top: -15px;
           padding: 0px 0px 0px 0px;
           margin: 0px 0px 0px 0px;
-          color: rgb(73, 73, 73);
+          color: rgba(214, 214, 214, 0.952);
       }
      ion-text{
         padding: 0px 0px 0px;

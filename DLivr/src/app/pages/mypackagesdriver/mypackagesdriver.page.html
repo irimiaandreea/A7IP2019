@@ -19,7 +19,7 @@
           <ion-label id ="cardListLabel">     
 
             <ion-card-header>
-              <ion-card-title> {{package.id}} <!--from {{package.Name}}--> </ion-card-title>
+              <ion-card-title>Package name: {{package.namePackage}} <!--from {{package.Name}}--> </ion-card-title>
               <!-- <ion-card-subtitle> Distance: 200 m </ion-card-subtitle> -->
             </ion-card-header>
             <!-- <br/> -->
@@ -85,6 +85,14 @@
                 <ion-text class="textForm"> Contact Package Sender </ion-text> 
                 <!-- <ion-text id="packageDetails">  {{package.senderAddress}} </ion-text> -->
               </ion-card-content>
+              <ion-card-content >
+                  <!-- <ion-text class="textForm"> Contact Package Receiver: </ion-text>  -->
+                  <!-- <br> -->
+                  <ion-text class = "textForm2">Name: {{package.senderName}} </ion-text>
+                   <!-- <br> -->
+                  <!-- <ion-text class = "textForm2">Phone Number: {{package.phoneNumberReceiver}} </ion-text>   -->
+                  <!-- <br> -->
+                </ion-card-content>
 
             <ion-card-content >
               <!-- <ion-text class="textForm"> Contact Package Sender: </ion-text>  -->
